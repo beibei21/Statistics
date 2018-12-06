@@ -1,0 +1,467 @@
+---
+title: "Making Inference"
+output: 
+  html_document: 
+    theme: cerulean
+---
+
+<script type="text/javascript">
+ function showhide(id) {
+    var e = document.getElementById(id);
+    e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+ }
+</script>
+
+
+----
+
+It is common to only have a **sample** of data from some population of interest. Using the information from the sample to reach conclusions about the population is called *making inference*. When statistical inference is performed properly, the conclusions about the population are almost always correct. 
+
+## Hypothesis Testing
+
+<div style="padding-left:15px;">
+One of the great focal points of statistics concerns hypothesis testing. Science generally agrees upon the principle that truth must be uncovered by the process of elimination. The process begins by establishing a starting assumption, or *null hypothesis* ($H_0$). Data is then collected and the evidence against the null hypothesis is measured, typically with the $p$-value. The $p$-value becomes small (gets close to zero) when the evidence is *extremely* different from what would be expected if the null hypothesis were true. When the $p$-value is below the *significance level* $\alpha$ (typically $\alpha=0.05$) the null hypothesis is abandoned (rejected) in favor of a competing *alternative hypothesis* ($H_a$). 
+
+
+<a href="javascript:showhide('progressionOfHypotheses')">Click for an Example
+</a>
+<div id="progressionOfHypotheses" style="display:none;">
+The current hypothesis may be that the world is flat. Then someone who thinks otherwise sets sail in a boat, gathers some evidence, and when there is sufficient evidence in the data to disbelieve the current hypothesis, we conclude the world is not flat. In light of this new knowledge, we shift our belief to the next working hypothesis, that the world is round. After a while, someone gathers more evidence and shows that the world is not round, and we move to the next working hypothesis, that it is oblate spheroid, i.e., a sphere that is squashed at its poles and swollen at the equator. 
+
+![](./Images/progressionOfHypotheses.png)
+
+This process of elimination is called hypothesis testing. The process begins by establishing a *null hypothesis* (denoted symbolically by $H_0$) which represents the current opinion, status quo, or what we will believe if the evidence is not sufficient to suggest otherwise. The alternative hypothesis (denoted symbolically by $H_a$) designates what we will believe if there is sufficient evidence in the data to discredit, or "reject," the null hypothesis.
+
+See the [BYU-I Math 221 Stats Wiki](http://statistics.byuimath.com/index.php?title=Lesson_2:_The_Statistical_Process_%26_Design_of_Studies#Making_Inferences:_Hypothesis_Testing) for another example.
+
+</div>
+
+<br />
+
+
+### Managing Decision Errors
+
+When the $p$-value approaches zero, one of two things must be occurring. Either an extremely rare event has happened or the null hypothesis is incorrect. Since the second option, that the null hypothesis is incorrect, is the more plausible option, we reject the null hypothesis in favor of the alternative whenever the $p$-value is close to zero. It is important to remember that rejecting the null hypothesis could however be a mistake.
+
+<div style="padding-left:30px; padding-right:10%;">
+
+| &nbsp; | $H_0$ True | $H_0$ False |
+|--------|------------|-------------|
+| **Reject** $H_0$ | Type I Error | Correct Decision |
+| **Accept** $H_0$ | Correct Decision | Type II Error |
+
+</div>
+
+<br />
+
+### Type I Error, Significance Level, Confidence and $\alpha$
+
+A **Type I Error** is defined as rejecting the null hypothesis when it is actually true. (Throwing away truth.) The **significance level**, $\alpha$, of a hypothesis test controls the probability of a Type I Error. The typical value of $\alpha = 0.05$ came from tradition and is a somewhat arbitrary value. Any value from 0 to 1 could be used for $\alpha$. When deciding on the level of $\alpha$ for a particular study it is important to remember that as $\alpha$ increases, the probability of a Type I Error increases, and the probability of a Type II Error decreases.  When $\alpha$ gets smaller, the probability of a Type I Error gets smaller, while the probability of a Type II Error increases.  **Confidence** is defined as $1-\alpha$ or the opposite of a Type I error.  That is the probability of accepting the NULL when it is in fact true.
+
+<br />
+
+
+### Type II Errors, $\beta$, and Power
+
+It is also possible to make a **Type II Error**, which is defined as failing to reject the null hypothesis when it is actually false. (Failing to move to truth.)  The probability of a Type II Error, $\beta$, is often unknown. However, practitioners often make an assumption about a detectable difference that is desired which then allows $\beta$ to be prescribed much like $\alpha$.  In essence, the detectable difference prescribes a fixed value for $H_a$. We can then talk about the **power** of of a hypothesis test, which is 1 minus the probability of a Type II Error, $\beta$. See [Statistical Power](https://en.wikipedia.org/wiki/Statistical_power) in Wikipedia for a starting source if your are interested.  [This website](http://rpsychologist.com/d3/NHST/){target="blank"} provides a novel interactive visualization to help you understand power. It does require a little background on [Cohen's D](http://rpsychologist.com/d3/cohend/). 
+
+
+<br />
+
+### Sufficient Evidence
+
+Statistics comes in to play with hypothesis testing by defining the phrase "sufficient evidence." When there is "sufficient evidence" in the data, the null hypothesis is rejected and the alternative hypothesis becomes the working hypothesis. 
+
+There are many statistical approaches to this problem of measuring the significance of evidence, but in almost all cases, the final measurement of evidence is given by the $p$-value of the hypothesis test. The $p$-value of a test is defined as the probability of the evidence being as extreme or more extreme than what was observed assuming the null hypothesis is true. This is an interesting phrase that is at first difficult to understand. 
+
+The "as extreme or more extreme" part of the definition of the $p$-value comes from the idea that the null hypothesis will be rejected when the evidence in the data is extremely inconsistent with the null hypothesis. If the data is not extremely different from what we would expect under the null hypothesis, then we will continue to believe the null hypothesis. Although, it is worth emphasizing that this does not prove the null hypothesis to be true. 
+
+<br />
+
+### Evidence not Proof
+
+Hypothesis testing allows us a formal way to decide if we should "conclude the alternative" or "*continue* to accept the null." It is important to remember that statistics (and science) cannot *prove* anything, just show evidence towards. Thus we never really *prove* a hypothesis is true, we simply show evidence towards or against a hypothesis.
+
+</div>
+
+<br />
+
+## Calculating the $p$-Value {#pvalue}
+
+<div style="padding-left:15px;">
+
+Recall that the $p$-value measures how extremely the data (the evidence) differs from what is expected under the null hypothesis. Small $p$-values lead us to discard (reject) the null hypothesis. 
+
+A $p$-value can be calculated whenever we have two things.
+
+1. A *test statistic*, which is a way of measuring how "far" the observed data is from what is expected under the null hypothesis. 
+
+2. The *sampling distribution* of the test statistic, which is the theoretical distribution of the test statistic over all possible samples, assuming the null hypothesis was true. 
+
+A *distribution* describes how data is spread out. When we know the shape of a distribution, we know which values are possible, but more importantly which values are most plausible (likely) and which are the least plausible (unlikely). The $p$-value uses the *sampling distribution* of the test statistic to measure the probability of the observed test statistic being as extreme or more extreme than the one observed.
+
+All $p$-value computation methods can be classified into two broad categories, *parametric* methods and *nonparametric* methods.
+
+### Parametric Methods 
+
+<div style="padding-left:15px;">
+
+Parametric methods assume that, under the null hypothesis, the test statistic follows a specific theoretical parametric distribution. Parametric methods are typically more statistically powerful than nonparametric methods, but necessarily force more assumptions on the data.
+
+*Parametric distributions* are theoretical distributions that can be described by a mathematical function. There are many theoretical distributions. (See the [List of Probability Distributions](https://en.wikipedia.org/wiki/List_of_probability_distributions) in Wikipedia for details.) Some of the most widely used distributions are described below.
+
+
+----
+
+#### The Normal Distribution {#normal}
+
+One of the most important distributions in statistics is the normal distribution. It is a theoretical distribution that approximates the distributions of many real life data distributions, like heights of people, heights of corn plants, baseball batting averages, lengths of gestational periods for many species including humans, and so on. 
+
+More importantly, the *sampling distribution* of the sample mean $\bar{x}$ is normally distributed in two important scenarios.
+
+1. The parent population is normally distributed.
+2. The sample size is sufficiently large. (Often $n\geq 30$ is sufficient, but this is a general rule of thumb that is sometimes insufficient.)
+
+
+
+<a href="javascript:showhide('normaldata')">Click here for more information about Normal Data
+</a>
+<div id="normaldata" style="display:none;">
+
+It is often the case that we can assume that data comes from a normal distribution. Heights of people, plants, or animals are typically normally distributed. The distribution of the lengths of pregnancies (gestational periods) are normally distributed for most species. For humans the average pregnancy is roughly "9 months," or more specifically, 266 days. Measurement errors are often normally distributed. For example if a person was to be weighed on a scale 30 different times, the measurements of their weight would probably not always be the same, especially if the scale was accurate enough. Despite being different, most measurements would likely not differ too dramatically from each other. Some would be a little higher and some a little lower, but the majority of the data would likely be close to the center. This is what it means when data is normally distributed, that most of it is close to the mean, some a little higher and some a little lower. 
+
+<br />
+
+#### An Example
+
+To view a specific case, consider the following histogram of Major League Baseball batting averages (from 2009) which can be assumed to be normally distributed with a mean of $\mu = 0.2612$ and a standard deviation of $\sigma=0.0339$. There are two important elements to the histogram, which is overlaid with a normal density curve, that is shown below. First, the *distribution* of the actual data is shown by the histogram. This is what actually occurred. It is real and unarguable. Second, the normal density curve that is overlaid on this histogram is a mathematical (theoretical) function that does a pretty good job of summarizing, or generalizing, the distribution of the data. It is theoretical and therefore arguable. No one actually knows if batting averages are normally distributed or not. However, the approximation of the normal curve to the histogram looks very reasonable, so we go ahead and "claim" that batting averages are normally distributed.
+
+```{r,echo=FALSE}
+batave <- read.csv("./Data/BattingAverages.csv", header=TRUE)
+#mean(batave$BattingAvg)
+hist(batave$BattingAvg, freq=FALSE, ylim=c(0,12), xlab="Batting Average", 
+     ylab="Density", main="")
+curve(dnorm(x, 0.2611883, 0.03391166), col = "darkgray", lty = 2, 
+      lwd = 2, add = TRUE, yaxt='n')
+lines(c(0.2611883,0.2611883),c(0,dnorm(0.2611883,0.2611883,0.03391166)), 
+      lwd=3, col="darkgray")
+text(.35,10, expression(mu == 0.2612), col="darkgray")
+text(.35,9, expression(sigma == 0.0339), col="darkgray")
+```
+
+## Properties of the Normal Distribution{#normalprop}
+
+The reason we often "claim" that data is normally distributed is to apply the powerful properties of the mathematical function known as the normal density curve, or normal distribution. The mathematical formula that describes this function was uncovered by many early mathematicians, but Carl Friedrich Gauss published it in 1809 and therefore is usually given credit for its discovery. The function, which is perhaps a little intimidating at first, is given by
+$$
+  f(x |\mu,\sigma) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
+$$
+Familiarity with all the symbols should make this function less intimidating. The two *parameters* of this mathematical function are denoted by the Greek letters $\mu$ and $\sigma$. The symbol $\pi$ is the Greek letter "pi" and is the famous constant, 3.14159... $e$ is also a famous constant occurring in nature and is given by 2.71828.... How amazing is that to have $\pi$ and $e$ in the same formula! Finally, $x$ is the value of $x$ along the x-axis and goes from negative infinity $(-\infty)$ to positive infinity $(\infty)$. The answer of the right side after everything is filled in and calculated out is the height of the normal curve. The higher the normal curve above a certain value of $x$, the more likely that value of $x$ is to happen. 
+
+Notice how the parameter $\mu$ controls the center of this distribution while the parameter $\sigma$ controls how spread out the distribution is. When $\sigma$ is larger, the resulting normal curve is flatter and more spread out (i.e., the data is more variable). When $\sigma$ is smaller, the resulting normal curve is taller and less spread out (i.e., the data is less variable). In any case, the most likely values of $x$ to occur are those that are close to $\mu$. This is seen by noting that for any normal curve, it is tallest around its mean. 
+
+```{r, echo=FALSE}
+x <- seq(-10,10, length.out=300)
+y1 <- dnorm(x,-5,2)
+y2 <- dnorm(x,0,1)
+y3 <- dnorm(x,3,3)
+plot(x,y2, type='l', lty=1, lwd=3, ylab="density", col="skyblue4")
+lines(x,y1, lty=1, lwd=3, col="skyblue")
+lines(x,y3, lty=1, lwd=3, col="darkgray")
+text(-7,.25, expression(mu == -5), col="skyblue")
+text(-7,.22, expression(sigma == 2), col="skyblue")
+text(2,.38, expression(mu == 0), col="skyblue4")
+text(2,.35, expression(sigma == 1), col="skyblue4")
+text(5,.18, expression(mu == 3), col="darkgray")
+text(5,.15, expression(sigma == 3), col="darkgray")
+abline(h=0, col='gray')
+```
+
+
+The above plot and discussion demonstrates that just two parameters completely describe the normal distribution, $\mu$ and $\sigma$. What is even more powerful about the normal distribution is that any normal distribution can be re-scaled to the *standard normal distribution* by using the following formula
+$$
+  Z = \frac{X-\mu}{\sigma}
+$$
+Thus, whatever the mean $(\mu)$ and standard deviation $(\sigma)$ of a certain normal distribution, we can transform it to the *standard normal distribution* which looks like this
+
+```{r,echo=FALSE}
+x <- seq(-3.8,3.8, length.out=100)
+plot(x, dnorm(x), type='l', lwd=2, xlim=c(-3.5,3.5), ylab="")
+abline(h=0, col='gray')
+```
+
+The reason we would do this is because the standard normal distribution has the following property, roughly 68% of the data is within 1 standard deviation of the mean; roughly 95% of the data occurs within 2 standard deviations of the mean; and roughly 99.7% of the data occurs within 3 standard deviations of the mean. Thus, by 3 standard deviations, 997 of every 1,000 data points will have occurred. That means that fewer than 3 observations for every 1,000 will be more than three standard deviations from the mean if the data is truly normally distributed. This is shown graphically in the following plot.
+
+```{r, echo=FALSE}
+z <- seq(-3.8,3.8, length.out=100)
+plot(z, dnorm(z), type='l', lwd=2, xlim=c(-3.5,3.5), ylab="")
+abline(h=0, col='gray')
+a=0
+  lines(c(a,a),c(0,dnorm(a)), col='darkgray')
+for (a in 1:2){
+  lines(c(a,a),c(0,dnorm(a)), col='darkgray')
+  lines(c(-a,-a),c(0,dnorm(-a)), col='darkgray')
+  arrows(0, dnorm(a)/1.8, x1 = a, y1 = dnorm(a)/1.8, length=0.05)
+  arrows(0, dnorm(a)/1.8, x1 = -a, y1 = dnorm(a)/1.8, length=0.05)
+}
+a=3
+  lines(c(a,a),c(0,dnorm(a)), col='darkgray')
+  lines(c(-a,-a),c(0,dnorm(-a)), col='darkgray')
+  arrows(0, 0, x1 = a, y1 = 0, length=0.05)
+  arrows(0, 0, x1 = -a, y1 = 0, length=0.05)
+text(0,dnorm(1)/1.8+.02, "68%")
+text(0,dnorm(2)/1.8+.015, "95%", cex=0.9)
+text(0,dnorm(3)/2+.01, "99.7%", cex=0.8)
+```
+
+Further, the probability of any region of the normal density function can be obtained by calculating the area under the curve for a specific range of $x$-values of interest. 
+
+#### An Example
+
+Continuing with the previous example of batting averages, the probability that a randomly selected MLB player from 2009 has a batting average higher than 0.300 would be given by the shaded region in the plot below, which is 0.1262 (or 12.62%). In comparison, if we were to calculate the probability using our actual sample data, we would find that 0.1345 (or 13.45%) of the sample data was greater than or equal to 0.300. Thus the normal curve is a useful approximation to the actual sample data, but more importantly allows a generalization of the data to the full population. The question of interest thus becomes, how can the normal distribution be used to effectively make conclusions about the population based on the information provided by the sample?
+
+```{r,echo=FALSE}
+batave <- read.csv("./Data/BattingAverages.csv", 
+                   header=TRUE)
+#mean(batave$BattingAvg)
+hist(batave$BattingAvg, freq=FALSE, ylim=c(0,12), xlab="Batting Average", 
+     ylab="Density", main="")
+curve(dnorm(x, 0.2611883, 0.03391166), col = "darkgray", lty = 2, 
+      lwd = 2, add = TRUE, yaxt='n')
+lines(c(0.2611883,0.2611883),c(0,dnorm(0.2611883,0.2611883,0.03391166)), 
+      lwd=3, col="darkgray")
+xx <- seq(0.3,0.4, length.out=100)
+yy <- dnorm(xx, 0.2611883, 0.03391166)
+xx <- c(xx,rev(xx))
+yy <- c(yy,rep(0,length(yy)))
+polygon(xx, yy, col=rgb(.6,.6,.6,.2), border="darkgray")
+text(.35,10, expression(mu == 0.2612), col="darkgray")
+text(.35,9, expression(sigma == 0.0339), col="darkgray")
+```
+
+
+## The Sampling Distribution of the Sample Mean{#samplemeandist}
+
+One of the most powerful results in statistics is the conclusion that the theoretical distribution of all possible sample means, the *sampling distribution of the sample mean*, is **normal** under two important scenarios! 
+
+1. If the parent population data is normal, then the sampling distribution of the sample mean will be normal.
+
+2. If the sample size is large enough, then the sampling distribution of the sample mean will be (at least approximately) normal.
+
+If either of these above conditions is satisfied, then it follows that the distribution of the sample mean $(\bar{X})$ will be (at least approximately) normally distributed. Let's explore what this means more specifically.
+
+Here at BYU-Idaho there are roughly 7,500 male students ([click here](http://www2.byui.edu/IR/stats/index.htm) to see the actual data). If a random sample of size $n=50$ male students is taken from the population of 7,500 individuals, how many different samples are possible? It turns out that the number that describes how many possible samples of size $n=50$ can be taken from a population of 7,500 students has 130 digits in it! (The actual number is roughly 1.580873e+129.) This might be described as "a lot" of possible samples. For reference, note that the number "one million" has just 7 digits in it: 1,000,000 or 1.0e+6. Certainly it is *possible* that the sample gives us the 50 tallest males at BYU-Idaho. It is also *possible* that the sample consists of the shortest 50 males at BYU-Idaho. However, the fantastic result is that for the most part, most sample means will be "close" to the true population mean, with some being a little higher, and some being a little lower. In other words, the distribution of all theoretically possible sample means is *normal*.
+
+#### An Example
+
+To see this more clearly, let's return to our batting averages example. As we saw previously, batting averages can be assumed to be normally distributed with a mean of 0.2612 and a standard deviation of 0.0339. To reach this conclusion we essentially looked at the data for the entire population. It would be nice if we could have reached this conclusion (or a nearly identical conclusion) using just a sample of say $n=20$ batting averages. For the batting averages data, the population consists of 446 individual batting averages. It turns out that there are 2.587035e+34 possible samples of size 20 that could be obtained from a population of 446 individuals. That is a lot of possible samples. Let's compute the sample mean for a few of these, say for 1,000 of the possible samples. The distribution of the 1,000 resulting sample means are plotted over top of the histogram for the actual batting average data. Notice that this new histogram is centered around the original value of $\mu=0.2612$. In fact, the mean of the 1,000 sample means comes out to be $\mu_{\bar{x}} = 0.26135$, which is very close to the actual mean $\mu=0.2612$. If we do the same thing for 10,000 random samples, then $\mu_{\bar{x}} = 0.26126$ and if we do it again for 20,000 samples we get $\mu_{\bar{x}}=0.26123$. Notice that the larger the sample size gets, the closer that the mean of the sample means gets to the actual population mean. (Try saying that phrase out loud.) Thus we could say that "the mean of the means is the mean."
+
+```{r,echo=FALSE}
+batave <- read.csv("./Data/BattingAverages.csv", 
+                   header=TRUE)
+#mean(batave$BattingAvg)
+hist(batave$BattingAvg, freq=FALSE, ylim=c(0,60), xlab="Batting Average", 
+     ylab="Density", main="")
+curve(dnorm(x, 0.2611883, 0.03391166), col = "darkgray", lty = 2, 
+      lwd = 2, add = TRUE, yaxt='n')
+lines(c(0.2611883,0.2611883),c(0,dnorm(0.2611883,0.2611883,0.03391166)), 
+      lwd=3, col="darkgray")
+set.seed(15152)
+n <- 20
+samp50.1 <- sapply(1:1000, function(x) {
+  mean(sample(batave$BattingAvg, n))
+})
+hist(samp50.1, main="Sample Means for 1,000 Samples of Size n=50", xlab="Sample Mean", add=TRUE, freq=FALSE, col=rgb(.6,.6,.6,.6))
+text(.35,10, expression(mu == 0.2612), col="darkgray")
+```
+
+The conclusion of the above discussion is that if we took a single random sample of $n=20$ batting averages from the population of all batting averages, we would have ended up with an $\bar{x}$ ranging anywhere from somewhere around 0.2406 to 0.2840. However, more likely than not, the value would have been something closer to the true value of $\mu=0.2612$ than either of those numbers because the sample means are normally distributed around the population (true) mean. 
+
+</div>
+
+
+
+
+
+
+
+
+
+
+##### Mathematical Formula
+
+$$
+  f(x | \mu,\sigma) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
+$$
+The symbols $\mu$ and $\sigma$ are the two *parameters* of this distribution. The parameter $\mu$ controls the center, or mean of the distribution. The parameter $\sigma$ controls the spread, or standard deviation of the distribution. 
+
+##### Graphical Form
+
+```{r, echo=FALSE}
+x <- seq(-10,10, length.out=300)
+y1 <- dnorm(x,-5,2)
+y2 <- dnorm(x,0,1)
+y3 <- dnorm(x,3,3)
+plot(x,y2, type='l', lty=1, lwd=3, ylab="density", col="skyblue4")
+lines(x,y1, lty=1, lwd=3, col="skyblue")
+lines(x,y3, lty=1, lwd=3, col="darkgray")
+text(-7,.25, expression(mu == -5), col="skyblue")
+text(-7,.22, expression(sigma == 2), col="skyblue")
+text(2,.38, expression(mu == 0), col="skyblue4")
+text(2,.35, expression(sigma == 1), col="skyblue4")
+text(5,.18, expression(mu == 3), col="darkgray")
+text(5,.15, expression(sigma == 3), col="darkgray")
+abline(h=0, col='gray')
+```
+
+##### Comments
+
+The usefulness of the normal distribution is that we know which values of data are likely and which are unlikely by just knowing three things: 
+
+1) that the data is normally distributed, 
+
+2) $\mu$, the mean of the distribution, and 
+
+3) $\sigma$, the standard deviation of the distribution. 
+
+For example, as shown in the plot above, a value of $x=-8$ would be very probable for the normal distribution with $\mu=-5$ and $\sigma=2$ (light blue curve). However, the value of $x=-8$ would be very unlikely to occur in the normal distribution with $\mu=3$ and $\sigma=3$ (gray curve). In fact, $x=-8$ would be even more unlikely an occurance for the $\mu=0$ and $\sigma=1$ distribution (dark blue curve).
+
+
+<br />
+<br />
+
+----
+
+#### The Chi Squared Distribution {#chisquared}
+
+The *chi squared* distribution only allows for values that are greater than or equal to zero. While it has a few real life applications, by far its greatest use is theoretical. 
+
+The test statistic of the chi squared test is distributed according to a chi squared distribution. 
+
+##### Mathematical Formula
+
+$$
+  f(x|p) = \frac{1}{\Gamma(p/2)2^{p/2}}x^{(p/2)-1}e^{-x/2}
+$$
+The only parameter of the chi squared distribution is $p$, which is known as the degrees of freedom. Larger values of the parameter $p$ move the center of the chi squared distribution farther to the right. As $p$ goes to infinity, the chi squared distribution begins to look more and more normal in shape.
+
+Note that the symbol in the denominator of the chi squared distribution, $\Gamma(p/2)$, is the Gamma function of $p/2$. (See [Gamma Function](https://en.wikipedia.org/wiki/Gamma_function) in Wikipedia for details.)
+
+##### Graphical Form
+
+```{r, echo=FALSE}
+x <- seq(0,15, length.out=300)
+y1 <- dchisq(x,2)
+y2 <- dchisq(x,3)
+y3 <- dchisq(x,8)
+plot(x,y1, type='l', lty=1, lwd=3, ylab="density",col="skyblue")
+lines(x,y2, lty=1, lwd=3, col='skyblue4')
+lines(x,y3, lty=1, lwd=3, col='darkgray')
+text(2,.4, expression(p == 2), col="skyblue")
+text(4,.23, expression(p == 3), col="skyblue4")
+text(7,.14, expression(p == 8), col="darkgray")
+abline(h=0, col='gray')
+```
+
+##### Comments
+
+It is important to remember that the chi squared distribution is only defined for $x\geq 0$ and for positive values of the parameter $p$. This is unlike the normal distribution which is defined for all numbers $x$ from negative infinity to positive infinity as well as for all values of $\mu$ from negative infinity to positive infinity.  
+
+<br />
+<br />
+
+----
+
+#### The t Distribution 
+
+A close friend of the normal distribution is the t distribution. Although the t distribution is seldom used to model real life data, the distribution is used extensively in hypothesis testing. For example, it is the sampling distribution of the one sample t statistic. It also shows up in many other places, like in regression, in the independent samples t test, and in the paired samples t test. 
+
+##### Mathematical Formula
+
+$$
+  f(x|p) = \frac{\Gamma\left(\frac{p+1}{2}\right)}{\Gamma\left(\frac{p}{2}\right)}\frac{1}{\sqrt{p\pi}}\frac{1}{\left(1 + \left(\frac{x^2}{p}\right)\right)^{(p+1)/2}}
+$$
+
+Notice that, similar to the chi squared distribution, the t distribution has only one parameter, the degrees of freedom $p$. As the single parameter $p$ is varied from $p=1$, to $p=2$, ..., $p=5$, and larger and larger numbers, the resulting distribution becomes more and more normal in shape. 
+
+Note that the expressions $\Gamma\left(\frac{p+1}{2}\right)$ and $\Gamma(p/2)$, refer to the Gamma function. (See [Gamma Function](https://en.wikipedia.org/wiki/Gamma_function) in Wikipedia for details.)
+
+##### Graphical Form
+
+```{r, echo=FALSE}
+x <- seq(-5,5, length.out=300)
+y1 <- dt(x,1)
+y2 <- dt(x,2)
+y3 <- dt(x,5)
+y4 <- dnorm(x)
+plot(x,y4, type='l', lty=1, lwd=1, ylab="density",col="firebrick", ylim=c(0,.4))
+lines(x,y1, lty=1, lwd=3, col="skyblue")
+lines(x,y2, lty=1, lwd=3, col='skyblue4')
+lines(x,y3, lty=1, lwd=3, col='darkgray')
+text(3.25,.06, expression(p == 1), col="skyblue")
+text(2,.15, expression(p == 2), col="skyblue4")
+text(1.6,.24, expression(p == 5), col="darkgray")
+text(1.2,.34, "Normal", col="firebrick", cex=0.7)
+abline(h=0, col='gray')
+```
+
+##### Comments
+
+When the degrees of freedom $p=30$, the resulting t distribution is almost indistinguishable visually from the normal distribution. This is one of the reasons that a sample size of 30 is often used as a rule of thumb for the sample size being "large enough" to assume the sampling distribution of the sample mean is approximately normal.
+
+<br />
+<br />
+
+----
+
+#### The F Distribution {#fdist}
+
+Another commonly used distribution for test statistics, like in ANOVA and regression, is the F distribution. Technically speaking, the F distribution is the ratio of two chi squared random variables that are each divided by their respective degrees of freedom. 
+
+##### Mathematical Formula
+
+$$
+  f(x|p_1,p_2) = \frac{\Gamma\left(\frac{p_1+p_2}{2}\right)}{\Gamma\left(\frac{p_1}{2}\right)\Gamma\left(\frac{p_2}{2}\right)}\frac{\left(\frac{p_1}{p_2}\right)^{p_1/2}x^{(p_1-2)/2}}{\left(1+\left(\frac{p_1}{p_2}\right)x\right)^{(p_1+p_2)/2}}
+$$
+where $x\geq 0$ and the parameters $p_1$ and $p_2$ are the "numerator" and "denominator" degrees of freedom, respectively. 
+
+##### Graphical Form
+
+```{r, echo=FALSE}
+x <- seq(0,5, length.out=300)
+y1 <- df(x,1,1)
+y2 <- df(x,100,100)
+y3 <- df(x,5,2)
+plot(x,y2, type='l', lty=1, lwd=3, ylab="density",col="darkgray")
+lines(x,y1, lty=1, lwd=3, col="skyblue")
+lines(x,y3, lty=1, lwd=3, col='skyblue4')
+text(.4,1.5, expression(p[1] == 1), col="skyblue")
+text(.45,1.37, expression(p[2] == 1), col="skyblue")
+text(2.52,.35, expression(p[1] == 2), col="skyblue4")
+text(2.57,.22, expression(p[2] == 5), col="skyblue4")
+text(1.7,1, expression(p[1] == 100), col="darkgray")
+text(1.75,.87, expression(p[2] == 100), col="darkgray")
+abline(h=0, col='gray')
+```
+
+##### Comments
+
+The effects of the parameters $p_1$ and $p_2$ on the F distribution are complicated, but generally speaking, as they both increase the distribution becomes more and more normal in shape.
+
+
+<br />
+
+</div>
+
+----
+
+### Nonparametric Methods
+
+<div style="padding-left:15px;">
+
+Nonparametric methods place minimal assumptions on the distribution of data. They allow the data to "speak for itself." They are typically less powerful than the parametric alternatives, but are more broadly applicable because fewer assumptions need to be satisfied. Nonparametric methods include [Rank Sum Tests](WilcoxonTests.html) and [Permutation Tests](PermutationTests.html). 
+
+</div>
+
+</div>
+
+<footer></footer>

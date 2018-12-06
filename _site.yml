@@ -1,0 +1,88 @@
+name: "math-325-notebook"
+navbar:
+  title: "Math 325 Notebook"
+  left:
+    - text: "Table of Contents"
+      href: index.html
+    - text: "Describing Data"
+      menu:
+        - text: "Graphical Summaries"
+          href: GraphicalSummaries.html
+        - text: "Numerical Summaries"
+          href: NumericalSummaries.html
+        - text: "General R Commands"
+          href: GeneralRCommands.html
+        - text: "General R Markdown Hints"
+          href: RMarkdownHints.html
+    - text: "Making Inference"
+      menu:
+        - text: "Making Inference"
+          href: MakingInference.html
+        - text: "t Tests"
+          href: tTests.html
+        - text: "Wilcoxon Tests"
+          href: WilcoxonTests.html
+        - text: "ANOVA"
+          href: ANOVA.html
+        - text: "Kruskal-Wallis"
+          href: Kruskal.html
+        - text: "Linear Regression"
+          href: LinearRegression.html 
+        - text: "Logistic Regression"
+          href: LogisticRegression.html
+        - text: "Chi-Squared Tests"
+          href: ChiSquaredTests.html
+        - text: "Permutation Tests"
+          href: PermutationTests.html
+          
+    - text: "Class Notes"
+      href: ClassNotes.html
+      
+    - text: "Critiquing Guides"
+      menu:
+        - text: "T-Tests"
+          href: Guide to Critiquing t Tests.html
+        - text: "Wilcoxon Tests"
+          href: Guide to Critiquing Wilcoxon Tests.html
+        - text: "ANOVA Tests"
+          href: CritiquingANOVATests.html
+        - text: "Guide to Critiquing Kruskal Tests"
+          href: Guide to Critiquing Kruskal Tests.html
+        - text: "Linear Regression"
+          href: Critiquing Guide.html
+        - text: "Logistic Regression"
+          href: Critiquing Guide Logistic.html
+          
+    - text: "Analyses"
+      menu:
+        - text: "Student HousingII"
+          href: ./Analyses/StudentHousingII.html
+        - text: "Movies"
+          href: ./Analyses/Movies.html
+        - text: "IQ Twins"
+          href: ./Analyses/IQTwins.html
+        - text: "Recalling Words- ANOVA"
+          href: ./Analyses/RecallingWords.html
+        - text: "DayCare- TWO-WAY ANOVA"
+          href: ./Analyses/DayCare.html
+        - text: "Reading Comp-Kruskal Wallis"
+          href: ./Analyses/ReadingComprehension.html
+        - text: "SimpleLinearRegression"
+          href: ./Analyses/MySimpleLinearRegression.html
+        - text: "CarPrices-Multiple Linear Regression"
+          href: ./Analyses/CarPrices.html
+        - text: "Project1- Independent"
+          href: ./Analyses/Project1.html
+        - text: "Logistic Regression"
+          href: ./Analyses/MyLogisticRegression.html
+        - text: "Chi-Squared, Discrimination"
+          href: ./Analyses/Discrimination.html
+        - text: "Permutations, Explosives"
+          href: ./Analyses/Explosives.html
+          
+          
+        
+          
+output_dir: '.'
+
+  
