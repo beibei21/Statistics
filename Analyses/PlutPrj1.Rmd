@@ -1,0 +1,664 @@
+---
+title: "Measurements of Plutonium"
+output: 
+  html_document:
+    theme: flatly
+    code_folding: hide
+    toc: true
+    toc_float: true
+    highlight: haddock
+---
+
+<script type="text/javascript">
+ function showhide(id) {
+    var e = document.getElementById(id);
+    e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+ }
+</script>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(mosaic)
+library(pander)
+library(car)
+library(alr3)
+library(lmtest)
+library(ggplot2)
+
+```
+
+## Backgroud
+
+Plutonium-238 is a radioactive isotope of plutonium.  Sometimes a worksite needs a plutonium cleanup to remove nuclear materials.  Since plutonium is tiny and most commonly found mixed in with other elements, plutonium activity is hard to detect.  Plutonium can't always hide though because it emmits alpha particles.  So the alpha particles are detected and the device strikes the particle, which is measured in counts per second.  In this study, alpha counts per second is the response variable and plutionium activity is the explanatory variable. These were recorded ultimately with the desire to know if there is a linear relationship between alpha counts per second and plutonium activity.  
+
+There were 24 cases total but due to laboratory records, the experimental conditions were not properly maintained for case 24, so it has been excluded from the data.  The data is shown below.  
+
+The data included shows the first six data points.
+
+
+```{r}
+pluton <- read.table("http://www.stat.ufl.edu/~rrandles/sta4210/Rclassnotes/data/textdatasets/KutnerData/Chapter%20%203%20Data%20Sets/CH03TA10.txt", header=FALSE)
+colnames(pluton) <- c("AlphaCount","PlutoniumActivity")
+pander(head(pluton))
+newplu<- subset(pluton, AlphaCount != 0.106)
+
+newplu$sqrt.y <- sqrt(newplu$AlphaCount)
+newplu$log.x <- log10(newplu$PlutoniumActivity)
+newplu$sqrt.x <- sqrt(newplu$PlutoniumActivity)
+
+
+```
+
+## Analysis 
+
+### Model
+
+
+$$
+Y_i = \beta_0 + \beta_1 X_i + \epsilon_i \\
+\text{where} \ \epsilon_i \sim N (0, \sigma^2)
+$$
+
+
+Since a simple linear regression test will be conducted to see if there is a linear relationship between the alpha counts and the plutionium activity, a linear regression of the slope,  $\beta_1$. will be used in the hypotheses.  
+
+$$
+  H_0: \beta_1 = 0
+$$
+
+
+$$
+  H_a: \beta_1 \neq 0 
+$$
+
+The declared significance level is 
+
+$$
+  \alpha = 0.05
+$$
+
+
+### Requirements 
+
+To run a linear regression, requirements must be met.  
+
+
+**Linear Relation: the regression relation between Y and X is linear.**  
+ 
+ In this plot, the red line indicates linearity.  So from what is seen, the red line is fairly close to zero throughout the fitted values of $\hat{Y}_i$, meaning the linearity requirement is met.  
+ 
+**Constant Variance: the variance of the error terms is constant over all X values.**
+
+To see if this requirement is met, the distance between each point in every column needs to be about the same distance apart from each column of points.  This requirement is not met because of the megaphone shape in the data points.  This does not indicate constant variance. 
+
+
+```{r}
+genline <- lm(AlphaCount ~ PlutoniumActivity, data=newplu)
+
+plot(genline, pch=19, col="royalblue3", which = 1:1)
+```
+
+Even though the plot is linear, which meets the first requirement, the plot also shows a distinct megapone shape in the data, so because the variances are unconstant, the requirement is not met. 
+
+**Normal Errors: the error terms are normally distributed with a mean of zero.**
+
+```{r}
+plot(genline, which=2:2, pch=19, col="royalblue3")
+```
+
+
+This plot further shows the requirement to perform a simple linear regression is not met due to the curvature of the QQ Plot data points on both ends as it deviates from the line from the top right of the graph.  
+
+
+**Independent Errors: the error terms are independent.**
+
+```{r}
+plot(genline$residuals, main="Residuals vs Order", xlab="",
+     ylab="Residuals", pch=19, col="royalblue3")
+```
+
+At least this requirment was met.  There is no aparent pattern in the data, concluding the data is not dependent on the order of the data collected.  
+
+
+**Fixed X: the X values can be considered fixed and measured without error.**
+
+This requirement is assumed to be true based off of the person selecting the data.  It's assumed the data was from a reliable, constant source that was measured without error.  
+
+
+## Graphic on Original 
+
+The equation of the line in the graph above is
+
+$$
+  \ Y_i= 0.007 + 0.006 X_i 
+$$
+
+Where the slope is 0.006 and the y-intercept is 0.007. 
+
+```{r}
+plumylm<- lm(AlphaCount ~ PlutoniumActivity, data = newplu)
+plot(AlphaCount ~ PlutoniumActivity, data=newplu, col= "purple", pch = 23, main="Line of Best Fit on Original", ylab= "Alpha Count per Second", xlab= "Plutonium Activity (pCi g)")
+abline(plumylm)
+```
+
+
+### Summary 
+
+```{r}
+pander(summary(plumylm))
+```
+
+
+### Test Statistic Check
+Critical t value 
+```{r}
+pander(qt(1-.05/2, 21))
+```
+
+t value = 15.13 
+
+
+Any value beyond our critical value, reject the null hypothesis, so it is concluded, we there is a linear relationship in the slope between Alpha Count and Plutonium Activity. But it does not mean there is a distinct linear relationship.  The line can be curved but it does not indicate that there is a linear relationship.  That needs to be checked by the lack of fit test.  
+
+### Lack of Fit test 
+
+A lack of fit test is needed to see if linearity exists.  The null is where it is assumed linearity, the alternative hypthesis is where linearity is not a good fit.  
+
+```{r}
+pander(pureErrorAnova(plumylm))
+```
+
+Where our P-Value is 0.6103 which allows failure to rejection of the null.  Now it is know there is linearity.  
+
+### Breusch-Pagan Test 
+
+The Breusch-Pagan Test tests variance.  
+
+```{r}
+pander(bptest(plumylm, studentize=FALSE))
+```
+
+Chi Squared Test Statistic 
+
+```{r}
+pander(qchisq(1-0.05, 1))
+```
+
+χ2(.95; 1) = 23.326
+
+23.326 > 3.841 conclude the alternative hypothesis, where the error variance is not constant.  Thus the data is not consistent with constancy of the error variance.  
+
+
+## Transformations
+
+### Transformation on Y 
+
+Since the requirements are only met for linearity and not met specifically for constant variance, it is possible to do a transformation of Y to fix the variance problem.  
+
+#### Model
+
+The model is transformed as 
+$$
+Y_i' = \beta_0 + \beta_1 X_i + \epsilon_i \\
+\text{where} \ \epsilon_i \sim N (0, \sigma^2) \\ 
+\text{and with} \ Y' = \sqrt{Y}
+$$
+
+
+#### Graphic of Transformation in Y 
+
+```{r}
+newplu$sqrt.y <- sqrt(newplu$AlphaCount)
+
+plot(sqrt.y ~ PlutoniumActivity, data=newplu, col= "purple", pch = 23)
+sqrtlm <- lm(sqrt.y~PlutoniumActivity, data=newplu)
+abline(sqrtlm)
+
+```
+
+#### Requirements 
+
+```{r}
+plot(sqrtlm, which = 1:2)
+```
+
+
+### Breusch-Pagan Test 
+
+```{r}
+pander(bptest(sqrtlm, studentize=FALSE))
+```
+
+Chi Squared Test Statistic 
+
+```{r}
+pander(qchisq(1-0.05, 1))
+```
+
+χ2(.95; 1) = 0.931
+
+0.931 < 3.841 conclude the null hypothesis, where the error variance is constant.  Thus the data is consistent with constancy of the error variance. 
+
+#### Lack of Fit Test 
+
+```{r}
+pander(pureErrorAnova(sqrtlm))
+```
+
+The lack of fit test gives the F value of 10.14 and a P-Value of 0.001, which means linearity is now not met.  
+
+#### Summary of Transformation in Y 
+
+```{r}
+pander(summary(sqrtlm))
+
+b<- sqrtlm$coefficients
+```
+
+
+#### Transformation on Y in original units 
+
+```{r}
+plot(AlphaCount ~ PlutoniumActivity, data=newplu, col= "purple", pch = 23)
+#plot(ysqrt ~ PlutoniumActivity, data=newplu, col= "purple", pch = 23)
+curve((b[1]+b[2]*x)^2, add=TRUE)
+```
+
+#### Equation of the Line in orignal units 
+
+
+$$
+  \ Y_i'= 0.09476 + 0.01336 X_i
+$$
+Where the slope is 0.01336 and the y-intercept is 0.09476. 
+
+Since the transformation gives constant variance but not linearity, another transformation is needed to ensure both requirements are met.  
+
+### Transformation on X Added
+
+
+Now the variances are now constant, but leaving the linearity unlinear.  So, to fix linearity, a transformation on X is added to the already existing transformation on Y. 
+
+#### Requirements 
+
+```{r}
+newplu$log.x <- log10(newplu$PlutoniumActivity)
+newplu$sqrt.x <- sqrt(newplu$PlutoniumActivity)
+#plot(sqrt.y ~ log.x, data=newplu, col= "purple", pch = 23)
+#bothlm <- lm(sqrt.y ~ log.x, data=newplu)
+both.lm <- lm(sqrt.y ~ sqrt.x, data=newplu)
+
+par(mfrow=c(1,2))
+plot(both.lm, which=1:2)
+
+```
+
+
+### Breusch-Pagan Test 
+
+```{r}
+pander(bptest(both.lm, studentize=FALSE))
+```
+
+Chi Squared Test Statistic 
+
+```{r}
+pander(qchisq(1-0.05, 1))
+```
+
+χ2(.95; 1) = 3.841
+
+3.853 > 3.841 conclude the alternative hypothesis, where the error variance is not constant but does not appear to be substantial to make an impact.  
+
+#### Correlation Test 
+
+The Correlation Coefficient tests normality
+
+```{r}
+mylmqq<- qqnorm(both.lm$residuals)
+qqline(both.lm$residuals)
+
+pander(names(mylmqq))
+pander(cor(mylmqq$x, mylmqq$y))
+```
+
+So our correlation coefficient is 0.985 and the one found in the table at the back of the book is 0.955 for a significance of 0.05 as well as sample size of 23.  Since the value given by the correlation test is larger, there is sufficient evidence to support the assumption of normal error terms.  
+
+#### Lack of Fit Test 
+
+```{r}
+pander(pureErrorAnova(both.lm))
+```
+
+The lack of fit test gives the F value of 1.287 and a P-Value of 0.2992, which means linearity is now met.  
+
+
+#### Summary 
+
+```{r}
+pander(summary(both.lm))
+```
+
+#### Graphic of Transformation of X and Y 
+
+```{r}
+newplu$sqrt.x <- sqrt(newplu$PlutoniumActivity)
+
+plot(sqrt.y ~ sqrt.x, data=newplu, col= "purple", pch = 23, main="Transformation of X and Y")
+sqrtblm <- lm(sqrt.y~sqrt.x, data=newplu)
+abline(sqrtblm)
+```
+
+
+```{r}
+b<- both.lm$coefficients
+plot(AlphaCount ~ PlutoniumActivity, data=newplu, col= "purple", pch = 23, main="Back to the Real World")
+
+curve(((b[1]+b[2]*sqrt(x))^2), add=TRUE)
+
+```
+
+
+#### Testing by t Test Statistic
+
+```{r}
+pander(qt(1-.05/2, 21)) 
+```
+
+t value = 19
+
+Critical t value = 2.079614
+
+Any value beyond our critical value, reject the null hypothesis, so it is concluded, we there is a linear relationship between Alpha Count and Plutonium Activity.  
+
+
+
+#### Equation of the Line 
+
+
+$$
+  \ Y_i'= 0.07301 + 0.05731 X_i' 
+$$
+Where the slope is 0.05731 and the y-intercept is 0.07301. 
+
+
+
+### Box Cox 
+
+Box Cox Transformations changes variance and independence and is useful when a change in Y is necessary.  
+
+```{r}
+
+newplu<- subset(pluton, AlphaCount != 0.106)
+colnames(newplu) <- c("Y","X")
+plulm<- lm(Y~X, data = newplu)
+
+#boxCox(plulm)
+boxCox(plulm, lambda= seq(0,1, 0.1))
+```
+
+
+This is the best fitting with a multiple R-squared value at 0.9244, which is when $\lambda = 0.8$.
+
+```{r}
+plot(Y^.8 ~ X, data= newplu, main="Box Cox using Lambda at 0.8", xlab= "Plutonium Activity", ylab= "Alpha Count")
+
+mylm.8 <- lm(Y^.8 ~ X, data= newplu)
+abline(mylm.8)
+pander(summary(mylm.8))
+```
+
+#### t Test Statistic
+
+```{r}
+pander(qt(1-.05/2, 21))
+```
+
+t value = 16.02
+
+Critical t value = 2.079614
+
+Any value beyond our critical value, reject the null hypothesis, so it is concluded, we there is a linear relationship between Alpha Count and Plutonium Activity. 
+
+
+## Lowess 
+
+A lowess plot is used when needing to avoid outliers.  
+
+```{r}
+newplu<- subset(pluton, AlphaCount != 0.106)
+
+plot(AlphaCount ~ PlutoniumActivity, data=newplu, col= "purple", pch = 23, main="Lowess Graph on Original", ylab= "Alpha Count per Second", xlab= "Plutonium Activity (pCi g)")
+lines(lowess(newplu$PlutoniumActivity, newplu$AlphaCount), col="green")
+```
+
+
+```{r}
+newplu<- subset(pluton, AlphaCount != 0.106)
+newplu$sqrt.y <- sqrt(newplu$AlphaCount)
+newplu$sqrt.x <- sqrt(newplu$PlutoniumActivity)
+plot(sqrt.y ~ sqrt.x, data=newplu, col= "purple", pch = 23, main="Lowess Graph on Transformation of X and Y", ylab= "Alpha Count per Second", xlab= "Plutonium Activity (pCi g)")
+lines(lowess(newplu$sqrt.x, newplu$sqrt.y), col="green")
+```
+
+## ANOVA
+
+**ANOVA on Original**
+
+```{r}
+plu.aov <- aov(AlphaCount ~ PlutoniumActivity, data=newplu)
+pander(summary(plu.aov))
+```
+
+
+$SSE = 0.0033$ 
+
+$SSR = 0.0362$
+
+$MSE = 0.0002$
+
+$MSR = 0.0362$
+
+This has an SSE that is a lot smaller than the SSR, which means the line's individual data points are fitting fairly close to the line.  
+
+
+**ANOVA on Transformation of X and Y**
+
+```{r}
+newplu<- subset(pluton, AlphaCount != 0.106)
+plu1.aov <- aov(sqrt(AlphaCount) ~ I(sqrt(PlutoniumActivity)), data=newplu)
+pander(summary(plu1.aov))
+```
+
+$SSE = 0.0129$
+
+$SSR = 0.2214$
+
+$MSE = 0.0006$
+
+$MSR = 0.2214$
+
+
+## Intervals
+
+
+
+All of the intervals listed below should be within the confidence band.  
+
+```{r}
+pander(confint(sqrtblm ), caption="95% Confidence Interval")
+```
+
+### Confidence Bands
+
+```{r}
+# Create a confidence bands function:
+confbands <- function(lmObject, xh=NULL, alpha=0.1){
+  
+  # Use some fancy code to get the data out of the lmObject
+  # while knowing which variable was x and which was y.
+  thecall <- strsplit(as.character(lmObject$call[2]), "~")
+  yname <- gsub(" ", "", thecall[[1]][1])
+  xname <- gsub(" ", "", thecall[[1]][2])
+  theData <- lmObject$model
+  theData <- theData[,c(yname,xname)]
+  colnames(theData) <- c("Y","X")
+
+  # Begin creating confidence bands  
+  n <- nrow(theData)
+  W2 <- 2*qf(1-alpha, 2, n-2)
+  SSE <- sum( lmObject$res^2 )
+  MSE <- SSE/(n-2)
+  s2.Yhat.h <- function(xh){
+    MSE*(1/n + (xh - mean(theData$X))^2/sum( (theData$X - mean(theData$X))^2 ))
+  }
+  b <- coef(lmObject)
+  
+  # Add upper bound to scatterplot
+  curve(b[1]+b[2]*x + sqrt(W2)*sqrt(s2.Yhat.h(x)), add=TRUE)
+
+  # Add lower bound to scatterplot
+  curve((b[1]+b[2]*x) - sqrt(W2)*sqrt(s2.Yhat.h(x)), add=TRUE)
+  
+  if (!is.null(xh)){
+    tmp <- c(b[1]+b[2]*xh - sqrt(W2)*sqrt(s2.Yhat.h(xh)), b[1]+b[2]*xh + sqrt(W2)*sqrt(s2.Yhat.h(xh)))
+    names(tmp) <- c("Lower","Upper")
+    tmp
+  }
+}
+```
+
+
+```{r}
+# Scatterplot and fitted regression line:
+newplu$sqrt.x <- sqrt(newplu$PlutoniumActivity)
+newplu$sqrt.y <- sqrt(newplu$AlphaCount)
+plot(sqrt.y ~ sqrt.x, data=newplu, col= "purple", pch = 23, main="Transformation of X and Y", ylab= "Square Root of Alpha Count per Second", xlab= "Square Root of Plutonium Activity (pCi g)")
+sqrtblm <- lm(sqrt.y~sqrt.x, data=newplu)
+abline(sqrtblm)
+
+# Add the confidence bands to the plot
+confbands(sqrtblm)
+
+# Get the confidence bands value for some xh
+pander(confbands(sqrtblm, xh=4))
+
+```
+
+
+If a real world transformation was wanted, a confidence band would have to be created by squaring the lower and upper confidence bands intervals.  
+
+
+95% Prediction Interval for the Plutonium Activity on the Alpha Count in which 4 pCI g of Plutonium have.  
+
+```{r}
+pander(predict(sqrtblm, data.frame(sqrt.x = 2), level = 0.95, interval = "prediction"), caption="95% Prediction Interval Transformed World")
+
+```
+
+95 percent confidence interval for mean Plutonium Activity on alpha count in which there is 4 pCI g of Plutonium.  
+
+```{r}
+pander(predict(sqrtblm, data.frame(sqrt.x = 2), level = 0.95, interval = "confidence"), caption="95% Confidence Interval Transformed World")
+```
+
+
+95% Prediction Interval for the Plutonium Activity on the Alpha Count in which 4 pCI g of Plutonium have.  
+
+```{r}
+pander(predict(sqrtblm, data.frame(sqrt.x = 2), level = 0.95, interval = "prediction")^2, caption="95% Prediction Interval Real World")
+
+```
+
+95 percent confidence interval for mean Plutonium Activity on alpha count in which there is 4 pCI g of Plutonium.  
+
+```{r}
+pander(predict(sqrtblm, data.frame(sqrt.x = 2), level = 0.95, interval = "confidence")^2, caption="95% Confidence Interval Real World")
+```
+
+Prediction of mean for new Xh observations 
+
+```{r}
+
+ #newplu$sqrt.x <- sqrt(newplu$PlutoniumActivity)
+ #newplu$sqrt.y <- sqrt(newplu$AlphaCount)
+ #plot(sqrt.y ~ sqrt.x, data=newplu, col= "purple", pch = 23)
+ #sqrtblm <- lm(sqrt.y~sqrt.x, data=newplu)
+ #abline(sqrtblm)
+
+ SSE <- sum( sqrtblm$res^2 )
+ n <- length(sqrtblm$res)
+ MSE <- SSE/(n - 2)
+
+ m <- 23 #or how ever many new observations you have
+
+ xh <- 2 #or whatever xh is for your problem
+
+ s2predmean <- MSE*(1/m + 1/n + (xh - mean(newplu$sqrt.x))^2 / sum(( newplu$sqrt.x - mean(newplu$sqrt.x))^2 ))
+
+ sqrtpred<- sqrt(s2predmean) # square root the s2predmean
+
+ test <- qt(1-0.05/2, 21) # the test statistic
+
+ moe <- test * sqrtpred  # margin of error
+
+ yh <- 0.07301 + 10 * 0.05731   # finding y sub h at x sub h 
+
+
+ #yh - moe    # lower bound 
+
+ #yh + moe   # upper bound
+
+
+```
+
+Prediction of mean for new Xh observations when Xh is 4. 
+
+(0.631, 0.661)
+
+
+## Interpretation
+
+The final model is as follows.  
+
+$$
+Y_i' = \beta_0 + \beta_1 X_i' + \epsilon_i \\
+\text{where} \ \epsilon_i \sim N (0, \sigma^2)
+$$
+
+
+$$
+Y_i' = \sqrt{Y} \\
+X_i' = \sqrt{X}
+$$
+
+
+
+Changing the model back into the real world requires the uses of derivatives.  
+
+Start by the model of 
+
+$$
+Y' = (b_0+b \sqrt{X})^2
+$$
+
+The ending model after taking the derivative is 
+
+$$
+Y' = (b_1b_0 + b_1^2 \sqrt{X})/\sqrt{X}
+$$
+
+
+The interpretation for this model is for any one unit increase of X', or square root of plutonium activity, there will be a 0.05731 increase in Y', or square root of alpha count.  
+
+
+
+So it is possible to replace X with four and to calculate Y'.  With this being said the model would look like
+
+$$
+Y' = (0.05731*0.07301 + 0.05731^2 * \sqrt{4})/\sqrt{4}) = 0.00538
+$$
+
+For a plutonium activity of four, yields an alpha count of 0.00538.  
+
+

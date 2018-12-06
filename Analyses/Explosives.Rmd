@@ -1,0 +1,254 @@
+---
+title: "Soil Contamination"
+output: 
+  html_document:
+    theme: flatly
+    code_folding: hide
+    toc: true 
+    toc_float: true
+---
+
+<script type="text/javascript">
+ function showhide(id) {
+    var e = document.getElementById(id);
+    e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+ }
+</script>
+
+<!-- This data is from a study that Brother Hathaway of the BYU-Idaho statistics department performed in . -->
+
+```{r, include=FALSE}
+library(resample)
+library(ggplot2)
+library(DT)
+library(pander)
+```
+
+```{r}
+explosives = read.csv(file="../Data/explosives.csv", stringsAsFactors = FALSE)
+```
+
+<br />
+
+## Background
+
+Military bases need to track the amount of explosive residue that remains in the soil after field training activities are completed. The main contaminant to the soil from the explosives used in the trainings is 2,4-Dinitrotoluene (2,4-DNT), which is known to "be toxic"[$^1$](https://www.epa.gov/sites/production/files/2014-03/documents/ffrrofactsheet-contaminant-dnt_january2014_final.pdf) to all living organisms. During the summar of 2013, Brother J. Hathaway of the BYU-Idaho statistics department, who was then working with Pacific Northwest National Labs (PNNL), worked with a team to evaluate a region of a military base in Alaska for 2,4-DNT contamination. For the soil to be declared safe, the exposure level of the soil has to be under an average of .28 mg/kg (milligrams per kilogram). 
+
+A permutation test is a way to determine if the area has safe levels of the DNT soil contamination.  This type of test calculates multiple combinations of the data to calculate an overall p-value.  All of this is done with the idea if the patterns in the data are random, random resampling (rearranging) should show similar patterns.  
+
+
+<a href="javascript:showhide('wide')">The Data <span style="font-size:8pt;">(click to show/hide)</span></a>
+
+<div id="wide" style="display:none;">
+
+Data was collected from the field in Alaska by dividing up a 100 meter square plot of land into 100 discrete 10 x 10 meter blocks. One discrete block from each row of blocks was randomly selected, and three soil samples were taken from within each discrete block. The total mass in grams (g) of the soil sample along with the 2,4-DNT concentration in mg/kg were recorded for each soil sample.
+
+See the "Code" button to the right to view the data.
+
+```{r}
+datatable(explosives)
+```
+
+</div>
+
+## Question {.tabset}
+
+* Does the soil have safe levels of DNT soil contamination?  
+
+### Hypotheses 
+
+The first set of hypotheses explains what is expected, shown below.  
+
+$H_0: \text{Any pattern witnessed in the DNT Soil Sample is due to random chance}$
+
+$H_a: \text{Any pattern witnessed in the DNT Soil Sample is NOT due to random chance}$
+
+It is assumed if patterns exist, a resampling of the data will result in similar patterns of the first sampling.  If not, then the alternative is assumed. 
+
+The second hypothesis assumes it's dangerous until proven safe. 
+$$
+  H_0: \mu \geq 0.28
+$$
+
+$$
+  H_0: \mu < 0.28
+$$
+
+The significance level will be set at 
+
+$$
+  \alpha = 0.05
+$$
+
+### Procedure for Testing
+
+A permutation test will be performed accordingly as doing the following steps.  
+
+1. Obtain the test statistic (p-value)
+2. Shake up data (By permutation test)
+3. Find test statistic for each permuted version of the data
+4. Sum the test statistics calculated for each permutation
+5. Histogram of all test statistics (sampling distribution of the test statistic)
+6. Line will be calculated on the histogram to represent the p-value
+7. Sum the results and divide by sample size
+8. Multiply smaller of the two for the two sided p-value test, except this is a less than test, so it's one sided.  
+
+To obtain the first test statistic a paired samples t-test will be used.  Even though the analysis is only focusing on the DNT data recorded (one sample t-test), a permutation of the differences is needed to see if the mean of the differences is zero.   
+
+## Analysis
+
+
+```{r, include=FALSE}
+differences <- explosives$DNT24 - 0.28
+
+myTest <- t.test(differences, mu=0)
+
+observedTestStat <- myTest$statistic
+
+ 
+
+N <- 2000
+
+permutedTestStats <- rep(NA, 2000)
+
+for (i in 1:N){
+
+  permutedData <- sample(x=c(1,-1), size=30, replace=TRUE)
+
+  permutedTest <- t.test(permutedData*differences, mu=0)
+
+  permutedTestStats[i] <- permutedTest$statistic
+
+}
+
+hist(permutedTestStats)
+
+abline(v=observedTestStat)
+
+sum(permutedTestStats >= observedTestStat)/N
+
+sum(permutedTestStats <= observedTestStat)/N
+
+
+```
+
+* The original $p-value$ from the one sample t-test is found as
+```{r}
+pander(observedTestStat <- myTest$statistic)
+```
+
+* The smaller $p-value$ is shown below as 
+
+```{r}
+pander(sum(permutedTestStats >= observedTestStat)/N)
+```
+
+* It is a one sided test because the alternative hypothesis test is the mean is less than 0.28.
+
+The 5 Number Summary represented below shows the mean specifically is significantly larger than 0.28, showing unsafe levels of soil contaminations.  
+
+```{r}
+pander(summary(explosives$DNT24))
+```
+
+
+### Interpretation
+
+The results of the test are dependent on the less than side of the $p-value$.  Thus it is concluded the null hypothesis remains true because the $p-value$ is greater than level of significance ($alpha$).    
+
+## Graphics
+
+The soil Concentrations are shown in the histogram below.  In red is where 0.28 is found.  In the representation, it is shown that more of the bars are greater than 0.28.  Also confirmed with the orange line showing where the mean is located.  
+
+```{r}
+# Soil Concentrations of DNT-24 (mg/kg) and frequency.  Line represents 0.28 safe level 
+hist(explosives$DNT24, main = "Soil Concentrations", xlab= "DNT-24 (mg/kg)", ylab= "Frequency", breaks= 100, col= "cyan3")
+abline(v=0.28, col = "red", lwd= 2.5)
+abline(v=1.001, col = "orange", lwd = 2.5)
+```
+
+Each permuted test result is shown in the histogram below. 
+
+```{r}
+hist(permutedTestStats, main = "DNT Soil Permuted Sample Distribution", col=c("turquoise3"))
+
+abline(v=observedTestStat, col="green3", lwd = 2.5)
+```
+
+In the Permutation graphic, the line denotes the observed test statistic (original test statistic obtained).  The frequency is the amount of times each permutation happened and the test statistic result of it.  
+
+
+## Conclusion
+
+In the soil concentrations graphic, the mean is shown to be far above 0.28 concluding there are unsafe soil contamination levels.  
+
+In the DNT Permuted Sample Distribution, the negative values represent allowable soil contamination levels and the positive values represent unallowable soil contamination levels.  Thus, this histogram also shows there are unallowable soil contaminations.  
+
+The code to the right, when run is the evidence to prove the first null hypothesis is correct, that any pattern in the DNT soil sample is due to random chance.  This occurs because everytime the code is run it will reproduce a test statistic that is always similar to one another, thus similar patterns each time.    
+
+```{r, eval=FALSE}
+differences <- explosives$DNT24 - 0.28
+
+myTest <- t.test(differences, mu=0)
+
+observedTestStat <- myTest$statistic
+
+ 
+
+N <- 2000
+
+permutedTestStats <- rep(NA, 2000)
+
+for (i in 1:N){
+
+  permutedData <- sample(x=c(1,-1), size=30, replace=TRUE)
+
+  permutedTest <- t.test(permutedData*differences, mu=0)
+
+  permutedTestStats[i] <- permutedTest$statistic
+
+}
+
+hist(permutedTestStats)
+
+abline(v=observedTestStat)
+
+2*sum(permutedTestStats >= observedTestStat)/N
+
+sum(permutedTestStats <= observedTestStat)/N
+
+
+```
+
+
+
+
+```{r, eval = FALSE, include=FALSE}
+# This was my attempt
+myTest <- wilcox.test(explosives$DNT24, mu = 0.28)
+observedTestStat <- myTest$statistic
+ 
+N <- 2000      
+permutedTestStats <-  rep(NA, N)
+for  (i in 1:N ) 
+  
+{
+  permutedData <- sample (x= explosives$DNT24)
+  permutedTest <- wilcox.test(permutedData, data = explosives, mu = 0.28)
+  permutedTestStats[i] <- permutedTest$statistic
+}
+  
+hist(permutedTestStats)
+abline(v=observedTestStat)
+sum(permutedTestStats >= observedTestStat)/N
+sum(permutedTestStats <= observedTestStat)/N
+
+hist(explosives$DNT24)
+abline(v=0.28)
+mean(explosives$DNT24)
+```
+
+
+
+
+

@@ -1,0 +1,115 @@
+---
+title: "The IQ of Identical Twins"
+output: 
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
+    
+  
+  
+---
+
+```{r, include=FALSE}
+library(mosaic)
+library(car)
+library(DT)
+library(prettydoc)
+library(pander)
+library(ggplot2)
+library(gridExtra)
+
+
+ch <- subset(Burt, class=="high")
+iqbio <- subset(Burt, select=c(IQbio))
+iqbfo <- subset(Burt, select=c(IQfoster))
+both <- subset(Burt, select=c(IQbio, IQfoster))
+```
+<br />
+
+### Background
+
+Cyril Burt published a study in May 1966 in the British Journal of Psychology to unveil the question if intelligence is inherited.  Burt's study centered on testing twins, specifically the IQ of one of the twins raised by biological parents, and the IQ of the other twin raised by foster parents.  Burt also recorded social class, classifying each twin's class as low, medium, or high.  
+
+ The abstract of [the original article](http://onlinelibrary.wiley.com/doi/10.1111/j.2044-8295.1966.tb01014.x/abstract) read as follows, 
+
+<div style="padding-left:15px; padding-right:15px;">
+
+"In the course of a series of investigations into various aspects of mental inheritance an intensive study has been made of so-called ‘identical’ twins. The cases examined...those separated in early infancy, and brought up apart... Despite wide differences in environmental conditions, the correlations for intelligence, unlike those for school attainments, prove to be surprisingly high. It is argued that this implies that ‘intelligence’, when adequately assessed, is largely dependent on genetic constitution..."
+
+</div>
+
+The null and alternative hypotheses are 
+$$
+  H_0: \mu_d = 0
+$$
+$$ 
+  H_a: \mu_d \neq 0
+$$
+The significance level will be set at
+$$
+  a  =  0.05
+$$
+
+Burt's observations are recorded below, showing the first 10 out of 27 observations.  
+
+```{r, echo=FALSE}
+datatable(Burt)
+
+```
+
+### Analysis
+```{r, include=FALSE, echo=FALSE}
+stripchart(Burt$IQbio - Burt$IQfoster, method="stack")
+```
+
+
+```{r, echo=FALSE}
+hist(Burt$IQbio - Burt$IQfoster, xlab="IQ Quantiles", main="Differences Of IQ Bio & IQ Foster", col=c("paleturquoise3"), border="turquoise4")
+```
+
+
+From the histogram above, the data shows the mean of the differences are centered around 0, which indicates the accuracy of the data in relation to the null hypothesis. 
+
+```{r, echo=FALSE}
+boxplot((IQbio - IQfoster) ~ class, data=Burt, xlab="Social Class", ylab="IQ Quantiles", main="Differences of IQ Bio & IQ Foster Social Class",  col=(c("thistle3", "wheat2","slategray4")))  
+```
+
+The box plot indicates there really wasn't a huge difference in social class with regards to IQ. 
+
+```{r, echo=FALSE}
+pander(t.test(Burt$IQbio, Burt$IQfoster, paired = TRUE, mu=0, alternative= "two.sided", conf.level = 0.95), caption = "Paired T-test on Burt's Claim")
+
+```
+
+Thus, there is insufficient evidence to conclude intelligence is not inherited (p = 0.902 > a).
+
+### Interpretation
+
+The result of the t-test is not surprising to see that intelligence is inherited genetically.  After Burt's death, further investigations led to the British Psychological Society claiming Burt's data as false. The data had been fabricated too, the mean of the differences is recorded at -0.1851852, which is an astonishing result of accuracy in regards to the null hypothesis.  
+It would be nice to have some data containing the truth, so that an appropriate test and conclusion can be made concerning the view of where intelligence really comes from.  
+
+### Appendix 
+
+Shown below are two plots indicating Biological versus Foster Twin IQ scores sorted by class.  This shows twins raised by foster parents have higher median IQ scores than twins raised by biological parents, which is a huge abnormality.  Plently of studies have proven children raised by biological parents tend to perform better in academics versus children raised by foster parents.  This trend is also apparent in low class, which is most astonishing.  Although the data was extremely flawed, was Burt trying to leave a legacy through his data of a topic deeper than just intelligence?
+
+```{r, echo=FALSE}
+require(gridExtra)
+
+plot1=ggplot(Burt, aes(x = class, y = IQbio, colour = class)) +
+  geom_boxplot() +
+  labs(x = "Class", y = "IQ Score", title = "Biological Twins' IQ Scores by Class") +
+  theme_bw() +
+  scale_colour_brewer(type = "Qual", palette = "Dark2")
+
+plot2=ggplot(Burt, aes(x = class, y = IQfoster, colour = class)) +
+  geom_boxplot(outlier.colour="red", outlier.shape=8,
+                outlier.size=3) +
+  labs(x = "Class", y = "IQ Score", title = "Foster Twins' IQ Scores by Class") +
+  theme_bw() +
+  scale_colour_brewer(type = "Qual", palette = "Dark2")
+
+grid.arrange(plot1, plot2, ncol=2)
+
+```
+
+

@@ -1,0 +1,57 @@
+---
+title: "Analysis Rubric"
+output: 
+  html_document:
+    theme: cerulean
+---
+
+<br />
+
+#### Proverbs 4:7
+
+"Wisdom is the principal thing; therefore get wisdom: and with all thy getting get understanding."
+
+<br />
+
+
+### Rubric Categories
+
+There are five main elements to a good statistical analysis.
+
+<div style="padding-left:15px;">
+
+{ } Questions and Hypotheses
+
+{ } Data Analysis
+
+{ } Graphical Summaries
+
+{ } Interpretation
+
+{ } Presentation
+     
+</div>
+
+<br />
+
+
+### Category Points
+
+Each Rubric Category is graded with a {**1**}, {**2**}, or {**3**}. 
+  
+<div style="padding-left:15px;">
+
+{**1**} Major improvements needed.
+
+{**2**} Modest improvements needed.
+
+{**3**} Minor improvements needed.
+
+</div>
+
+</br>
+
+
+
+Continued resubmissions are expected until you achieve a {**3**} in each Category.
+

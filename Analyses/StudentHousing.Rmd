@@ -1,0 +1,50 @@
+---
+title: "Student Housing Costs"
+output: 
+  html_document:
+    theme: cerulean
+---
+
+```{r, include=FALSE}
+library(mosaic)
+Rent <- read.csv("../Data/Rent.csv", header=TRUE)
+```
+
+<br />
+
+#### Background
+
+With the start of a new semester here at BYU-Idaho most college students have recently made decisions about where to live. While the choice of housing depends on many factors, certainly one important consideration is price. So just how much does student housing in Rexburg cost on average? Data was collected from the [BYU-Idaho Housing Website](https://web.byui.edu/tis/search) to answer this question. The first three observations are shown in the following table. There are a total of `r nrow(Rent)` observations in the dataset.
+
+```{r, echo=FALSE}
+knitr::kable(head(Rent,3))
+```
+
+<br />
+
+#### Analysis
+
+The following histogram shows the distribution of the (entry level contract) prices of one-semester contracts for the full population of BYU-Idaho approved housing complexes. This includes both approved men's and women's housing. 
+
+```{r, echo=FALSE}
+hist(Rent$Price, xlab="Rent (In U.S. Dollars)", main="BYU-Idaho Housing \n One-Semester Entry Level Contract Prices", col="skyblue")
+```
+
+This plot shows a large percentage of apartments cost between $800 and $1,000 dollars a semester (considering the cheapest pricing options from each apartment). However, a fair number are also above $1,000. In fact, half of the available entry price rental options cost more than the median price of $`r median(Rent$Price)`, as shown in the table below. One-fourth cost more than the third quartile of $`r quantile(Rent$Price, .75)`. The cheapest available option is $`r min(Rent$Price)` and the highest priced option of the entry level contracts comes to $`r max(Rent$Price)`. The following table summarizes this information as well as the pricing for the high end options for each complex.
+
+```{r, echo=FALSE}
+outputTable <- rbind(Price=favstats(Rent$Price), "High Price"=favstats(Rent$PriceHi))
+knitr::kable(outputTable[,c("min","Q1","median","mean","Q3","max","n")])
+# Note that the options you can select from are
+# "min"	"Q1"	"median"	"Q3"	"max"	"mean"	"sd"	"n"	"missing"
+# removing the [,c(...)] from favstats(...) would give all of the options.
+```
+
+#### Interpretation
+
+The [Burea of Labor Statistics](http://www.bls.gov/opub/btn/volume-1/a-comparison-of-25-years-of-consumer-expenditures-by-homeowners-and-renters.htm) shows that in 2010, the average annual reported expenditure of renters was $8,798, which figures to $`r round(8798/12,2)` a month. Considering that one-semester rental contracts at BYU-Idaho represent roughly 4 months, and that the average entry price rental cost was $1,026.20, single BYU-Idaho students entry level rent options average around $`r round(mean(Rent$Price)/4,2)` a month. This appears to be a pretty good deal for single BYU-Idaho students. 
+
+Note that this analysis does not consider the number of students that are housed in a given apartment. This is certainly an important factor in deciding the true cost of student housing at BYU-Idaho. However, the goal of this analysis was simply to understand the per student cost of housing at BYU-Idaho for single students.
+
+
+

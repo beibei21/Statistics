@@ -1,0 +1,100 @@
+---
+title: "Student Housing Costs"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+    toc: true
+    toc_float: true 
+---
+
+```{r, include=FALSE}
+library(mosaic)
+library(ggmap)
+library(DT) # If you get an error stating: 
+            # Error in library(DT): there is no package called 'DT'
+            # You will need to run: install.packages("DT") 
+            # in your Console, then try "Knit HTML" again.
+Rent <- read.csv("../Data/Rent.csv", header=TRUE)
+wRent<- subset(Rent, Type=="Approved Women's Housing")
+wpRent<-subset(Rent, Type=="Approved Women's Housing") 
+WLRent<- subset(wRent, Price<=900)
+```
+
+<br />
+
+## Background
+
+Stephanie is a student that will be starting school at BYU-Idaho next semester. She would like to learn about her housing options. She would also like to find something that is close to campus and around $300 a month in rent. Use the data from the [BYU-Idaho Housing Website](https://web.byui.edu/tis/search) to prepare an Analysis that will answer Stephanie's questions and give her some recommendations on apartments according to her criterion above. However, also be sure to demonstrate all of her options.
+
+The first three observations of a dataset pulled from that website are shown in the following table. There are a total of `r nrow(wpRent)` observations in the dataset.
+
+
+```{r}
+# 3 = number per page
+# 10 = ?
+# 30 = ?
+datatable(wRent, options=list(lengthMenu = c(3, 10, 30)))
+```
+
+## Analysis
+
+The histogram below shows the distribution of Women's BYU-Idaho Approved Housing under $900 dollars each semester, which on average is $300 dollars per month, assuming the semester is about 3 months long.  This selection gives a total of fifteen apartment complexes to choose from (shaded in salmon color).  The gray bars represent the remaining prices of apartments. 
+
+
+```{r}
+my_hist=hist(wpRent$Price, breaks = 10, plot=FALSE)
+
+my_color= ifelse(my_hist$breaks > 900, rgb(0.3,0.3,0.3,0.5) ,  "salmon")#, rgb(1,0,0,0.5)))
+ 
+# Final plot
+plot(my_hist, col=my_color , border=F , main="Women's BYU-Idaho Approved Housing \n One-Semester Prices Under $900", xlab="Price (In U.S. Dollars", xlim=c(600,1500) )
+ 
+#http://www.r-graph-gallery.com/83-histogram-with-colored-tail/
+# link for code 
+
+```
+
+
+```{r, include=FALSE}
+
+# Or a simple histogram 
+
+hist(wpRent$Price)
+hist(WLRent$Price, breaks=10)
+
+```
+
+The plot shown below represents the location of each Women's BYU-Idaho Approved Apartment complex under $900 dollars per semester.  Each salmon colored dot represents a different apartment complex shown in relation to campus and corresponding streets.  
+
+```{r, message=FALSE, warning=FALSE}
+rexmap <- get_map(location = c(lon = -111.7825, lat = 43.81695), zoom = 15, maptype = "roadmap")
+
+ggmap(rexmap)  +
+  geom_point(data = WLRent, aes(x = Longitude, y = Latitude), color = "white", alpha = 0.8, size=2.5) +
+  geom_point(data = WLRent, aes(x = Longitude, y = Latitude), color = "salmon", alpha = 0.8, size=2)
+
+#plot(Latitude~Longitude, data=WLRent, pch=18, col= "aquamarine3")
+#points(-111.7825, 43.81695, pch=18, cex=2, col="aquamarine4")
+#text(-111.7825, 43.81695, "Taylor Building", pos=3)
+```
+
+## Interpretation
+
+Stephanie,
+
+According to the histogram above, you would have more options in choosing a complex closer to $900 dollars, and in the map above the fifteen apartment complexes are very close to campus.  The histogram provided shows the overall Women's Apartment Complexes, but only those shadded salmon colored are in your budget.  If you desire to increase your budget you have a histogram representing the number of the other apartments in a particular sector of price.  
+
+Even if you stick with your budget plan, there is a variety of apartments to choose from.  Below is a list of the apartments in your budget that are listed by distance away from campus.  
+
+```{r}
+# Lists the Apartment complexes in specific order of columns
+# $ Distance is the ordering from least to greatest, you could do $Apartment and have it list the apartments alphabetically.  
+
+# knitr::kable(dataset[order(dataset$Whatever_column_wanted), c("Column1", "Column2"...etc.)])
+
+knitr::kable(WLRent[order(WLRent$Distance),c("Apartment", "Price", "Capacity",  "Address", "Phone", "Distance" )])
+```
+
+
+

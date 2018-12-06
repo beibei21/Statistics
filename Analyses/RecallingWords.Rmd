@@ -1,0 +1,308 @@
+---
+title: "Recalling Words"
+output: 
+  html_document:
+    theme: sandstone
+    hightlight: zenburn
+    code_folding: hide
+---
+
+<script type="text/javascript">
+ function showhide(id) {
+    var e = document.getElementById(id);
+    e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+ }
+</script>
+
+```{r, include=FALSE}
+library(mosaic)
+library(car)
+library(DT) 
+library(pander)
+
+SFRBe <- subset(Friendly, condition %in% c("SFR", "Before"))
+SFRMe <- subset(Friendly, condition %in% c("SFR", "Meshed"))
+BeMe <- subset(Friendly, condition %in% c("Before", "Meshed"))
+
+Me <- subset(Friendly, condition %in% c("Meshed"))
+Be <- subset(Friendly, condition %in% c("Before"))
+SFR <- subset(Friendly, condition %in% c("SFR"))
+```
+
+
+<br />
+
+### Background
+
+How do students retain material best?  There are two methods to consider:  The meshed approach, which is introducing new content while reviewing previously learned content simultaneously throughout the course of teaching.  The Before Approach is reviewing previously learned content before introducing new content through the course of teaching.  
+
+Question:  Which of the two methods, meshed or before benefits memory recall the most?  
+
+
+<div style="padding-left:15px;">
+
+##### <a href="javascript:showhide('uniquename')">The Experiment <span style="font-size:8pt;">(click to view)</span></a>
+
+
+<div id="uniquename" style="display:none;">
+
+Individuals were seated at a computer and shown a list of words. Words appeared on the screen one at a time, for two seconds each, until all words had been shown (40 total). After all words were shown, they were required to perform a few two-digit mathematical additions (like 15 + 25) for 15 seconds to avoid immediate memory recall of the words. They were then asked to write down as many of the 40 words as they could remember. They were given a maximum of 5.3 minutes to recall words.
+
+The process of showing words and recalling words was repeated four times with the same list of words each time (four chances to get it right). The presentation of the first trial was the same for all treatment conditions. However, trials 2, 3, and 4 were slightly different for each treatment condition.
+
+<div style="padding-left:15px;">
+
+The `SFR` group (the control group) stands for Standard Free Recall. In all four trials the same list of 40 words was presented, in a random order each time.
+
+The `Before` group also used the same 40 words during each trial. However, any words that were correctly recalled in a previous trial were presented first, or *before* the words that were not recalled in the last trial. After all the correct words were presented in random order, the non-recalled words were presented in a random order.
+
+The `Meshed` group also used the same 40 words during each trial. However, words that were correctly recalled in a previous trial were alternated with a missed word during the next presentation order. 
+
+</div>
+
+The data records the number of correctly recalled words (out of the 40 possible) from the fourth trial. Results were obtained for 30 students, 10 in each of the three treatment groups: `SFR`, `Before`, and `Meshed`. 
+
+</div>
+
+##### <a href="javascript:showhide('uniquename2')">The Data <span style="font-size:8pt;">(click to view)</span></a>
+
+<div id="uniquename2" style="display:none;">
+
+The results from the study can be found in the `Friendly` data set in R after loading `library(mosaic)`.  
+
+
+```{r}
+datatable(Friendly, options=list(lengthMenu = c(3,10,30)))
+```
+
+
+</div>
+</div>
+
+<br />
+
+
+To test which of the two methods benefits memory recall most:
+
+<div style="padding-left:15px;">
+
+Test 1:  Compares the SFR and Before data.
+
+Test 2:  Compares the SFR and Meshed data.
+
+Test 3:  Compares the Before and Meshed data.
+
+
+<div style="padding-left:15px;">
+
+##### <a href="javascript:showhide('uniquename3')"> Test 1 <span style="font-size:8pt;">(click to view)</span></a>
+
+
+<div id="uniquename3" style="display:none;">
+
+#### Background 
+
+Comparing the SFR and Before data, the Wilcoxon Rank Sum Test is used.  The null and alternative hypotheses are
+
+
+$H_0: \text{the distributions are stochastically equal}$
+
+$H_a: \text{one distribution is stochastically greater than the other}$
+
+
+The significance level will be set at
+
+$$
+  \alpha = 0.0167
+$$
+
+#### Analysis
+
+The side-by-side boxplot shown below suggests there are not many differences in the distributions.  The dots show where the data lies in regards to the boxplot.
+
+```{r}
+SFRBe <- droplevels(subset(Friendly, condition !="Meshed"))
+boxplot(correct ~ condition, data= SFRBe, col=c("steelblue1", "darkolivegreen3"), horizontal = TRUE, ylim=c(15,45), main= "Distribution of Scores", xlab= "Correctness", ylab="Condition")
+stripchart(correct ~ condition, data=SFRBe, method="stack", pch=16, col="steelblue4", cex=1.25, add= TRUE)
+```
+
+Below shows the actual values from the plot above. 
+
+```{r}
+pander(favstats(correct ~ condition, data=SFRBe))
+```
+
+```{r, message=FALSE, warning=FALSE}
+pander(wilcox.test(correct ~ condition, data= SFRBe, mu=0, alternative= "greater", conf.level= 0.95))
+```
+
+The $p$-value indicates there is insufficient evidence to reject the null hypothesis.  
+
+It's also important to note by performing the Wilcoxon Rank Sum Test, there are ties in the data, and it has a continuity correction, thus an exact $p$-value cannot be calculated.  Instead, a valid approximation is given $(p=0.02278 > \alpha)$. 
+
+
+#### Interpretation
+
+Although the null hypothesis is found to be true according to the $p$-value.  It would be nice to see a larger sample size greater than 10 to see if the distributions of SFR and Before really are stochastically equal.  
+
+
+</div>
+<br />
+
+<div style="padding-left:15px;">
+
+##### <a href="javascript:showhide('uniquename4')"> Test 2 <span style="font-size:8pt;">(click to view)</span></a>
+
+
+<div id="uniquename4" style="display:none;">
+
+#### Background 
+
+Comparing the SFR and Meshed data, the Wilcoxon Rank Sum Test is used.  The null and alternative hypotheses are
+
+<div style="padding-left:20px;">
+
+$H_0: \text{the distributions are stochastically equal}$
+
+$H_a: \text{one distribution is stochastically greater than the other}$
+
+The significance level will be set at
+
+$$
+  \alpha = 0.0167
+$$
+
+</div>
+
+#### Analysis 
+
+The side-by-side boxplot shown below suggests there could be a difference in the distributions.  The dots show where the data lies in regards to the boxplot.
+
+```{r}
+SFRMe <- droplevels(subset(Friendly, condition !="Before"))
+boxplot(correct ~ condition, data= SFRMe, col=c("sienna1", "darkolivegreen3"), horizontal = TRUE, ylim=c(15,45), main= "Distribution of Scores", xlab= "Correctness", ylab="Condition")
+stripchart(correct ~ condition, data=SFRMe, method="stack", pch=16, col="steelblue4", cex=1.25, add= TRUE)
+```
+
+Below shows the actual values from the plot above.
+
+```{r, message=FALSE, warning=FALSE}
+pander(favstats(correct ~ condition, data=SFRMe))
+```
+
+```{r, message=FALSE, warning=FALSE}
+pander(wilcox.test(correct ~ condition, data= SFRMe, mu=0, alternative= "greater", conf.level= 0.95))
+```
+
+Even though the boxplot shows there could be a difference in the data, the p-value suggests otherwise, indicating there is insufficient evidence to reject the null hypothesis.  
+
+It's also important to note by performing the Wilcoxon Rank Sum Test, there are ties in the data, and it has a continuity correction, thus an exact $p$-value cannot be calculated.  Instead, a valid approximation is given $(p=0.05075 > \alpha)$. 
+
+#### Interpretation 
+
+Although boxplot looks like it would show a difference in the distribution, the null hypothesis is found to be true according to the $p$-value. It would be nice to see a larger sample size greater than 10 to see if the distributions of SFR and Meshed really are stochastically equal.  
+
+</div>
+<br />
+
+<div style="padding-left:15px;">
+
+##### <a href="javascript:showhide('uniquename5')"> Test 3 <span style="font-size:8pt;">(click to view)</span></a>
+
+
+<div id="uniquename5" style="display:none;">
+
+
+#### Background
+
+Comparing the Before and Meshed data, the Wilcoxon Rank Sum Test is used.  The null and alternative hypotheses are
+
+$H_0: \text{the distributions are stochastically equal}$
+
+$H_a: \text{one distribution is stochastically greater than the other}$
+
+
+The significance level will be set at
+
+$$
+  \alpha = 0.0167
+$$
+
+#### Analysis
+
+The side-by-side boxplot shown below suggests there may be a slight difference in the distributions.  The dots show where the data lies in regards to the boxplot.
+
+```{r}
+BeMe <- droplevels(subset(Friendly, condition !="SFR"))
+boxplot(correct ~ condition, data= BeMe, col=c("steelblue1", "sienna1"), horizontal = TRUE, ylim=c(15,45), main= "Distribution of Scores", xlab= "Correctness", ylab="Condition")
+stripchart(correct ~ condition, data=BeMe, method="stack", pch=16, col="steelblue4", cex=1.25, add= TRUE)
+```
+
+Below shows the actual values from the plot above.
+
+```{r, warning=TRUE}
+pander(favstats(correct ~ condition, data=BeMe))
+```
+
+```{r, message=FALSE, warning=FALSE}
+pander(wilcox.test(correct ~ condition, data= BeMe, mu=0, alternative= "greater", conf.level= 0.95))
+```
+
+Even though the boxplot shows there might be a difference in the data, the p-value suggests otherwise, indicating there is insufficient evidence to reject the null hypothesis.  
+
+It's also important to note by performing the Wilcoxon Rank Sum Test, there are ties in the data, and it has a continuity correction, thus an exact $p$-value cannot be calculated.  Instead, a valid approximation is given $(p=0.189 > \alpha)$. 
+
+#### Interpretation 
+
+Although boxplot looks like it could show a difference in the distribution, the null hypothesis is found to be true according to the $p$-value. It would be nice to see a larger sample size greater than 10 to see if the distributions of Before and Meshed really are stochastically equal.
+
+</div>
+<br />
+
+### Interpretation 
+
+According to all three test results the distributions are stochastically equal.  Since several data points were the same, it did not give an exact $p$-value, but the $p$-value is still valid for the test.  It would be beneficial to see if another test would work better or to increase the sample size of the same study would be of benefit.  Who knows, maybe there is a difference in one method of memory recall.  
+
+
+
+
+
+```{r, include= FALSE}
+boxplot(BeMe$correct)
+```
+
+```{r, include= FALSE}
+boxplot(SFRBe$correct)
+```
+
+```{r, include= FALSE}
+boxplot(SFRMe$correct)
+```
+
+```{r, include= FALSE}
+boxplot(SFR$correct, ylim=c(15,45), horizontal = TRUE)
+boxplot(Me$correct, ylim=c(15,45), horizontal = TRUE)
+boxplot(Be$correct, ylim=c(15,45), horizontal = TRUE)
+
+boxplot(correct~condition, data=Friendly, horizontal = TRUE, ylim=c(15,45))
+stripchart(correct ~ condition, data=Friendly, method="stack", pch=16, col="steelblue4", cex=1.25, add=TRUE)
+
+```
+
+```{r, include = FALSE, echo=FALSE}
+plot(density(Be$correct), 
+      main="", col='skyblue4',
+      xlab="", ylab="", xaxt='n', yaxt='n')
+
+ lines(density(Me$correct), 
+      main="", col='wheat',
+      xlab="", ylab="", xaxt='n', yaxt='n')
+ 
+ 
+lines(density(SFR$correct), 
+      main="", col='red',
+      xlab="", ylab="", xaxt='n', yaxt='n')
+```
+
+
+

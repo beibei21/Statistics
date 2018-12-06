@@ -1,0 +1,37 @@
+---
+title: "Tidy Tuesday"
+output: html_document
+---
+
+```{r}
+library(mosaic)
+library(tidyverse)
+library(readr)
+US_Avg_Tut <- read_csv("~/Documents/Math 325 Notebook/Data/US_Avg_Tut.csv")
+
+ long_data <- US_Avg_Tut %>% 
+  gather(key = "year", value = "tuition" , `2004-05` : `2015-16`)
+
+ idaho <- long_data %>%
+   filter(State %in% "Idaho")
+```
+
+
+```{r}
+# Need to group our lines by state 
+# We want to follow the state tuition 
+
+# Scales :: dollar is taking the dollar option from the scales 
+
+ggplot(long_data, aes(x=year, y = tuition, group = State)) + 
+  geom_point() + 
+  geom_line() + 
+  geom_line(data = idaho, aes(color=State), size = 2) +
+  geom_point(data=idaho, aes(color = State), size = 3) +
+  #scale_y_continuous(labels = scales:: dollar) +
+  labs (title = "Distribution of Tuition across United States", subtitle = "Data shown for academic school years 2005-2015", x = "Year", y = "Tuition", caption = "Graphic: BYUI data science society | source: USA.gov") +
+  theme_bw() +
+  theme (axis.text.x = element_text(angle = 45, hjust =1))
+
+```
+

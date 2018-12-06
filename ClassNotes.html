@@ -1,0 +1,1966 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Shania" />
+
+
+<title>Class Notes</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Math 325 Notebook</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Table of Contents</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Describing Data
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GraphicalSummaries.html">Graphical Summaries</a>
+    </li>
+    <li>
+      <a href="NumericalSummaries.html">Numerical Summaries</a>
+    </li>
+    <li>
+      <a href="GeneralRCommands.html">General R Commands</a>
+    </li>
+    <li>
+      <a href="RMarkdownHints.html">General R Markdown Hints</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Making Inference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="MakingInference.html">Making Inference</a>
+    </li>
+    <li>
+      <a href="tTests.html">t Tests</a>
+    </li>
+    <li>
+      <a href="WilcoxonTests.html">Wilcoxon Tests</a>
+    </li>
+    <li>
+      <a href="ANOVA.html">ANOVA</a>
+    </li>
+    <li>
+      <a href="Kruskal.html">Kruskal-Wallis</a>
+    </li>
+    <li>
+      <a href="LinearRegression.html">Linear Regression</a>
+    </li>
+    <li>
+      <a href="LogisticRegression.html">Logistic Regression</a>
+    </li>
+    <li>
+      <a href="ChiSquaredTests.html">Chi-Squared Tests</a>
+    </li>
+    <li>
+      <a href="PermutationTests.html">Permutation Tests</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="ClassNotes.html">Class Notes</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Critiquing Guides
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Guide to Critiquing t Tests.html">T-Tests</a>
+    </li>
+    <li>
+      <a href="Guide to Critiquing Wilcoxon Tests.html">Wilcoxon Tests</a>
+    </li>
+    <li>
+      <a href="CritiquingANOVATests.html">ANOVA Tests</a>
+    </li>
+    <li>
+      <a href="Guide to Critiquing Kruskal Tests.html">Guide to Critiquing Kruskal Tests</a>
+    </li>
+    <li>
+      <a href="Critiquing Guide.html">Linear Regression</a>
+    </li>
+    <li>
+      <a href="Critiquing Guide Logistic.html">Logistic Regression</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Analyses/StudentHousingII.html">Student HousingII</a>
+    </li>
+    <li>
+      <a href="./Analyses/Movies.html">Movies</a>
+    </li>
+    <li>
+      <a href="./Analyses/IQTwins.html">IQ Twins</a>
+    </li>
+    <li>
+      <a href="./Analyses/RecallingWords.html">Recalling Words- ANOVA</a>
+    </li>
+    <li>
+      <a href="./Analyses/DayCare.html">DayCare- TWO-WAY ANOVA</a>
+    </li>
+    <li>
+      <a href="./Analyses/ReadingComprehension.html">Reading Comp-Kruskal Wallis</a>
+    </li>
+    <li>
+      <a href="./Analyses/MySimpleLinearRegression.html">SimpleLinearRegression</a>
+    </li>
+    <li>
+      <a href="./Analyses/CarPrices.html">CarPrices-Multiple Linear Regression</a>
+    </li>
+    <li>
+      <a href="./Analyses/Project1.html">Project1- Independent</a>
+    </li>
+    <li>
+      <a href="./Analyses/MyLogisticRegression.html">Logistic Regression</a>
+    </li>
+    <li>
+      <a href="./Analyses/Discrimination.html">Chi-Squared, Discrimination</a>
+    </li>
+    <li>
+      <a href="./Analyses/Explosives.html">Permutations, Explosives</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Class Notes</h1>
+<h4 class="author"><em>Shania</em></h4>
+<h4 class="date"><em>4/24/2017</em></h4>
+
+</div>
+
+
+<div id="parameters-of-distributions" class="section level2 tabset tabset-fade tabset-pills">
+<h2>Parameters of Distributions</h2>
+<div id="normal" class="section level3">
+<h3>Normal</h3>
+<ul>
+<li>Parameters of the normal distribution:</li>
+</ul>
+<p>-Mean -Standard Deviation</p>
+</div>
+<div id="t-distribution" class="section level3">
+<h3>T-Distribution</h3>
+<ul>
+<li>1 Parameter, the degrees of freedom p</li>
+</ul>
+</div>
+<div id="f-distribution" class="section level3">
+<h3>F-Distribution</h3>
+<ul>
+<li>F distribution is ratio of two chi squared random variables</li>
+</ul>
+<p>-p1 and p2 “Numerator and Denominator” Degrees of Freedom</p>
+</div>
+<div id="chi-squared" class="section level3">
+<h3>Chi-Squared</h3>
+<ul>
+<li><p>p, which is the degrees of freedom</p></li>
+<li><p>As p goes to infinity, the chi squared distribution begins to look more normal shaped</p></li>
+<li><p>ONLY defined for numbers &gt; 0</p></li>
+</ul>
+</div>
+</div>
+<div id="quantitative-variable" class="section level2 tabset tabset-fade tabset-pills">
+<h2>1 Quantitative Variable</h2>
+<div id="no.-category" class="section level3">
+<h3>1 No. &amp; Category</h3>
+</div>
+<div id="sample-t-test" class="section level3">
+<h3>1 Sample T-Test</h3>
+<p><a href="tTests.html">tTest</a></p>
+<p><em>Parametric</em></p>
+<p><em>Distribution t</em></p>
+<p><em>df = n-1</em></p>
+<p><strong>Pro</strong></p>
+<ul>
+<li>Means</li>
+</ul>
+<p><strong>Con</strong></p>
+<p><strong>Requirements</strong></p>
+<p><strong>X bar Normal</strong> sampling distribution of the sample mean x¯ can be assumed to be normal.</p>
+<ul>
+<li><ol style="list-style-type: lower-alpha">
+<li>the population data can be assumed to be normally distributed</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: lower-alpha">
+<li>the size of the sample taken from the population is large.</li>
+</ol></li>
+</ul>
+<p><strong>Hypotheses</strong> <span class="math inline">\(H_0: \mu = \text{some number}\)</span></p>
+<p><span class="math inline">\(H_a: \mu \ \left\{\underset{&lt;}{\stackrel{&gt;}{\neq}}\right\} \ \text{some number}\)</span></p>
+<p><strong>R Instructions</strong></p>
+<div style="padding-left:125px;">
+<p><strong>Console</strong> Help Command: <code>?t.test()</code></p>
+<p><code>t.test(object, mu = YourNull, alternative = YourAlternative, conf.level = 0.95)</code></p>
+<ul>
+<li><code>object</code> must be a “numeric” vector.</li>
+<li><code>YourNull</code> is the numeric value from your null hypothesis for <span class="math inline">\(\mu\)</span>.</li>
+<li><code>YourAlternative</code> is one of the three options: <code>&quot;two.sided&quot;</code>, <code>&quot;greater&quot;</code>, <code>&quot;less&quot;</code> and should correspond to your alternative hypothesis.</li>
+<li>The value for <code>conf.level = 0.95</code> can be changed to any desired confidence level, like 0.90 or 0.99. It should correspond to <span class="math inline">\(1-\alpha\)</span>.</li>
+</ul>
+</div>
+<p><strong>Graphicalcs</strong></p>
+<p>Histogram, boxplot</p>
+</div>
+<div id="paired-sample-t--test" class="section level3">
+<h3>Paired Sample T- Test</h3>
+<p><a href="tTests.html">tTest</a></p>
+<p><a href="./Analyses/IQTwins.html">IQTwins</a></p>
+<p><em>Parametric</em></p>
+<p><em>Distribution t</em></p>
+<ul>
+<li>df = n-1</li>
+</ul>
+<p><strong>Questions</strong></p>
+<ul>
+<li>When you want to calculate the difference.</li>
+</ul>
+<p><strong>Pro</strong></p>
+<ul>
+<li>Measures probability of a sample mean being as extreme or more extreme from the hypothesized value than the one observed assuming the null is true.</li>
+</ul>
+<p><strong>Con</strong></p>
+<p><strong>Requirements</strong></p>
+<ul>
+<li>x bar normally distributed</li>
+</ul>
+<p><strong>Hypotheses</strong></p>
+<p><span class="math inline">\(H_0: \mu_d = \text{some number, but typically 0}\)</span><br />
+<span class="math inline">\(H_a: \mu_d \ \left\{\underset{&lt;}{\stackrel{&gt;}{\neq}}\right\} \ \text{some number, but typically 0}\)</span></p>
+<p><strong>R Instructions</strong></p>
+<p>t.test(Burt<span class="math inline">\(IQbio, Burt\)</span>IQfoster, paired = TRUE, mu=0, alternative= “two.sided”, conf.level = 0.95), caption = “Paired T-test on Burt’s Claim”)</p>
+<p><strong>Graphics: </strong></p>
+<ul>
+<li>Histogram</li>
+</ul>
+<p><strong>Remember</strong></p>
+<p>The role of the one sample t test is to measure the probability of a sample mean being as extreme or more extreme from the hypothesized value of μ0 than the one observed assuming the null hypothesis is true.</p>
+</div>
+<div id="wilcoxon-signed-rank-test" class="section level3">
+<h3>Wilcoxon Signed-Rank Test</h3>
+<p><a href="WilcoxonTests.html">Wilcoxon</a></p>
+<p><em>Nonparametric equivalent of the Paired Samples T-Test</em></p>
+<p><em>Distribution Normal (sum of the ranks)</em></p>
+<p>*df =</p>
+<p><strong>Pro</strong></p>
+<ul>
+<li>Best for smaller sample sizes where the distribution of the data is not normal.</li>
+</ul>
+<p><strong>Con</strong></p>
+<ul>
+<li>Lots of ties not good to use</li>
+</ul>
+<p><strong>Requirements</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>One sample of data from a population. (Not very common.)</p></li>
+<li><p>The differences obtained from paired data. (Very common.)</p></li>
+</ol>
+<p><strong>Hypotheses</strong></p>
+<p>Skewed distributions</p>
+<p><span class="math inline">\(H_0: \text{median of differences} = 0\)</span></p>
+<p><span class="math inline">\(H_a: \text{median of differences} \ \left\{\underset{&lt;}{\stackrel{&gt;}{\neq}}\right\} \ 0\)</span></p>
+<p>Symmetric distributions <span class="math display">\[
+  H_0: \mu = 0
+\]</span> <span class="math display">\[
+  H_a: \mu \neq 0
+\]</span></p>
+<p><strong>Graphics: Boxplots</strong></p>
+<p><strong>R Instructions</strong></p>
+<p><strong>Graphics: </strong></p>
+<p><strong>Remember</strong></p>
+<ul>
+<li>p-value of the test is then obtained by computing the probability of the test statistic being as extreme or more extreme than the one obtained.</li>
+</ul>
+</div>
+</div>
+<div id="quantitative-variable-2-groups" class="section level2 tabset tabset-fade tabset-pills">
+<h2>1 Quantitative Variable | 2 Groups</h2>
+<div id="no.-category-1" class="section level3">
+<h3>2 No. &amp; category</h3>
+</div>
+<div id="independent-t-test" class="section level3">
+<h3>Independent T-Test</h3>
+<p><a href="tTests.html">tTest</a></p>
+<p><em>Parametric</em></p>
+<p><em>Distribution t</em></p>
+<p>*df =</p>
+<p><strong>Questions</strong></p>
+<ul>
+<li><p>Isone better than the other?</p></li>
+<li><p>Is there a difference between the two?</p></li>
+</ul>
+<p><strong>Pro</strong></p>
+<ul>
+<li>Two sets of measurements for each individual</li>
+<li>requirement</li>
+</ul>
+<p>Sampling distribution of the sample mean of the differences, d¯, can be assumed to be normally distributed.</p>
+<ul>
+<li>Large Sample sizes</li>
+</ul>
+<p><strong>Con</strong></p>
+<ul>
+<li></li>
+</ul>
+<p><strong>Requirements</strong></p>
+<ul>
+<li><p>SRS</p></li>
+<li><p>Sampling distribution of the sample mean of the differences, d¯, can be assumed to be normally distributed.</p></li>
+</ul>
+<p><strong>Hypotheses</strong></p>
+<p><span class="math inline">\(H_0: \mu_1 - \mu_2 = \text{some number, but typically 0}\)</span></p>
+<p><span class="math inline">\(H_a: \mu_1 - \mu_2 \ \left\{\underset{&lt;}{\stackrel{&gt;}{\neq}}\right\} \ \text{some number, but typically 0}\)</span></p>
+</div>
+<div id="wilcoxon-rank-sum-test" class="section level3">
+<h3>Wilcoxon Rank Sum Test</h3>
+<p><a href="WilcoxonTests.html">Wilcoxon</a></p>
+<p><strong>Questions</strong></p>
+<ul>
+<li><p>Which of the two methods has the best memory recall?</p></li>
+<li><p>Medians or stochastical dominance</p></li>
+</ul>
+<p><em>Nonparametric equivalent of the Independent Samples t Test</em></p>
+<p><em>Distribution Normal</em></p>
+<p>*df =</p>
+<p><strong>Pro</strong></p>
+<ul>
+<li>Used for <em>Ranks</em> or Ordinals, 1st, 2nd, 3rd, etc.</li>
+<li>Distributions are not normal</li>
+<li>Sample size for each sample is small (n&lt;50)</li>
+<li>Useful if few ties in data</li>
+</ul>
+<p><strong>Con</strong></p>
+<ul>
+<li>Ties (repeated values)</li>
+<li>Does not determine early or late, only determines if they came or not</li>
+</ul>
+<p><strong>Requirements</strong></p>
+<p><strong>Remember</strong></p>
+<ul>
+<li>Budget Alpha to all the groups (divide by number of groups)</li>
+</ul>
+<p><strong>Symmetric distributions</strong></p>
+<p><span class="math inline">\(H_0: \text{difference in medians} = 0\)</span></p>
+<p><span class="math inline">\(H_a: \text{difference in medians} \neq 0\)</span></p>
+<p><strong>Different distributions</strong></p>
+<p><span class="math inline">\(H_0: \text{the distributions are stochastically equal}\)</span></p>
+<p><span class="math inline">\(H_a: \text{one distribution is stochastically greater than the other}\)</span></p>
+<p><strong>R instructions</strong></p>
+<p>wilcox.test(correct ~ condition, data= SFRBe, mu=0, alternative= “greater”, conf.level= 0.95))</p>
+<p><strong>Graphics: Boxplots</strong></p>
+<ul>
+<li><strong>Stochastically</strong></li>
+<li>Men’s heights are stochastically dominant over women’s heights</li>
+<li>Who’s taller, probably (typically) a man</li>
+<li>Same standard deviation, can only tell which is stochastically dominant is the one with the higher mean.<br />
+</li>
+<li></li>
+</ul>
+<p><strong>Is one distribution able to give higher values than the other?</strong></p>
+<p><strong>Remember</strong></p>
+<ul>
+<li>If the distributions are identically shaped and have the same spread, then this implies the medians (and means) are different.</li>
+</ul>
+</div>
+</div>
+<div id="quantitative-variable-3-groups" class="section level2 tabset tabset-fade tabset-pills">
+<h2>1 Quantitative Variable | 3+ Groups</h2>
+<div id="no.-catagories" class="section level3">
+<h3>3+ No. &amp; Catagories</h3>
+</div>
+<div id="anova" class="section level3">
+<h3>ANOVA</h3>
+<p><a href="ANOVA.html">ANOVA</a></p>
+<p><a href="./Analyses/RecallingWords.html">One-Way</a></p>
+<p><a href="./Analyses/DayCare.html">Two-Way</a></p>
+<p><em>Parametric</em></p>
+<p><em>Distribution F</em></p>
+<p>*df =</p>
+<p><strong>Questions</strong></p>
+<ul>
+<li><p>Which of these is not like the others?</p></li>
+<li><p>Does factor 1 affect factor 2?</p></li>
+</ul>
+<p><strong>Pro</strong></p>
+<ul>
+<li>Can do a Two-Way or Three-Way ANOVA test for more than 1 factor</li>
+</ul>
+<p><strong>Con</strong></p>
+<ul>
+<li>If skewed data, do Kruskal-Wallis test instead</li>
+</ul>
+<p><strong>Requirements</strong></p>
+<ul>
+<li><p>Check residuals plot = Constant variances need to be evenly spread out (check with finger/tweezer test)</p></li>
+<li><p>QQ plots = normality of the residuals, follow straight line</p></li>
+</ul>
+<p><strong>Hypotheses</strong></p>
+<p>Means</p>
+<p><span class="math display">\[
+  H_0: \alpha_1 = \alpha_2 = \ldots = 0
+\]</span> <span class="math display">\[
+  H_a: \alpha_i \neq 0 \ \text{for at least one} \ i
+\]</span> <strong>R Instructions</strong></p>
+<p><strong>Graphics: Custom Plots</strong></p>
+<p><strong>Remember</strong></p>
+<ul>
+<li><p>Between groups variance (measures the variability of the sample means)</p></li>
+<li><p>Within gorups variance (measures the variability of the data within each group)</p></li>
+</ul>
+</div>
+<div id="kruskal--wallis-rank-sum" class="section level3">
+<h3>Kruskal- Wallis Rank Sum</h3>
+<p><a href="Kruskal.html">Kruskal Wallis</a></p>
+<p><a href="./Analyses/ReadingComprehension.html">Kruskal Wallis Analysis</a></p>
+<p><em>Non Parametric</em></p>
+<p><strong>Questions</strong></p>
+<ul>
+<li><p>Allows for deciding if several samples come from the same population or if at least one sample comes from a different population.</p></li>
+<li><p>Which of the three methods is better than the others?</p></li>
+</ul>
+<p><em>Distribution Chi-squared</em></p>
+<p>*df =</p>
+<p><strong>Pro</strong></p>
+<ul>
+<li><p>Long is x~g</p></li>
+<li><p>Wide is x,y,z</p></li>
+<li><p>Tendency of one distribution to be higher or lower but not talk about medians or means…because the boxplot example of A are all different in distributions.</p></li>
+<li><p>Best appropriate when each data group is the same shape of skew or distribution.</p></li>
+<li><p>means</p></li>
+<li><p>Drawback to only do One-Way ANOVA</p></li>
+<li><p>Distributions look the same, check using boxplot, if they aren’t the same shape, test stochastical dominance.</p></li>
+<li><p>Less restrictive, no matter what data looks like end up in same scenerio.</p></li>
+</ul>
+<p>C = number of groups C-1 degrees of freedom</p>
+<p><strong>Con</strong></p>
+<ul>
+<li>Ties present or any other errors, Continuity errors</li>
+</ul>
+<p><strong>Requirements</strong></p>
+<p><strong>Hypotheses</strong></p>
+<p><span class="math display">\[
+  H_0: \text{All samples represent a sample of data from the same distribution.}
+\]</span> <span class="math display">\[
+  H_a: \text{At least one distribution is stochastically different than the others.}
+\]</span></p>
+<p><strong>Test Statistic</strong></p>
+<p>C = number of groups</p>
+<p>C-1 degrees of freedom</p>
+<p><strong>R Instructions</strong></p>
+<p><strong>Graphics: </strong></p>
+<p>Boxplot, any ANOVA style plots</p>
+</div>
+</div>
+<div id="quantitative-variable-1" class="section level2 tabset tabset-fade tabset-pills">
+<h2>2 Quantitative Variable</h2>
+<div id="numeric-both" class="section level3">
+<h3>Numeric Both</h3>
+</div>
+<div id="simple-linear-regression" class="section level3">
+<h3>Simple Linear Regression</h3>
+<p><a href="LinearRegression.html">Linear Regression</a></p>
+<p><a href="./Analyses/MySimpleLinearRegression.html">Simple Linear Regression</a></p>
+<p><em>Parametric</em></p>
+<p><strong>Questions</strong></p>
+<p>Q: Height to explain weight lm (weight ~ height) y is response, x is explanatory variable</p>
+<p><em>Distribution t</em></p>
+<ul>
+<li>df = n - 2</li>
+</ul>
+<p><strong>Pro</strong></p>
+<p><strong>Con</strong></p>
+<p><strong>Requirements</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>The regression relation between Y and X is linear. (Residuals vs fitted Plot)</p></li>
+<li><p>The error terms are normally distributed with E{ϵi}=0. (QQ Plot of Residuals)</p></li>
+<li><p>The variance of the error terms is constant over all X values. (Residuals vs fitted plot)</p></li>
+<li><p>The X values can be considered fixed and measured without error.</p></li>
+<li><p>The error terms are independent. (Residuals vs order plot)</p></li>
+</ol>
+<p><strong>Hypotheses</strong></p>
+<p><span class="math display">\[
+\left.\begin{array}{ll}
+H_0: \beta_1 = 0 \\  
+H_a: \beta_1 \neq 0
+\end{array}
+\right\} \ \text{Slope Hypotheses}^{\quad \text{(most common)}}\quad\quad
+\]</span></p>
+<p><span class="math display">\[
+\left.\begin{array}{ll}
+H_0: \beta_0 = 0 \\  
+H_a: \beta_0 \neq 0
+\end{array}
+\right\} \ \text{Intercept Hypotheses}^{\quad\text{(sometimes useful)}}
+\]</span></p>
+<p><strong>R Instructions</strong></p>
+<p><strong>Graphics: </strong> * Line of best fit plot</p>
+<p><strong>Remember</strong> * E{Y} expected value of Y. (Truth but usually unknown)</p>
+<ul>
+<li><p>Y hat is estimated linear regression (measured and fit to the data) (AKA = best fitted line, regression line, predicted line)</p></li>
+<li><p>Yi is the points (statistical relation)</p></li>
+<li><p>Truth = Beta Estimate = b</p></li>
+<li><p>residual estimates the error</p></li>
+<li><p>y = b1x + b0 (intercept ++)</p></li>
+<li><p>Assume constant variance with ei</p></li>
+<li><p>Yi randomness in the error term</p></li>
+<li><p>Residual is how far each dot is from the line</p></li>
+<li><p>Residuals vs fitted values we want to see junk because it means we captured the actual cool stuff with our fitted line (regression).</p></li>
+<li><p>When Beta is zero = Knowing x allows us to explain y</p></li>
+<li><p>Slope = b1</p></li>
+<li><p>Null Hypothesis slope is zero, x is independent of y.</p></li>
+</ul>
+</div>
+<div id="multiple-linear-regression" class="section level3">
+<h3>Multiple Linear Regression</h3>
+<p><a href="LinearRegression.html">Linear Regression</a></p>
+<p><a href="./Analyses/CarPrices.html">Multiple Regression Analyses</a></p>
+<p><em>Parametric</em></p>
+<p><em>Distribution t or F</em></p>
+<p>*df =</p>
+<p><strong>Questions</strong></p>
+<p>Q: If I removed one part from the whole is the group as a whole affected?</p>
+<p>Does a certain group give a contribution?</p>
+<p><strong>Pro</strong></p>
+<p><strong>Con</strong></p>
+<ul>
+<li><p>Outliers are important!!!</p></li>
+<li><p>Time series data is not good for regressions eg. Internet usage vs Time</p></li>
+</ul>
+<p><strong>Requirements</strong></p>
+<ul>
+<li><p>Linear Relation: the regression relation between Y and X is linear.</p></li>
+<li><p>Normal Errors: the error terms are normally distributed with a mean of zero.</p></li>
+<li><p>Constant Variance: the variance of the error terms is constant over all X values.</p></li>
+<li><p>Fixed X: the X values can be considered fixed and measured without error.</p></li>
+<li><p>Independent Errors: the error terms are independent.</p></li>
+<li><p>If QQ plot looks good, then it’s good to go.</p></li>
+</ul>
+<p><strong>Hypotheses</strong></p>
+<ul>
+<li>T-Test</li>
+</ul>
+<p>The most typical tests for multiple regression are t Tests for a single coefficient. The hypotheses for these t Tests are written as <span class="math display">\[
+  H_0: \beta_j = 0
+\]</span> <span class="math display">\[
+  H_a: \beta_j \neq 0
+\]</span></p>
+<ul>
+<li>The F Test allows a single test for any group of hypotheses simultaneously.</li>
+</ul>
+<p>The most commonly used F Test is the one given by the hypotheses <span class="math display">\[
+  H_0: \beta_0 = \beta_1 = \cdots = \beta_p = 0
+\]</span> <span class="math display">\[
+  H_a: \beta_j \neq 0 \ \text{for at least one}\ j \in \{0,1,\ldots,p\}
+\]</span></p>
+<p><strong>R Instructions</strong></p>
+<p>confint(cars.lm) to give confidence interval</p>
+<p><strong>Graphics: </strong></p>
+<p><strong>Example</strong></p>
+<p>Yi hat = 33.4744 + 10.7296 Xi</p>
+<p>Slope tells us the increase in every 1 min increase in the length of the current eruption. For every 1 min increase in length of current eruption, we would expect to wait 10.7296 minutes longer on average until the next eruption. If the most recent eruption lasted for 3.5 minutes, visitors should expect to wait 71.028 minutes until the next eruption.</p>
+<p><strong>Remember</strong></p>
+<ul>
+<li>Alphabetically first variable is the 0 group, which is the basic regression line which is aparent in the intercept of the output data set.</li>
+</ul>
+<p>Code</p>
+<ul>
+<li>B0 average y value in the absense of all explanatory variables (avg price of brand new cell vehicle)</li>
+<li><p>Xi1 (Mileage)</p></li>
+<li><p>Xi2 (Group switch)</p></li>
+<li><p>Xi1*Xi2 (Interaction)</p></li>
+<li><p>For group A to become closer to Group B, B3 must be adjusted</p></li>
+<li><p>If both are at zero, then B0 and B2 = 0</p></li>
+<li><p>What each variable does</p></li>
+<li>B0 is the intial y-intercept</li>
+<li>B1 is the initial slope</li>
+<li>B2 changes the difference in the y-intercept</li>
+<li><p>B3 changes the difference in the slope</p></li>
+<li><p>R-Squared: percentage grade they got in the class percent of course material that can be explained If close to zero, explain not very much of what’s going on.</p></li>
+<li><p>Is the difference between the variance of the top of the line and the bottom.</p></li>
+<li><p>All slopes test is the very last test with the given p-value: To indicate something is different from the others</p></li>
+<li><p>Each row is a different test with a different p-value</p></li>
+</ul>
+</div>
+</div>
+<div id="binomial-response-1-explanatory-variable" class="section level2 tabset tabset-fade tabset-pills">
+<h2>Binomial Response | 1 Explanatory Variable</h2>
+<div id="true-or-0-false" class="section level3">
+<h3>1 (true) or 0 (false)</h3>
+</div>
+<div id="logistic-regression" class="section level3">
+<h3>Logistic Regression</h3>
+<p><a href="LogisticRegression.html">Logistic Regression</a></p>
+<p><a href="./Analyses/MyLogisticRegression.html">Logistic Regression</a></p>
+<p><em>Distribution z or normal</em></p>
+<p>*df = Chi-squared (row -1)(col -1)</p>
+<p><strong>Questions</strong></p>
+<ul>
+<li><p>For which x values is true most likely?</p></li>
+<li><p>Probability launch now will result in 0 ring failure given the opposite temp.</p></li>
+</ul>
+<p><strong>Pro</strong></p>
+<ul>
+<li><p>Able to lump the twos with the 1s into saying in R Fail &gt; 0 (able to subset just like with gestation time)</p></li>
+<li><p>Works for a little bit of overlap</p></li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul>
+<li><p>Too much overlap or no overlap</p></li>
+<li><p>Only two places where line is useful, at the place where they intercept</p></li>
+<li><p>Need Bending of the line for ideal fit</p></li>
+</ul>
+<p><em>Odds</em> * Ratio of successes to failures</p>
+<ul>
+<li><p>successes/ failures = odds</p></li>
+<li><p>The Log of the Odds is Linear (LOL) = B0 + B1 Xi</p></li>
+<li><p>Example</p></li>
+</ul>
+<p>3:1 3 successes and 1 failure (3/4) = 3</p>
+<p>P(x) 1/10 odds = 1:9 = 1/9</p>
+<p>Probability small, odds smaller as we get to 0 odds = -infinity Probability big, odds bigger as we go to 1 in odds = infinitiy</p>
+<ul>
+<li>Solve for Pi i then you get the probability of the success = logistic regression that fits between 0 and 1.</li>
+</ul>
+<p><strong>Requirements</strong></p>
+<ul>
+<li>Goodness of Fit Test</li>
+<li><p>Null: Test is appropriate</p></li>
+<li><p>Null deviance is needed for the goodness of fit (residual deviance)</p></li>
+<li><p>Multiple Replicated Values = Deviance Goodness of fit test</p></li>
+<li><p>Few replicated values = Hosmer-Lemeshow Goodness of fit test</p></li>
+</ul>
+<p><strong>Hypotheses</strong> <span class="math display">\[
+  H_0: \beta_1 = 0 \\
+  H_a: \beta_1 \neq 0
+\]</span></p>
+<p>Null means there is no relationship between Xi.</p>
+<p><strong>R Instructions</strong></p>
+<ul>
+<li>Graphics</li>
+</ul>
+<p>plot(gestation &gt; 280 ~ age, data = Gestation, pch = 21, cex=1.5, col=“black”, bg=“gray”, lwd=2, main = “Probability of Age &amp; Gestation”) b &lt;- coef(ges); curve(exp(0.52814 (intercept value) -0.02198 (slope value) * x)/(1+exp(0.52814 -0.02198 *x)), add=TRUE)</p>
+<ul>
+<li>Results of the Test</li>
+</ul>
+<p>ges &lt;- glm(gestation &gt; 280 ~ age, data=Gestation, family = binomial) pander(summary(ges))</p>
+<ul>
+<li><p>Goodness Test With Ties pchisq(1686.3, 1219, lower.tail=FALSE)</p></li>
+<li><p>Predictions</p></li>
+</ul>
+<p>predict(ges, data.frame(age= 21), type =‘response’)</p>
+<p><strong>Remember</strong></p>
+</div>
+</div>
+<div id="categories-3-variable" class="section level2 tabset tabset-fade tabset-pills">
+<h2>2 Categories | 3+ Variable</h2>
+<div id="all-categories" class="section level3">
+<h3>All Categories</h3>
+</div>
+<div id="chi-squared-1" class="section level3">
+<h3>Chi-Squared</h3>
+<p><a href="ChiSquaredTests.html">Chi-Squared</a></p>
+<p><a href="./Analyses/Discrimination.html">Chi-Squared</a></p>
+<ul>
+<li>Chi-Squared Test - How far the observed counts are from the expected counts overall</li>
+</ul>
+<p><strong>Parametric</strong></p>
+<p><strong>Degrees of Freedom</strong></p>
+<p>p = (row-1) (col-1)</p>
+<p><strong>Questions</strong></p>
+<p>Q: Is discrimination associated with gender?</p>
+<p><strong>Pro</strong></p>
+<p><strong>Con</strong></p>
+<p><strong>Requirements</strong></p>
+<ul>
+<li><p>All expected counts are greater than five. OR</p></li>
+<li><p>All expected counts are greater than one, and the average of the expected counts is at least five.</p></li>
+</ul>
+<p><strong>Hypotheses</strong> * Row variable and column variable are independent</p>
+<ul>
+<li><p>Row and column variable are associated (not independent)</p></li>
+<li><p>Independent pattern is the <strong>same</strong> (independent regardless of the group)</p></li>
+<li><p>Associated pattern is <strong>different</strong> from each other (associated with the group)</p></li>
+</ul>
+<p><strong>R Instructions</strong></p>
+<p><strong>Graphics: </strong></p>
+<p><strong>Remember</strong></p>
+<ul>
+<li><p>Small distribution is Independent (Look at histogram)</p></li>
+<li><p>Large distribution is Associated (Look at histogram)</p></li>
+<li><p>Row Total * Column Total / Total Total</p></li>
+<li><p>Oi observed values</p></li>
+<li><p>Ei expected values</p></li>
+<li><p>m is total number of values in the cell</p></li>
+</ul>
+</div>
+<div id="permutations" class="section level3 tabset tabset-fade tabset-pills">
+<h3>Permutations</h3>
+<p><a href="PermutationTests.html">Permutations</a></p>
+<p><a href="./Analyses/Explosives.html">Permutations</a></p>
+<p>Perform the initial test:</p>
+<p>myTest &lt;- with(sleep, t.test(extra[group==1], extra[group==2], paired = TRUE, mu = 0))</p>
+<p>Get the test statistic from the test:</p>
+<p>observedTestStat &lt;- myTest$statistic</p>
+<p>Obtain the permutation sampling distribution</p>
+<p>N &lt;- 2000 permutedTestStats &lt;- rep(NA, N) for (i in 1:N){ permuteData &lt;- sample(x=c(-1,1), size=10, replace=TRUE) permutedTest &lt;- with(sleep, t.test(permuteData*(extra[group==1] - extra[group==2]), mu = 0)) #Note, t.test(group1 - group2) is the same as t.test(group1, group2, paired=TRUE). permutedTestStats[i] &lt;- permutedTest$statistic } hist(permutedTestStats) abline(v=observedTestStat, col=‘skyblue’, lwd=3)</p>
+</div>
+</div>
+<div id="manipulate-data" class="section level2 tabset tabset-fade tabset-pills">
+<h2>Manipulate Data</h2>
+<div id="great" class="section level3">
+<h3>Great!</h3>
+<p>Page</p>
+</div>
+<div id="subsetting" class="section level3">
+<h3>Subsetting</h3>
+<ul>
+<li>Subsetting to a specific group inside specific column</li>
+</ul>
+<p>wpRent&lt;-subset(Rent, Type==“Approved Women’s Housing”)</p>
+<ul>
+<li>Subsetting specific range in specific column</li>
+</ul>
+<p>wpsRent&lt;-subset(wRent, Price&lt;=900)</p>
+<p>vm &lt;- subset(movies, year &gt;= 1963 &amp; year &lt;= 1967)</p>
+<ul>
+<li>Subsetting range of less than or equal to 3</li>
+</ul>
+<p>duration &lt;- subset(Wong, duration &gt;=3)</p>
+<ul>
+<li>Can subset to take out an outlier as well.</li>
+</ul>
+<p>Side by Side Graphs</p>
+<p>par(mfrow= c(1,2))</p>
+<p>Transposing bar plot</p>
+<p>barplot(t(rbind(Vietnam=apply(vm[,20:21], 2, sum), Post=apply(pvm[,20:21], 2, sum))), beside=TRUE, col=c(“cadetblue1”, “cadetblue4”), legend.text=TRUE, ylab= &quot; Number of Movies“, args.legend = list(x =”topleft“, cex = 0.70, bty=”n“), las=1, ylim = c(0, 1100))</p>
+</div>
+</div>
+<div id="graphics" class="section level2">
+<h2>Graphics</h2>
+<ul>
+<li>Strip chart code</li>
+</ul>
+<p>stripchart(Burt<span class="math inline">\(IQbio - Burt\)</span>IQfoster, method=“stack”)</p>
+<ul>
+<li>Strip chart overlay with Boxplot</li>
+</ul>
+<p>SFRBe &lt;- droplevels(subset(Friendly, condition !=“Meshed”)) boxplot(correct ~ condition, data= SFRBe, col=c(“steelblue1”, “darkolivegreen3”), horizontal = TRUE, ylim=c(15,45), main= “Distribution of Scores”, xlab= “Correctness”, ylab=“Condition”)</p>
+<p>stripchart(correct ~ condition, data=SFRBe, method=“stack”, pch=16, col=“steelblue4”, cex=1.25, add= TRUE)</p>
+<p>The Quiz Practice Final my.lm &lt;- lm(qsec ~ mpg + as.factor(am), data = mtcars)</p>
+<div id="dictionary" class="section level3">
+<h3>Dictionary</h3>
+<ul>
+<li><p>ANOVA Test Statistic</p></li>
+<li><p>Ratio of the between groups variance and the within group variance.</p></li>
+<li><p>Chi</p></li>
+<li><p>The chi squared distribution only allows for values that are greater than or equal to zero. This is unlike the normal distribution which is defined for all numbers x from negative infinity to positive infinity as well as for all values of μ from negative infinity to positive infinity.</p></li>
+<li><p>Confidence</p></li>
+<li><p>Confidence is defined as 1−α or the opposite of a Type I error.</p></li>
+<li><p>Distribution</p></li>
+<li><p>A distribution describes how data is spread out.</p></li>
+<li><p>Parameters</p></li>
+<li><p>Parameters in Normal Distribution: Notice how the parameter μ controls the center of this distribution while the parameter σ controls how spread out the distribution is. When sigma is larger, the resulting normal curve is flatter and more spread out (i.e., the data is more variable). When σ is smaller, the resulting normal curve is taller and less spread out (i.e., the data is less variable). In any case, the most likely values of x to occur are those that are close to μ. This is seen by noting that for any normal curve, it is tallest around its mean.</p></li>
+<li><p>The parameter μ controls the center, or mean of the distribution. The parameter σ controls the spread, or standard deviation of the distribution.</p></li>
+<li><p>Parametric</p></li>
+<li><p>Parametric distributions are theoretical distributions that can be described by a mathematical function.</p></li>
+<li><p>Power</p></li>
+<li><p>power of of a hypothesis test, which is 1 minus the probability of a Type II Error, β. (statistical power)</p></li>
+<li><p>P-values</p></li>
+<li><p>All p-value computation methods can be classified into two broad categories, parametric methods and nonparametric methods.</p></li>
+<li><p>The p-value uses the sampling distribution of the test statistic to measure the probability of the observed test statistic being as extreme or more extreme than the one observed</p></li>
+<li><p>Standard Deviation</p></li>
+<li><p>measure of how spread out the data is from the mean.</p></li>
+<li><p>Type 2 error</p></li>
+<li><p>Failing to reject the null hypothesis when it is actually false. (Failing to move to truth.) The probability of a Type II Error, β, is often unknown.</p></li>
+<li><p>Variance</p></li>
+<li><p>Variance is a statistical measure of the variability in data.</p></li>
+</ul>
+</div>
+<div id="how-to-find" class="section level3">
+<h3>How to Find</h3>
+<p>Use Favstats to find the Highest Average between 2 things, eg. which type of plants have the highest average updake?</p>
+</div>
+</div>
+<div id="may" class="section level2 tabset tabset-fade tabset-pills">
+<h2>May</h2>
+<div id="may-summary" class="section level3">
+<h3>May Summary</h3>
+</div>
+<div id="may-8th-2017" class="section level3">
+<h3>May 8th, 2017</h3>
+<p><strong>Notice that you can add a link anywhere in your Math 325 Notebook using the format <a href="file%20you%20want%20to%20link%20to">Text to Display</a></strong></p>
+<p><strong>Test Statistic</strong></p>
+<ul>
+<li><p>Sampling Distribution of test statistic, assuming the null hypothesis is true.</p></li>
+<li><p>Wilcoxon Rank Sum Test is for <strong>independent Sample</strong></p></li>
+<li><p>Wilcoxon Signed-Rank is for <strong>one sample t-test</strong> and <strong>paired sample</strong></p></li>
+<li><strong>Stochastically</strong></li>
+<li>Men’s heights are stochastically dominant over women’s heights</li>
+<li>Who’s taller, probably (typically) a man</li>
+<li>Same standard deviation, can only tell which is stochastically dominant is the one with the higher mean.<br />
+</li>
+<li><p><strong>Is one distribution able to give higher values than the other?</strong></p></li>
+</ul>
+<p><strong>Wilcoxon Rank Sum Test</strong></p>
+<ul>
+<li>Hand in hand analogy</li>
+<li><p>One group will give higher values than the other, what matters is how much overlap. Little overlap, big difference.</p></li>
+<li><p>If you have ties in the ranks can’t segregate, but as a whole you can compare men vs women agree, then you can just do a chi squared test.</p></li>
+<li><p>It prefers there to be no ties, no same values…so that’s why it’s better to measure quantitative values.</p></li>
+<li><p>It needs order, not measurement (ordinal data, licher scale)</p></li>
+<li><p>Who is the 1st, 2nd, 3rd place</p></li>
+<li><p>Is the 1st person that comes in dressed or not…does that determine if they were earlier or late, etc.</p></li>
+<li><p>((n+1) *n) / 2 how you find 1+2+3+4+5…etc.</p></li>
+<li><p>Getting a rank 1-8 out of 16 total ranks. choose(16,8) in r = 12870</p></li>
+<li><p>But 1 way to get sum of 36 and 1 way to get sum of 100 because you can’t change the numbers.</p></li>
+<li><p>Nonparametric distribution allows to complete probability of as extreme or more extreme and we can get p-value from it.</p></li>
+</ul>
+<div id="skills-quiz" class="section level4">
+<h4>Skills Quiz</h4>
+<ul>
+<li><p>stripchart(cars$dist, pch=16, method=“stack”)</p></li>
+<li><p>libary(car)</p></li>
+<li><p>qqPlot(cars$dist)</p></li>
+<li><p>stripchart(cars$dist, pch=16, method=“stack”) abline(v=100, lty=2)</p></li>
+<li><p><strong>What is the value of the single positive difference for this data? (Look at your dot plot to calculate the answer.)</strong></p></li>
+<li><p>Basically take the highest value, which is 120 and subtract it from the mean, 100. 120-100 = 20</p></li>
+<li><p>wilcox.test(cars$dist, mu = 100, alternative = “two.sided”)</p></li>
+</ul>
+<p><strong>Analysis for Friday</strong></p>
+<ul>
+<li>Question and Hypothesis</li>
+<li>written question</li>
+<li>Mathematical hypotheses (Ho and Ha)</li>
+<li>Analysis</li>
+<li>Wilcoxon Test (p-value and test statistic)</li>
+<li>What needs to be expressed if these warnings come up (Continuity correction was used or ties exist) *Steps to getting to the test. Here is my data and here is how I analyzed it.</li>
+<li>State the numerical summaries, such as medians</li>
+<li>Graphic *Boxplot or customized plot (show the distributions well)</li>
+<li>Interpretation</li>
+<li>Get the p-value statement the correct way</li>
+<li><p>Presentation</p></li>
+<li><strong>Define stochastically</strong></li>
+<li><strong>Make sure hypothesis are correct</strong></li>
+<li><p><strong>Label graphs</strong></p></li>
+</ul>
+</div>
+</div>
+<div id="may-15-2017" class="section level3">
+<h3>May 15, 2017</h3>
+<p>Make sure ANOVA is a <strong>factor</strong>, if it isn’t, it needs to be changed</p>
+<ul>
+<li>Yij = mew + a i + epsilon i j</li>
+<li>Yij (Y values depend on an i and j value )</li>
+<li>Alpha is factor</li>
+<li><p>i is levels of the factor (denotes group)</p></li>
+<li><p>Variance of normal distributions have to be the same</p></li>
+<li><p><strong>Only thing we are changing is the mean</strong></p></li>
+<li><p>ai is the affect the alpha has on the mean, so it’ll change it…allows us to see if the groups differ or not.</p></li>
+<li>Ho: a1 = a2 = a3 = 0</li>
+<li><p>Ha: a notequal 0 for at least one i</p></li>
+<li><p>Epsilon allows vary in the data, the error term</p></li>
+<li><p>Individual points, j, with epsilon can allow each data point to vary around the mean and the significance level changes the means, mean1, mean2, mean3 in relevance to the pop mean</p></li>
+<li><p><strong>Two Variances</strong></p></li>
+<li><strong>Between</strong> Sample mean</li>
+<li><p><strong>Within</strong> variance of data (points within the sample)</p></li>
+</ul>
+<p><strong>Three separate distributions</strong> * Between 7 * Ratio 7/3.5 = 2 * Within 3.5 * Ratio 7/14 = 0.5</p>
+<ul>
+<li>Null is the first</li>
+</ul>
+<p><strong>One Distribution</strong></p>
+<ul>
+<li>Between 7</li>
+<li>Within 14</li>
+<li>Alternative is 2nd</li>
+</ul>
+<p><strong>Null hypothesis</strong></p>
+<ul>
+<li>Everything comes from one distribution of weight and the feed type doesn’t matter.</li>
+</ul>
+<p><strong>Alternative</strong></p>
+<ul>
+<li><p>At least one of them diferes</p></li>
+<li><p>Three separate Distributions would show the three separate distributions</p></li>
+<li><p>Chick feed is 1 factor and 6 feeds</p></li>
+<li><p>Dosage vs feed type means Two Way ANOVA</p></li>
+<li><p><strong>P-value determined on</strong></p></li>
+<li>Test statistic, measures extremeness</li>
+<li><p>Distribution of the test statistic, assuming null is true</p></li>
+</ul>
+<p><strong>2 parameters</strong></p>
+<ul>
+<li>Degrees of freedom 1 (m) #groups</li>
+<li><p>Degrees of freedom 2 (n) #data in each group</p></li>
+<li><p>Degrees of freedom 1 should be m -1</p></li>
+<li><p>Degrees of freedom 2 should be the number of data points minus the groups we have</p></li>
+</ul>
+<p><strong>Number of groups -1</strong></p>
+<ul>
+<li><p>Total sample size is the feed + residuals +1</p></li>
+<li><p>Constant variance is the fingers method in comparing the project of the residuals</p></li>
+</ul>
+<div id="skills-5" class="section level4">
+<h4>Skills 5</h4>
+<ul>
+<li>Yik = ui + eik</li>
+<li><p>where eik ~ N(0, sigma^2)</p></li>
+<li>ui is the true population mean for group i</li>
+<li>eik is the error term for the k^t h data point of the i^t h group. In other words, how * far that data point is from the true mean, ui.</li>
+<li><p>Yik is the data points.</p></li>
+</ul>
+<p><strong>Most important idea of ANOVA</strong></p>
+<ul>
+<li>Between groups variance (measures the variability of the sample means)</li>
+<li>Within gorups variance (measures the variability of the data within each group)</li>
+</ul>
+<p>Null hypothesis of ANOVA is assumed to hold true when these two variances are roughly equal. It is rejectedd when the between groups variance is significantly larger than the within groups variance as measured by the p-value obtained from the ANOVA F statistic and the F distribution with p1 and p2 degrees of freedom.</p>
+<p><strong>Budged alpha to prevent type 1 error, family wise error rate iiii</strong></p>
+<ul>
+<li>library(car)</li>
+<li>friendly.aov &lt;- aov(correct ~ condition, data=Friendly)</li>
+<li>summary(friendly.aov)</li>
+<li>par(mfrow=c(1,2))</li>
+<li>plot(friendly.aov, which=1:2)</li>
+</ul>
+<p>See picture</p>
+<ul>
+<li>xyplot( len ~ supp, data=ToothGrowth, type=c(“p”,“a”))</li>
+<li>xyplot( len ~ dose, data=ToothGrowth, type=c(“p”,“a”))</li>
+<li>xyplot( len ~ supp, data=ToothGrowth, groups=dose, type=c(“p”,“a”), auto.key=TRUE)</li>
+<li>toothg.aov &lt;- aov(len ~ supp + dose + supp:dose, data = ToothGrowth)</li>
+<li>summary(toothg.aov)</li>
+</ul>
+</div>
+</div>
+<div id="may-17-2017" class="section level3">
+<h3>May 17, 2017</h3>
+<ul>
+<li>1 factor is 1 way ANOVA</li>
+<li><p>2 factor is 2 way ANOVA</p></li>
+<li><p>Question for 1 factor, we ignore the other factor when comparing just the 1 factor.</p></li>
+<li><p>Interaction hypothesis- Does factor 1 affect factor 2?</p></li>
+<li><p>Don’t have to budget alpha because we did an ANOVA test</p></li>
+<li>Plots that aren’t graphics (diagnostic plots)</li>
+<li>QQ Plots</li>
+<li><p>Residual plots</p></li>
+<li>Normally distributed in each group</li>
+<li>(Normal QQ Plot)</li>
+<li>Population variance of each group assumed to be same.</li>
+<li><p>(tweezer test w/fingers)</p></li>
+</ul>
+</div>
+<div id="may-22-2017" class="section level3">
+<h3>May 22, 2017</h3>
+<ul>
+<li><p>mPlot (dataset) this gives a plot type, to change to give varied details</p></li>
+<li><p>What questions can be asked from the data and the question</p></li>
+<li><p>1 sample T test Is the mean of the data this?</p></li>
+<li><p>Wilcoxon Test Nonparametric version of t-test (Scary when lots of ties in data) Medians different Distributions Stochastically different</p></li>
+<li><p>Ordinal same value but different rank eg. Rank on marathon, 1st, 2nd, 3rd, etc.</p></li>
+<li><p>ANOVA Parametric -Which of these is not like the others -Requirements -Constant variances -Residauls which perceive the Errors are normal</p></li>
+<li>Kruskal-Wallis Nonparametric -Long is x~g -Wide is x,y,z *Tendency of one distribution to be higher or lower but not talk about medians or means…because the boxplot example of A are all different in distributions.<br />
+</li>
+<li>Best appropriate when each data group is the same shape of skew or distribution.</li>
+<li>means<br />
+</li>
+<li><p>Drawback to only do One-Way ANOVA</p></li>
+<li>Parametric distribuions have a lot of assumptions but mathematics powerful</li>
+<li>Nonparametric distributions</li>
+<li><p>Wide data = repeated measures data (eg/ the day cares and the number of weeks 1-20)</p></li>
+</ul>
+</div>
+<div id="may-24-2017" class="section level3">
+<h3>May 24, 2017</h3>
+<p>Wide data: All data in one column per group Center will appear 20 times because of week 1-20 1</p>
+<p><strong>Analysis</strong> <em>Pretest 1: Underline sentences that don’t fit </em>Expect to see high scores of 16 that they indentified all of the wrong sentences <em>Pretest 2: Strategies on reading comphrehension Out of 15 multiple choices </em>Post test 1: Same as pretest 1 <em>Post test 2: Same as pretest 2 </em>Post test 3: Wholistic measure, basically like an exam</p>
+<p>*Effectivness of teaching students versus having them think to themselves.</p>
+<p><strong>Kruskal Wallis</strong> * Non parametric * Distributions look the same, check using boxplot, if they aren’t the same shape, test stochastical dominance.</p>
+<ul>
+<li>H = 5.656</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li></li>
+<li>Rank</li>
+<li>Sum up each sample group</li>
+<li>Compute the mean rank by dividing each group by the number of data points.</li>
+</ol>
+<ul>
+<li><p>Less restrictive, no matter what data looks like end up in same scenerio.</p></li>
+<li>C = number of groups</li>
+<li><p>C-1 degrees of freedom</p></li>
+</ul>
+<p><strong>ANOVA</strong></p>
+<ul>
+<li><p>F = Between (sample means) / Within (points within sample mean (data)) (Think of the onion)</p></li>
+<li><p>x bar varies less than the population Because sigma / square root n</p></li>
+<li><p>But if it’s larger, then the distributions aren’t normal</p></li>
+</ul>
+</div>
+<div id="may-26-2017" class="section level3">
+<h3>May 26, 2017</h3>
+<p>** Kruskal-Wallis**</p>
+<p>If distributions are the same shape</p>
+<p>Ho: ub = us = ud Ha: at least one differs</p>
+<p>or</p>
+<p>Ho: stochastic dominance</p>
+<p>Just do 1 QUESTION post 1 and pre 1</p>
+<p><strong>Analysis</strong></p>
+<ul>
+<li>Name test</li>
+<li>P-value and Test Statistic</li>
+<li>Ties present or any other errors</li>
+</ul>
+<p><strong>Graphics</strong></p>
+<p><em>Anova style plots for the 1st hypothesis </em> Boxplot (more than 5 data points)</p>
+<p><strong>Interpretation</strong></p>
+<ul>
+<li>p&lt;a reject null</li>
+<li>p&gt;a fail to reject null</li>
+<li>Clearly explain the answer to the question!</li>
+</ul>
+<p><strong>P-Value Trust</strong></p>
+<ul>
+<li>P-value should dominate our belief, when p value is not significant, then gray out plot because not enough evidence.</li>
+</ul>
+<p>May 31st, 2017</p>
+<p><strong>Linear Regression</strong></p>
+<ul>
+<li>Sum of the Squared Residuals</li>
+<li>Residual= Yi (each value) - Yi hat (estimated line) thus close to all the points as possible.</li>
+<li>Measure each of the values and where they are from the point.</li>
+<li>Need to square the numbers instead of absolute value…the function of square is diferentiable (get minimum) but not at absolute values because it’s a cusp.</li>
+<li>E{Y} expected value of Y. (Truth but usually unknown)</li>
+<li>Y hat is estimated linear regression (measured and fit to the data) (AKA = best fitted line, regression line, predicted line)</li>
+<li>Yi is the points (statistical relation)</li>
+<li>Truth = Beta Estimate = b</li>
+<li>residual estimates the error</li>
+<li>y = b1x + b0 (intercept ++)</li>
+<li>Assume constant variance with ei</li>
+<li>Yi randomness in the error term</li>
+<li>Residual is how far each dot is from the line</li>
+<li>Residuals vs fitted values we want to see junk because it means we captured the actual cool stuff with our fitted line (regression).</li>
+</ul>
+<p>Pattern = missed cool stuff</p>
+<ul>
+<li><p>Residauls vs Fitted -Checks of linear relation and constant variance</p></li>
+<li>QQ Plot</li>
+<li>Checks normality of the residuals (normal errors)</li>
+<li><p>Look for many crossings close to the line.</p></li>
+<li>Residual vs Order (time) plots -Check for independency when the data is taken over time. (Independent Errors) Time then becomes important.<br />
+</li>
+<li><p>Fixed X values are assumed to be normal</p></li>
+<li>When Beta is zero = Knowing x allows us to explain y</li>
+<li><p>Slope = b1</p></li>
+<li>Null Hypothesis slope is zero, x is independent of y.</li>
+<li>“lm” linear model</li>
+<li>Add line to plot using lm object</li>
+<li>Check assumptions using lm object</li>
+<li><p>cars.lm &lt;- lm(dist ~ speed, data=cars) Performs regression</p></li>
+<li><p>confint(cars.lm) to give confidence interval</p></li>
+</ul>
+<p><strong>Requirements</strong></p>
+<ul>
+<li><p>Linear Relation: the regression relation between Y and X is linear.</p></li>
+<li><p>Normal Errors: the error terms are normally distributed with a mean of zero.</p></li>
+<li><p>Constant Variance: the variance of the error terms is constant over all X values.</p></li>
+<li><p>Fixed X: the X values can be considered fixed and measured without error.</p></li>
+<li><p>Independent Errors: the error terms are independent.</p></li>
+</ul>
+<p><strong>Con</strong> * Outliers are important!!! * Time series data is not good for regressions eg. Internet usage vs Time</p>
+<p>Skills quiz</p>
+<p>plot(Height ~ Volume, data=trees) &gt; trees.lm &lt;- lm(Height ~ Volume, data=trees) &gt; abline(trees.lm) &gt; par(mfrow=c(1,2)) &gt; plot(trees.lm, which=1:2) &gt; par(mfrow = c(1,1)) #This resets your plotting window for future plots.</p>
+<p>Example Old faithful</p>
+<p>Yi hat = 33.4744 + 10.7296 Xi</p>
+<p>Slope tells us the increase in every 1 min increase in the length of the current eruption. For every 1 min increase in length of current eruption, we would expect to wait 10.7296 minutes longer on average until the next eruption. If the most recent eruption lasted for 3.5 minutes, visitors should expect to wait 71.028 minutes until the next eruption.</p>
+<p>If QQ plots look normal then you are basically good to go.</p>
+</div>
+</div>
+<div id="june" class="section level2 tabset tabset-fade tabset-pills">
+<h2>June</h2>
+<div id="june-summary" class="section level3">
+<h3>June Summary</h3>
+</div>
+<div id="june-5-2017" class="section level3">
+<h3>June 5, 2017</h3>
+<p><strong>Multiple Linear Regression</strong></p>
+<ul>
+<li>One regression line with 2 scenerios</li>
+<li>xi2 if 1 = Group A (group want to be in) 0 = Group B</li>
+</ul>
+<p>Cadilac example</p>
+<ul>
+<li>Red line should be flat to be comfortable with linearity</li>
+<li><p>Forcing lines to have the same slope, that’s why there is only one slope for 6 models</p></li>
+<li><p>Alphabetically first variable is the 0 group, which is the basic regression line which is aparent in the intercept of the output data set.</p></li>
+</ul>
+<pre class="r"><code># WHAT IS UNKNOWN TO THE VIEWER
+# creating true model
+# 1st need x1 variable
+# random uniform variable
+X1 &lt;- runif(20, 0, 10)
+# Quantitative Variable
+# sample from each vector 20 times replace each time
+X2&lt;- sample(c(0,1), 20, replace = TRUE)
+# Qualitative Variable
+B0 &lt;- 4
+B1 &lt;- 7
+B2 &lt;- pi
+# differences in the y-int.
+B3 &lt;- -2
+# differences in the slope
+# normal random variable, get 20 of them, mean of zero
+E &lt;- rnorm(20, 0, 1.8)
+# mean of 0 and constant variances
+
+Y &lt;- B0 + B1*X1 +B2*X2 + B3*X1*X2 + E
+
+plot (Y~X1, col=as.factor(X2))
+# created something that&#39;s not real world so it&#39;s dotted lines 
+# Can&#39;t plot x1 and x2, x2 is a color switch (color a or b) 
+abline(B0, B1, col=&quot;black&quot;, lty=2)
+abline (B0 +B2, B1 +B3, col=&quot;red&quot;, lty=2)
+
+
+#REAl LIFE
+mydata &lt;- data.frame(Y=Y, X1=X1, X2=X2)
+#View(data)
+
+
+
+my.lm &lt;- lm(Y~ X1 + X2 + X1*X2 , data=mydata)
+# This is the equation of Yi without the Betas or Epsilons 
+# The X&#39;s are the explanatory variables 
+# Even when we have the time symbol R will change it into X1:X2
+
+confint(my.lm) 
+# Shows us the confidence interval that 95% of the time our answer will be correct.  But there is a possibility to be wrong but if replication can give us the correct answer again, then it is good. 
+plot(y ~ X1, col=as.factor(X2))
+abline(B0, B1, col=&quot;black&quot;, lty =2)
+abline(B0 + B2, B1 + B3, col =&quot;red&quot;, lty =2)
+b &lt;- coef(mylm)
+abline(b[1], b[2], col= &quot;black&quot;)
+abline(b[1] + b[3], b[2] + b[4], col=&quot;red&quot;)
+# refer to estimates call &quot;b&quot;, refer to truth call &quot;beta&quot;</code></pre>
+<ul>
+<li>B0 average y value in the absense of all explanatory variables (avg price of brand new cell vehicle)</li>
+<li>Xi1 (Mileage)</li>
+<li>Xi2 (Group switch)</li>
+<li><p>Xi1*Xi2 (Interaction)</p></li>
+<li><p>For group A to become closer to Group B, B3 must be adjusted</p></li>
+<li><p>If both are at zero, then B0 and B2 = 0</p></li>
+</ul>
+<p><strong>What each variable does</strong></p>
+<p>B0 is the intial y-intercept B1 is the initial slope B2 changes the difference in the y-intercept B3 changes the difference in the slope**</p>
+<p><strong>Test Statistic</strong> * Test uses an F distribution, just like ANOVA</p>
+<p>R-Squared: percentage grade they got in the class percent of course material that can be explained If close to zero, explain not very much of what’s going on.<br />
+Is the difference between the variance of the top of the line and the bottom.</p>
+<p>All slopes test is the very last test with the given p-value: To indicate something is different from the others</p>
+<p>Q: If I removed one part from the whole is the group as a whole affected? Does a certain group give a contribution?</p>
+<p><strong>Remember</strong></p>
+<ul>
+<li>Each row is a different test with a different p-value</li>
+</ul>
+</div>
+<div id="june-19-2017" class="section level3">
+<h3>June 19, 2017</h3>
+<p>0 is false in R 1 is true in R</p>
+<pre class="r"><code> c(1:10) &lt;=5</code></pre>
+<p>Converting values to 0, 1.</p>
+<pre class="r"><code>View(Davis)
+
+Davis$sex == &quot;M&quot; # gives 1&#39;s for males 
+Davis$Sex == &quot;F&quot; # gives 1&#39;s for females
+favstats(Davis$height)
+Davis$height &gt; 164 # Heights above 164 are 1&#39;s (true)</code></pre>
+<p><em>Cons</em></p>
+<ul>
+<li>Only two places where line is useful, at the place where they intercept</li>
+</ul>
+<p><em>Question</em></p>
+<p>For which x values is a true most likely?</p>
+<ul>
+<li><p>Bending of the line idea</p></li>
+<li>P (Yi = 1|Xi) = PI i</li>
+<li><p>Probability launch now will result in 0 ring failure given the opposite temp.</p></li>
+</ul>
+<p><em>Odds</em> * Ratio of successes to failures 3:1 3 successes and 1 failure (3/4) = 3</p>
+<p>P(x) 1/10 odds = 1:9 = 1/9</p>
+<p>Probability small, odds smaller as we get to 0 odds = -infinity Probability big, odds bigger as we go to 1 in odds = infinitiy</p>
+<p>successes/ failures = odds</p>
+<p>PI i / (1-PI i)</p>
+<p>The logistic function is what function is created</p>
+<p>Log represents base e or ln</p>
+<ul>
+<li>The Log of the Odds is Linear (LOL) = B0 + B1 Xi</li>
+</ul>
+<p>probability as 1 is 50%</p>
+<p>Solve for Pi i then you get the probability of the success = logistic regression that fits between 0 and 1.</p>
+<p>Using two groups to explain quantitative data</p>
+<p>Logistic Regression Using data to help us decide what group we are in. <strong>Pro</strong></p>
+<ul>
+<li>Works for a little bit of overlap</li>
+</ul>
+<p><strong>Con</strong></p>
+<ul>
+<li>Too much overlap or no overlap</li>
+</ul>
+<p>Able to lump the twos with the 1s into saying in R Fail &gt; 0</p>
+<p>Generalized Linear Model (glm) which allows for families (family = binomial)</p>
+<p>Pi i = e^linear model / 1+ e^linear model</p>
+<p>Normal errors = family is gausiean</p>
+<p>family = bionomial for logistic regression</p>
+<p><strong>Goodness of fit</strong> x values that reoccur</p>
+<ul>
+<li>When poor fit, so interpretation is not valuable but will interpret it anyway.</li>
+</ul>
+<p>Slope change in 1 unit x average y increase or decrease by beta 1.</p>
+<p>1 unit increase in x the log increases 1??</p>
+<p>Temp (explanatory variable) makes the log of the odds decrease (-0.232)</p>
+<p>Odds close to 1 probability close to 1 Odds close to 1/2 probability close to 1/2 Odds close to 0 probability close to 0</p>
+<p>As x increases or decreases , base, e^B1, gets multiplied by e^B1</p>
+<p>e^B0 is the baseline</p>
+<p>Null deviance is needed for the goodness of fit. (residual deviance)</p>
+<p>Null hypothesis checks diagnostic test H0: Test is appropriate Ha: Test is not appropriate</p>
+<p>H0: Temp doesn’t matter Ha: Temp does matter</p>
+<p>Temp p-value</p>
+<p>Then have to ask Hoslem, p value = 0.1157, which means it was okay to run this type of logistic test.</p>
+</div>
+<div id="june-28-2017" class="section level3">
+<h3>June 28, 2017</h3>
+<p><strong>Chi-Squared</strong></p>
+<ul>
+<li><p>Can do percentages to get a better pattern</p></li>
+<li><p>Column become row and column become row is chi test</p></li>
+</ul>
+<pre class="r"><code>#Practice making matrics 
+
+x &lt;- cbind (c(7, 24, 100), c (25, 1, 70), c(5, 99, 62))
+# In consol put x in to get the table
+x
+# use the tick at the top lef of the keyboard under the escape function 
+x &lt;- cbind (D=c(7, 24, 100), E=c (25, 1, 70), `F`=c(5, 99, 62))
+
+x &lt;- cbind (D=c(A= 7, B=24, C=100), E=c (A=25, B=1, C=70), &#39;F&#39;=c(A=5, B=99, C=62))
+
+rownames(x) &lt;- c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;)
+colnames(x) &lt;- c(&quot;D&quot;, &quot;E&quot;, &quot;F&quot;)
+x
+# Same thing, useful on quiz or data already summarized somewhere 
+y &lt;- rbind (c(7, 24, 5), c(24, 1, 99), c(100. 70, 62))
+y
+# For rows of tables 
+x&lt;- table(mtcars$gear, mtcars$carb)
+x
+
+# For columns of data 
+x &lt;- table (mtcars$carb, mtcars$gear)
+x
+# transposes, does automatic switch between columns and rows of the table.  
+t(x)
+
+barplot(t(x)), beside = TRUE, legend.text = TRUE)</code></pre>
+<p>apply(Titanic, c(3,4), sum) library(RColorBrewer) &gt; ?brewer.pal &gt; brewwer.pal(4, “BuGn”) brewer.pal(4, “RdGy”) barplot(apply(Titanic, c(1,4), sum), beside = TRUE, legend.text = TRUE, col=brewer.pal(4, “RdGy”))</p>
+<pre class="r"><code>apply(Titanic, c(3,4), sum)
+library(RColorBrewer)
+?brewer.pal 
+brewwer.pal(4, &quot;BuGn&quot;)
+brewer.pal(4, &quot;RdGy&quot;)
+
+barplot(apply(Titanic, c(1,4), sum), beside = TRUE, legend.text = TRUE, col=brewer.pal(4, &quot;RdGy&quot;)[c(1,3)])
+# option for speciifc colors 
+# or col = c (&quot;skyblue&quot;, &quot;firebrick&quot;)
+# To love legend using x lim
+barplot(apply(Titanic, c(1,4), sum), beside = TRUE, legend.text = TRUE, xlim =c(0,15), col=brewer.pal(4, &quot;RdGy&quot;)[c(1,3)])
+
+## To move legend against y or x lim 
+barplot(apply(Titanic, c(1,4), sum), beside = TRUE, legend.text = TRUE, xlim =c(0,15), ylim =c(0,900),col=brewer.pal(4, &quot;RdGy&quot;)[c(1,3)])</code></pre>
+<p><strong>Chi-squared</strong></p>
+<p>E what we expect to see if the patttern is dominant</p>
+<ul>
+<li><p>Independent pattern is the <strong>same</strong> (independent regardless of the group)</p></li>
+<li><p>Associated pattern is <strong>different</strong> from each other (associated with the group)</p></li>
+</ul>
+<p>Row Total * Column Total / Total Total</p>
+<ul>
+<li><p>Oi observed values</p></li>
+<li><p>Ei expected values</p></li>
+<li><p>m is total number of values in the cell</p></li>
+<li><p>Chi-Squared Test - How far the observed counts are from the expected counts overall</p></li>
+<li><p>Small distribution is Independent</p></li>
+<li><p>Large distribution is Associated</p></li>
+</ul>
+<pre class="r"><code>x &lt;- apply(Titanic, c(1,4), sum)
+
+chisq.test(x)
+
+chisq.test(x)$residuals
+# Interpretation 
+# Look for the biggest magnitude thing, thus first class survival is way higher than expected. The positive or negative tells us way more or less than expected.  Use magnitude, the biggest numbers.  </code></pre>
+<pre class="r"><code>glasses &lt;- cbind( Males = c(Glasses = 5, Contacts = 12, None = 18), Females = c(Glasses = 4, Contacts = 14, None = 22))
+# Gives chi squared test put whatever you named it 
+glasses
+
+
+barplot(glasses, beside=TRUE, legend.text=TRUE, args.legend=list(x = &quot;topleft&quot;, bty=&quot;n&quot;))
+# To find the expected counts 
+chis.glasses$expected 
+
+# To find residuals, the max
+chis.glasses$residuals</code></pre>
+<p><strong>Permutation Tests</strong></p>
+<p><em>Nonparametric</em></p>
+<ul>
+<li><p>Combination of all tests</p></li>
+<li><p>Shaking up pattern and recalculate test statistics (&gt;- similar to original data)</p></li>
+<li><p>Structure = Reason, Unorganized = Unorganized</p></li>
+<li><p>Eg/ Grandfather clock</p></li>
+<li><p>Things have structure to begin with, see difference in the original versus shaken up. Already in parts, shaken still be in parts.</p></li>
+<li><p>PermutedTestStats &lt;- spot with empty storage(NA = empty storage) that can contain as many spots as desired and then repeated in a for loop.</p></li>
+<li><p>For all individuals [i]</p></li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Obtain test statistic</li>
+<li>Shake up data</li>
+<li>Find test statistic again</li>
+<li>Throw one test statistic in one box</li>
+<li>Histogram of all test statistics (sampling distribution of the test statistic)</li>
+<li>Line to histogram to get the p-value</li>
+<li>Sum the results and divide by sample size Multiply smaller of the two for a two.sided test</li>
+<li></li>
+</ol>
+<pre class="r"><code># Chi-squared Permutation test
+
+x&lt;- apply(Titanic, c(1,4), sum)
+x
+
+chisq.test(x)
+
+chisq.test(x, simulate.p.value = TRUE)
+# based on 2000 replicates = test was done 2000 times  
+
+# Nonparametric test so df is not applicable </code></pre>
+<p>Replace = True allows duplicates such as sample(x = 1:10), replace = TRUE but without it gives no duplicates</p>
+<ul>
+<li>Shaking up the data in paired</li>
+<li><p>switching up the 1 and -1 for each pair randomly.</p></li>
+<li>Shaking up data in independent</li>
+<li><p>put in bag and then take out 10 and 10 and put in 2 columns</p></li>
+</ul>
+<p>Group labels are exchangable when the null hypothesis is true.</p>
+<pre class="r"><code>View(sleep)
+
+myTest &lt;- t.test(extra ~ group, data = sleep, mu = 0)
+observedTestStat &lt;- myTest$statistic 
+
+N &lt;- 2000      
+permutedTestStats &lt;-  rep(NA, N)
+for  (i in   1:N ) 
+  {
+   permutedData &lt;- sample (sleep$group)
+   permutedTest &lt;- t.test(extra ~ permutedData, data = sleep, mu = 0)
+permutedTestStats[i] &lt;- permutedTest$statistic
+}
+hist(permutedTestStats)
+abline(v=observedTestStat)
+# sum(permutedTestStats &gt;= observedTestStat)/N
+sum(permutedTestStats &lt;= observedTestStat)/N</code></pre>
+</div>
+<div id="skills-quiz-1" class="section level3">
+<h3>Skills Quiz</h3>
+<pre class="r"><code>sample1 &lt;- rnorm(30, 69, 2.5)
+   sample2 &lt;- rnorm(30, 69, 2.5)
+   theData &lt;- data.frame(values = c(sample1,sample2), group = rep(c(1,2), each=30))
+   View(theData)
+   boxplot(values ~ group, data = theData)</code></pre>
+<pre class="r"><code>set.seed(1140411)
+ 
+myTest &lt;- t.test(values ~ group, data = theData, mu = 0)
+observedTestStat &lt;- myTest$statistic
+ 
+N &lt;- 2000      
+permutedTestStats &lt;-  rep(NA, N)
+for  (i in 1:N ) 
+{
+  permutedData &lt;- sample (x= theData$group)
+  permutedTest &lt;- t.test(values ~ permutedData, data= theData, mu = 0)
+  permutedTestStats[i] &lt;- permutedTest$statistic
+  
+}
+  
+hist(permutedTestStats)
+abline(v=observedTestStat)
+sum(permutedTestStats &gt;= observedTestStat)/N
+sum(permutedTestStats &lt;= observedTestStat)/N</code></pre>
+<pre class="r"><code>myTest &lt;- t.test(values ~ group, data = theData, mu = 0)
+observedTestStat &lt;- myTest$statistic 
+
+N &lt;- 2000      
+permutedTestStats &lt;-  rep(NA, N)
+for  (i in   1:N ) 
+  {
+   permutedData &lt;- sample (x=theData$group)
+   permutedTest &lt;- t.test(values ~ permutedData, data = theData, mu = 0)
+permutedTestStats[i] &lt;- permutedTest$statistic
+}
+hist(permutedTestStats)
+abline(v=observedTestStat)
+# sum(permutedTestStats &gt;= observedTestStat)/N
+sum(permutedTestStats &lt;= observedTestStat)/N</code></pre>
+<pre class="r"><code>sample1 &lt;- rnorm(30, 185, 8)
+   sample2 &lt;- sample1 - rnorm(30, 0, 3.5)
+   theData &lt;- data.frame(values = c(sample1,sample2), group = rep(c(1,2), each=30), id = rep(c(1:30),times=2))
+   View(theData)
+   with(theData, hist(values[group==1] - values[group==2]))</code></pre>
+<pre class="r"><code>set.seed(121)
+ 
+myTest &lt;- t.test(values ~ group, data = theData, paired = TRUE, mu = 0)
+observedTestStat &lt;- myTest$statistic 
+ 
+N &lt;- 2000      
+permutedTestStats &lt;-  rep(NA, N)
+for  (i in 1:N ) {
+   permutedData &lt;- sample (x =c (1, -1), size = 30, replace = TRUE)
+   permutedTest &lt;- with(theData, t.test(permutedData* (values[group == 1] - values[group == 2]), mu=0))
+   permutedTestStats[i]  &lt;-  permutedTest$statistic
+}
+hist(permutedTestStats)
+abline(v=observedTestStat)
+sum(permutedTestStats &gt;= observedTestStat)/N
+sum(permutedTestStats &lt;= observedTestStat)/N</code></pre>
+</div>
+<div id="test-prep" class="section level3">
+<h3>Test Prep</h3>
+<p>Be able to identify each of the 4 paramentric distributions, or which of the 4 will be most likely to have the number of 8 in it.</p>
+<ul>
+<li>Know the parameters for the each of the tests</li>
+</ul>
+<p>Logic behind each test</p>
+<p>Nonparametric for Kruskall wallis</p>
+<p>P-value: Test statistic and the distribution of the test statistic is as extreme or more extreme than the one observed</p>
+<p>Making Inference vs describe the data</p>
+<ul>
+<li>Know how to use graphics</li>
+<li>Know how to subset data for specific subset needs</li>
+<li><p>Know parametric and non parametric distributions</p></li>
+<li><p>Dot plots are useful when there are many repeated values and small sample sizes eg/ shoe sizes of people</p></li>
+<li><p>Histogram eg/ heights of people</p></li>
+</ul>
+<p>Normal data mean and medians are the same for Wilcoxon tests</p>
+<p>Between and within is dealing with ANOVA Interaction terms within ANOVA</p>
+<p>Regression is coorelations between two factors</p>
+<p>Height to explain weight lm (weight ~ height) y is response, x is explanatory variable</p>
+<p>Baseline is the zero group In R the one that gets left out is Baseline</p>
+<p>X2 is y intercept</p>
+<p>Prediction of speed based on cars If going 20 mi/hr how long would it take to stop</p>
+<pre class="r"><code>cars.lm &lt;- lm(dist ~ speed, data = cars)
+plot(dist ~ speed, data=cars)
+abline(cars.lm)
+summary(cars.lm)
+predict(cars.lm, data.frame(speed =21))
+or predict(cars.lm, data.frame(speed = c(21, 22, 23)))</code></pre>
+<p>Explanatory variable is the binary variable Response variable Binomial is 1 or 0</p>
+<p>Gender is typically taller, T-test Predict gender based on height, logistic</p>
+<pre class="r"><code># e^ specific number for every one in increase height the odds increase or change by a factor of 12.2 
+exp(2.5)
+answer is 12.18 </code></pre>
+</div>
+</div>
+<div id="math-425-notes" class="section level2 tabset tabset-fade tabset-pills">
+<h2>Math 425 Notes</h2>
+<div id="hard-work" class="section level3">
+<h3>Hard Work</h3>
+<p><strong>Reading in a Table</strong></p>
+<pre class="r"><code>p1.19 &lt;- read.table(&quot;https://netfiles.umn.edu/users/nacht001/www/nachtsheim/Kutner/Chapter%20%201%20Data%20Sets/CH01PR19.txt&quot;)
+
+Rewrite the column names to be &quot;Y&quot; and &quot;X&quot; to match the textbook:
+
+colnames(p1.19) &lt;- c(&quot;Y&quot;,&quot;X&quot;)
+
+mylm &lt;- lm(p1.19)
+
+plot(Y ~ X, data=p1.19, col= &quot;purple&quot;, pch = 23)
+abline(mylm)
+summary(mylm)</code></pre>
+<p><strong>Point Estimate</strong></p>
+<p>What the Slope Value is</p>
+<p><strong>Confidence Interval</strong></p>
+<pre class="r"><code>confint(mylm, level = 0.99)</code></pre>
+<p><strong>Prediction Interval and Means</strong></p>
+<pre class="r"><code> predict(mylm, data.frame(X=10), interval = &quot;confidence&quot;)
+ predict(mylm, data.frame(X=10), interval = &quot;prediction&quot;)
+ 
+ #score of 28, predict her freshman GPA using a 95 percent prediction interval.
+ predict(mylm, data.frame(X = 28), level = 0.95, interval = &quot;prediction&quot;)
+ 
+ #For a specific mean  95 percent interval estimate of mean is 28 
+ predict(mylm, data.frame(X = 28), level = 0.95, interval = &quot;confidence&quot;)</code></pre>
+<p><strong>Confidence Bands</strong></p>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Determine the boundary values of the 95 percent confidence band for the regression line when <span class="math inline">\(X_h = 28\)</span>. Is your confidence band wider at this point than the CI in part a? Should it be?</li>
+</ol>
+<pre class="r"><code># Create a confidence bands function:
+confbands &lt;- function(lmObject, xh=NULL, alpha=0.05){
+  
+  # Use some fancy code to get the data out of the lmObject
+  # while knowing which variable was x and which was y.
+  thecall &lt;- strsplit(as.character(lmObject$call[2]), &quot;~&quot;)
+  yname &lt;- gsub(&quot; &quot;, &quot;&quot;, thecall[[1]][1])
+  xname &lt;- gsub(&quot; &quot;, &quot;&quot;, thecall[[1]][2])
+  theData &lt;- lmObject$model
+  theData &lt;- theData[,c(yname,xname)]
+  colnames(theData) &lt;- c(&quot;Y&quot;,&quot;X&quot;)
+
+  # Begin creating confidence bands  
+  n &lt;- nrow(theData)
+  W2 &lt;- 2*qf(1-alpha, 2, n-2)
+  SSE &lt;- sum( lmObject$res^2 )
+  MSE &lt;- SSE/(n-2)
+  s2.Yhat.h &lt;- function(xh){
+    MSE*(1/n + (xh - mean(theData$X))^2/sum( (theData$X - mean(theData$X))^2 ))
+  }
+  b &lt;- coef(lmObject)
+  
+  # Add upper bound to scatterplot
+  curve(b[1]+b[2]*x + W2*sqrt(s2.Yhat.h(x)), add=TRUE)
+
+  # Add lower bound to scatterplot
+  curve((b[1]+b[2]*x) - W2*sqrt(s2.Yhat.h(x)), add=TRUE)
+  
+  if (!is.null(xh)){
+    tmp &lt;- c(b[1]+b[2]*xh - sqrt(W2)*sqrt(s2.Yhat.h(xh)), b[1]+b[2]*xh + sqrt(W2)*sqrt(s2.Yhat.h(xh)))
+    names(tmp) &lt;- c(&quot;Lower&quot;,&quot;Upper&quot;)
+    tmp
+  }
+}</code></pre>
+<pre class="r"><code># Scatterplot and fitted regression line:
+plot(Y ~ X, data=p1.19)
+mylm &lt;- lm(Y ~ X, data=p1.19)
+abline(mylm)
+
+# Add the confidence bands to the plot
+confbands(mylm)
+
+# Get the confidence bands value for some xh
+confbands(mylm, xh=28)</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Three independent shipments will be made, each entailing two transfers. Obtain a 99 percent prediction interval for the mean number of ampules broken in the three shipments. Convert this interval into a 99 percent prediction interval for the total number of ampules broken in the three shipments.</li>
+</ol>
+<p>m = 3 and X = 2 and 99%</p>
+<pre class="r"><code>#SSE &lt;- sum( mylm$res^2 )
+#n &lt;- length(mylm$res)
+#MSE &lt;- SSE/(n - 2)
+
+#m &lt;- 3 #or how ever many new observations you have
+
+#xh &lt;- 2 #or whatever xh is for your problem
+
+#s2predmean &lt;- MSE*(1/m + 1/n + (xh - mean(p1.21$X))^2 / sum( (p1.21$X - mean(p1.21$X))^2 ))
+
+#sqrtpred&lt;- sqrt(s2predmean) # square root the s2predmean
+
+#test &lt;- qt(1-0.01/2, 8) # the test statistic
+
+#moe &lt;- test * sqrtpred  # margin of error 
+
+#yh &lt;- 10.2 + 2 * 4.00  # finding y sub h at x sub h 
+
+
+#yh - moe    # lower bound 
+
+#yh + moe   # upper bound
+
+# These formulas give PI </code></pre>
+<p>Answer: PI = (14.56543, 21.83457)</p>
+<p>Answer: 3(14.565) and 3(21.83457)</p>
+<p>Answer: 44-65 for total number of ampules broken in the 3 shipments.</p>
+<p><strong>P-Value</strong></p>
+<p>Only mult. by <span class="math inline">\(2\)</span> when testing <span class="math inline">\(H_a: \beta_0 \neq 0\)</span> if trying to find increase or decrease <span class="math inline">\(H_a: \beta_0 &gt; 0\)</span> <span class="math inline">\(H_a: \beta_0 &lt; 0\)</span>.</p>
+<pre class="r"><code>*pt(tvalue, df, lower.tail=FALSE)
+
+2*pt(3.04, df=118, lower.tail = FALSE)</code></pre>
+<p><strong>t star for the slope</strong></p>
+<pre class="r"><code># qt(1-.1/2, 14)</code></pre>
+<p>t* = 1.76131 22.51 &gt; t* = Reject Null, conclude the alternative</p>
+<p>Ho: <span class="math inline">\(\beta_1 = 0\)</span> Ha: <span class="math inline">\(\beta_1 \neq 0\)</span></p>
+<p><strong>Actual t star for the slope</strong></p>
+<pre class="r"><code># qt(1-.01/2, 118)</code></pre>
+<p><strong>This is comparing answer 2.618 (t star value) to 3.040(one we get from lm table) then we say anything beyond we reject the null. Since 3.04 is beyond 2.618 then we say reject the null, which means there is a linear relationship. </strong></p>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Now the mean time should not increase by more than 14 mins. Decide whether this standard is being satisfied. Alpha = 0.05 State, alternatives, decision rule, conclusion and P-value.</li>
+</ol>
+<p>t* = (15.0352-14)/0.4831 = 2.1428</p>
+<p><strong>Conclude the alternative hypothesis</strong></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Plastic manufacturer has stated the mean hardness should increase by 2 Brinell units per hour. Conduct a two-sided test to decide whether this standard is being satisfied; use alpha = 0.01. State alternatives, decision rule, and conclusion. What is the P-Value of the test?</li>
+</ol>
+<p>t* = (2.03438-2)/ 0.09039 t* = 0.3803518</p>
+<pre class="r"><code># 2*pt(0.3803518, 14, lower.tail = FALSE)</code></pre>
+<p>Null: <span class="math inline">\(\beta_1 \neq 2\)</span> Alternative: <span class="math inline">\(\beta_1 \neq 2\)</span> <strong>P-Value = 0.7093927, Fail to reject the null. The mean hardness should not increase by 2 Brinell units per hour</strong></p>
+<p>** If t value in r &gt; qt() value conclude Ha there is a linear relationship**</p>
+<p><strong>Prediction Interval</strong></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Obtain 95% Prediction Interval for the service time on the next call in which six copiers are serviced. Is your prediction interval wider than the corresponding confidence interval in part a? Should it be?</li>
+</ol>
+<pre class="r"><code># predict(mylm, data.frame(X = 6), level = 0.90, interval = &quot;prediction&quot;) # or confidence </code></pre>
+<p>PI = (74.46433, 104.7983) Yes, the prediction interval is wider than the confidence interval.</p>
+<p><strong>Conduct F test to decide whether linear association. Alpha = 0.05</strong></p>
+<pre class="r"><code># qf(1-.05, 1, 8)</code></pre>
+<p><strong>Additive Elements of ANOVA table</strong></p>
+<p>Summ of Square and degree of freedom are additive, that is, SSTO = SSR + SSE and <span class="math inline">\(dftotal = dfreg + dferror\)</span></p>
+<p><strong>Obtaining F test statistic from t test statistic</strong></p>
+<p>t* = Slope - 0 / std. Error t* = <span class="math inline">\((ans)^2\)</span> = F</p>
+<p><strong>Testing by F statistic</strong></p>
+<p>2.26 b) Test by means of an F test to see if a linear association exists between hardness of plastic and elapsed time. Use significance level of 0.01 State Alternatives, decision rule, and conclusion.</p>
+<pre class="r"><code># qf(1-.1, 1, 14)</code></pre>
+<p>F statistic = what we get when we run qf</p>
+<p>F* = F-statistic output in mylm table</p>
+<p>F statistic = 3.102213</p>
+<p>F* &gt; 3.102213 So conclude Ha</p>
+<p><strong>Plot SSE and SSR against Xi</strong></p>
+<p>2.26 c) Plot the deviations SSE and SSR against Xi in 2 graphs. Which appears to be the larger component of SSTO? What does this imply about the magnitude of <span class="math inline">\(R^2\)</span></p>
+<pre class="r"><code># Basically Y - (intercept + slope of mylm ) ~ X 
+#plot((Y-(168.6+2.03438*X)) ~ X, data=p1.22)
+#plot(mylm$residuals)
+
+#plot((168.6+2.03438*X)-mean(p1.22$Y) ~ X, data=p1.22)</code></pre>
+<p>The SSR because squaring the points from 20 to -20 vs -4 to 6 will be larger and it implies the magnitude will be closer to 1.</p>
+</div>
+<div id="hard-work-2" class="section level3">
+<h3>Hard Work 2</h3>
+<div id="tests-to-see-if-error-terms-have-constant-variance" class="section level4">
+<h4>Tests to see if Error Terms have Constant Variance</h4>
+<p><strong>Breusch-Pagan Test</strong></p>
+<p><strong>Requirements</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Error Terms are Independent and Normally Distributed</p></li>
+<li><p>Error Term Variance is related to the level of X (see page 118 &amp; 119) As X increases, Y increases, or X decreases, Y decreases. Variance doesn’t go up and down in big waves.</p></li>
+</ol>
+<p><strong>Test</strong></p>
+<p>If test statistic &lt; Chi-Squared = Constant Variance</p>
+<p>If test statistic &gt; Chi-Squared = Nonconstant variance</p>
+<p><strong>Plot</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Residuals VS Fitted Values</p></li>
+<li><p>Residuals VS X</p></li>
+</ol>
+<p><strong>Brown-Forsythe Test</strong></p>
+<p><strong>Requirements</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Sample Size = Large</p></li>
+<li><p>Based on variability of the residuals</p></li>
+<li><p>Larger the error variance, the larger the variability of the residuals tend to be.</p></li>
+</ol>
+<p><strong>Test</strong></p>
+<p>If BF test statistic &lt; t Test = Constant Variance</p>
+<p>If BF test statistic &gt; t Test = Nonconstant variance</p>
+<p><strong>Plot</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Residuals VS Fitted Values</p></li>
+<li><p>Residuals VS X</p></li>
+</ol>
+</div>
+<div id="lack-of-fit" class="section level4">
+<h4>Lack of Fit</h4>
+<p>If Linear regression function is a good fit</p>
+<p><strong>Requirements</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Observations Y for given X are independent and normally distributed</p></li>
+<li><p>The distributions of Y have the same variance (constant variance)</p></li>
+<li><p>Repeated observations at one or more X levels</p></li>
+</ol>
+<p><strong>Test</strong></p>
+<p>Lack of fit Test statistic (F*) &lt; F = Regression function is linear</p>
+<p>Lack of fit Test statistic (F*) &lt; F = Regression function is NOT linear</p>
+<p><strong>Plot</strong></p>
+<p>Residuals VS Fitted (no pattern, such as no megaphone shape)</p>
+<p><strong>Correlation Coefficient Test</strong></p>
+<p>If r test statistic &gt; r value from table B.6 = normally distributed error terms</p>
+<p>If r test statistic &lt; r value from table B.6 = NOT normally distributed error terms</p>
+<p><strong>Clarification Questions</strong></p>
+<p>So the QQ Plot of the residuals is only plot we’ve learned so far to determine of the error terms are normally distributed?</p>
+<p>Yes as well as using the boxplot or histogram.</p>
+<p>The Residuals vs fitted(always) or Residuals vs X plot is a plot to represent the Brown-Forsythe test.<br />
+Breuch-Pagan doesn’t represent a specific graph because the graph is of the squared values of the plot. But you take the line and address the line.</p>
+<p>The Residuals vs fitted looking at the overall shape, such as a megaphone shape or no pattern, is to represent the lack of fit test?</p>
+<p>No, represents the other 2 tests, Brown and Pagan but the red line represents the lack of fit test.</p>
+<p><strong>Semistudentized Topic</strong></p>
+<p>I understand the semistudentized as it shows the fitted values based off of the standard deviations away from the residuals vs fitted plot.</p>
+<p>The Residuals vs Fitted plot, on the Y axis is in units of standard deviations. The example of 3 is far and the question 3 standard deviations is far. It becomes more specific because you are identifying units.</p>
+<p>Does that mean it’s a graph of the residuals zoomed in? Or what does the semistudentized graph represent?</p>
+<p>Just changes units to standard deviations</p>
+<p>Does it have to do with time sequence plots or does that not relate at all?</p>
+<p>Yes and the QQ Plot does too.</p>
+<p>Is it backing up a type of test or where exactly does it fit into what we’ve learned?</p>
+<p>norral error terms is correlation coefficent r of qq plot not r of regression. How we get the correlation coefficient is from the qq norm that gives the (x,y) then the r code grabs those and creates the correlation coefficient from it.</p>
+</div>
+</div>
+<div id="hard-work-3" class="section level3">
+<h3>Hard Work 3</h3>
+<div id="transformations-x-and-y" class="section level4">
+<h4>Transformations X and Y</h4>
+<p><strong>Transformations of X</strong></p>
+<p>Requirements</p>
+<ol style="list-style-type: decimal">
+<li><p>Distribution of error terms close to normal distribution</p></li>
+<li><p>Error terms have constant variance (variability at different X levels appear to be fairly constant)</p></li>
+</ol>
+<p><strong>Transformations of Y</strong></p>
+<p>Notes</p>
+<p>XB2 P = (31, 833.4/2) ÷ (3, 874.45/60)2 = 3.817116, χ2(.99; 1) = 6.63. If XB2 P ≤ 6.63 conclude error variance constant, otherwise error variance not constant. Con- clude error variance constant. Yes.</p>
+<p>SSP E = 2797.66, SSLF = 618.719, F ∗ = (618.719/8)÷(2797.66/35) = 0.967557, F (.95; 8, 35) = 2.21668. If F ∗ ≤ 2.21668 conclude H0 , otherwise Ha . Conclude H0.</p>
+<p>H0: β0 ≤ 9, Ha: β0 &gt; 9. t∗ = (10.20 − 9)/.663 = 1.810. If t∗ ≤ 2.306 conclude H0, otherwise Ha. Conclude H0. P-value= .053</p>
+<p><strong>How to omit all NA from data set</strong></p>
+<p>air.lm &lt;- lm(Ozone ~ Wind, data=na.omit(airquality))</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

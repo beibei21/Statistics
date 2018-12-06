@@ -1,0 +1,84 @@
+---
+title: "War Versus Peace"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r, include=FALSE}
+
+library(mosaic) 
+library(readr)
+movies <- read_csv("~/Documents/Math 325 Notebook/Data/movies.csv")
+movies$numgenre <- apply(movies[,18:24], 1, sum)
+# For subtracting columns 
+# movies$profit <- (movies$gross - movies$budget)
+gd <- subset(movies, year >= 1930 & year <= 1934)
+gdg1 <- subset(gd, numgenre==1)
+wwII <- subset(movies, year > 1940 & year <= 1945)
+wwIIg1 <- subset(wwII, numgenre==1)
+postwwII <- subset(movies, year >= 1946 & year <= 1950)
+vm <- subset(movies, year >= 1963 & year <= 1967)
+pvm<- subset(movies, year >= 1976 & year <= 1980 & numgenre==1) 
+
+```
+
+<br />
+
+### Background
+
+Since the 1920s, movies have been a booming part of society in the United States.  Movies affect the way people feel, specifically in the genre of movies watched.  Is there a correlation between movies produced and the time period they were produced in?  Specifically, is there a correlation in the genre of movies produced during war times, such as WWII and Vietnam War, verses peace times, pre and post war periods, in the United States?    
+
+All data was taken from the IMBD movie data base.   ([movies](https://vincentarelbundock.github.io/Rdatasets/doc/ggplot2/movies.html) dataset.)
+
+### Analysis
+
+The data taken from each time period was chosen in 5 year intervals: 
+-Great Depression 1930-1934
+-WWII 1941-1945
+-Post WWII 1946-1950
+-Vietnam War 1963-1967
+-Post Vietnam War 1976-1980
+
+Each starting year for the war periods was when the United States entered the war.  Post war dates begin when the war officially ended.  The Depression is pre-war for WWII, and it lasted longer than five years as well, so the time interval chosen was in the middle of the depression period for the United States.  
+
+Dates taken from [The Great Depression](http://www.history.com/topics/great-depression) and [Vietnam Timeline](http://www.bbc.com/news/world-asia-pacific-16568035)
+
+The plot shown below is a zoomed version of the overall graph (see Appendix) used to see the coorelation between peace and war times.  The left plot shows us the comparrison of post WWII with comedy as the leading genre steadily increasing from WWII to post.  In the second plot comedy decreased post Vietnam war but the drama movies stayed fairly the same frequency.  
+
+```{r}
+par(mfrow= c(1,2))
+
+# (name of x axis = apply(dataset[specification of columns, sum is total, then adding another barplot gives those specifications])) 
+barplot(t(rbind(WWII=apply(wwIIg1[,20:21], 2, sum), Post=apply(postwwII[,20:21], 2, sum))), beside=TRUE, col=c("cadetblue1", "cadetblue4"), args.legend = list(x = "topleft", cex = 0.70, bty="n"), legend.text=TRUE, ylab= " Number of Movies", las=1, ylim = c(0, 1100))
+
+barplot(t(rbind(Vietnam=apply(vm[,20:21], 2, sum), Post=apply(pvm[,20:21], 2, sum))), beside=TRUE, col=c("cadetblue1", "cadetblue4"), legend.text=TRUE, ylab= " Number of Movies", args.legend = list(x = "topleft", cex = 0.70, bty="n"), las=1, ylim = c(0, 1100))
+
+title(main="During War vs. After", line=-3, outer=TRUE)
+```
+
+### Interpretation
+
+In the plots, there was not a coorelation between a genre of movies produced during war versus peace times.  Interestingly to not, there was an increase of comedy and drama movies produced during WWII in comparrison to movies produced post WWII.  This could infere after WWII people felt the need to laugh and cry.  (Drama in a means to portray realistic plotlines showing the hard times and the good times.)  Also, comparring the Vietnam War and post war, there was a huge decrease in comedy but not in drama movies produced, infering there was no need to be cheered up by comedy after the war but to instead focus on portraying a realistic life and plotline of characters in their human battles of those hard and good times.  
+
+It's significant to recognize the movies taken from IMBD database where only movies that had a classification of one gnere.  This makes it statisticaly easier to decipher the genres but does not give a complete understanding of what genre of movies were produced in each time period.  
+
+## Appendix 
+
+The first plot below shows an overview of the five year time intervals for each time period arranged in chronological order from the Great Depression till post Vietnam War, while showing the comparrison of the number of movies in each genre prduced.  Each block represents a genre of movie, the first block, action movies, to the last block, short movies.  This plot shows drama movies have always dominated with comedy as a close second in each time period.  The other genres are of smaller significance.  Also, the difference between comedy and drama movies were the most different during the Depression and post Vietnam War.  During WWII, post WWII and Vietnam War, the drama and commedy movies are about the same frequency. 
+
+```{r}
+barplot(t(rbind(Depression=apply(gdg1[,18:24], 2, sum), WWII=apply(wwIIg1[,18:24], 2, sum), Post=apply(postwwII[18:24], 2, sum), Vietnam=apply (vm[,18:24], 2, sum), Post=apply(pvm[,18:24], 2, sum))), beside=TRUE, col=c("turquoise", "turquoise", "steelblue1","steelblue1", "turquoise", "turquoise", "turquoise"), legend.text=TRUE, ylab= " Number of Movies", args.legend = list(x = "topleft", cex = 0.75), las=2)
+
+title(main="Top Genres Per Time Period", line=-3, outer=TRUE)
+```
+
+
+
+
+
+
+
+
+

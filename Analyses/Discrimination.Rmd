@@ -1,0 +1,135 @@
+---
+title: "Discrimination & Region"
+output: 
+  html_document: 
+    theme: simplex
+    code_folding: hide
+    toc: true 
+    toc_float: true
+---
+```{r, message=FALSE, warning=FALSE}
+library(mosaic)
+library(dplyr)
+library(pander)
+library(RColorBrewer)
+
+discrim <- matrix(c(89,79,297,118,130,350,241,140,248,37,59,197), ncol = 3, byrow = T)
+
+```
+
+
+## Background
+
+Discrimination is unjust treatment or perception of people based on a category.  In all decades of time discrimination has been a topic of discussion, particularly in 1965 when the Voting Act of 1965 was brought into discussion.  The Act prohibited racial discrimination in voting at the federal level, but the portray at the societal level might have been different.  
+
+Around 1965 a survey was conducted where students at a certain university were asked the following question. "Do you think that some racial and religious groups should be prevented from living in certain sections of cities?" A summary of their response are recorded in the following table. The region of the United States that the student respondent was from was also recorded.
+
+**Four** regions and **three** response options.  
+
+<div style="padding-left:20%; padding-right:20%;">
+
+| Region | *Agree* | *Undecided* | *Disagree* |
+|--------|---------|-------------|------------|
+| East   |  89     |  79         |  297       |
+| Midwest| 118     | 130         |  350       |
+| South  | 241     | 140         |  248       |
+| West   |  37     |  59         |  197       |
+
+</div>
+
+
+```{r}
+discrim <- matrix(c(89,79,297,118,130,350,241,140,248,37,59,197), ncol = 3, byrow = T)
+colnames(discrim) <- c("Agree","Undecided","Disagree")
+rownames(discrim) <- c("East","Midwest","South","West")
+```
+
+### Question
+
+* Are region and response associated with discrimination?  And if so, what regions discriminate more than others?  
+
+## Analysis 
+
+Test statistic formula for the Chi-squared Test is given as
+
+$$
+  \chi^2 = \sum_{i=1}^m \frac{(O_i - E_i)^2}{E_i}
+$$
+
+* $m$ represents the sum ends with that number (row times column)
+
+* $O_i$ represents each of the $m$ observed counts 
+
+* $E_i$ represents the $m$ expected counts. 
+
+Ultimately, the chi-squared test statistic takes in rows and columns and calculates the expected counts and sums.  
+
+### Hypotheses
+
+$H_0$: Region and Response are independent.
+
+$H_a$: Region and Response are associated.
+
+   The significance level is set at
+$$
+  \alpha = 0.05
+$$
+
+### Results
+
+```{r}
+chi.discrim <- chisq.test(discrim)
+pander(chi.discrim)
+```
+
+The $p-value$ is very small, so the null hypotheses is rejected. 
+
+From the results it is sufficient to conclude region and response are associated.  
+
+### Validity 
+
+The validity of the test is confirmed by showing the average of expected counts is greater than one and an average of the expected counts in greater than 5. 
+
+```{r}
+pander(chi.discrim$expected >5)
+```
+
+All of them meet the requirements, thus the validity is sufficient to run the test. 
+
+### Pearson Residuals
+
+The magnitude is displayed as follows.
+
+```{r}
+pander(chi.discrim$residuals)
+```
+
+A point of notice is in the south, more than expected disagreed than agreed, and fewer than expected agreed.  In the other region, more than expected agreed.     
+
+## Graphic
+
+```{r, echo=FALSE}
+#barplot(discrim, beside=TRUE, legend.text=TRUE, args.legend=list(x = "topleft"), ylim =c(0,450),col=brewer.pal(4, "Spectral"), xlab= "Response", ylab= "Number of Individuals", main= "Response")
+```
+
+
+
+```{r}
+barplot(t(discrim), beside=TRUE, legend.text=TRUE, args.legend=list(x = "topleft"), ylim =c(0,450),col=brewer.pal(4, "Spectral")[c(1,3,4)], xlab= "Region", ylab= "Number of Individuals", main= "Region")
+```
+
+
+## Interpretation
+
+Because region and response are associated ($p-value = 1.476e-24$), there are particular regions where there was more discrimination than other regions around 1965.  
+
+The graph depicted shows which regions are more discriminatory than others.  From this graph it is concluded the South is the most discriminatory as well as is almost equally disagree.  The Midwest is the least discriminatory.  The East is slightly more discriminatory than the Midwest but not by much.  
+
+### Further Thought
+
+Further questions could ask: Currently, is the south still the dominant discriminator, or are the regions less or more undecided on whether racial or religious group should be prevented from living in certain areas of a city.   
+
+Further study could be conducted to compare a more modern time period for further insights on if discrimination has changed over time per region or overall.   
+
+
+

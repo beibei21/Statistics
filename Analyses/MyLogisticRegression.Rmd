@@ -1,0 +1,176 @@
+---
+title: "Gestation"
+output: 
+  html_document:
+    theme: journal
+    code_folding: hide
+    toc: false
+    toc_float:
+       collapsed: false
+       smooth_scroll: false
+---
+
+<script type="text/javascript">
+ function showhide(id) {
+    var e = document.getElementById(id);
+    e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+ }
+</script>
+
+```{r setup, include=FALSE}
+#knitr::opts_chunk$set(echo = TRUE)
+
+library(mosaic)
+library(ResourceSelection) 
+library(DT)
+library(pander)
+```
+
+## A Prediction Study 
+
+### Background 
+
+What can be learned from pregnancy?  Background for the dataset:  Nolan and Speed performed a study as part of the Child Health and Development Studies in 1961 and 1962.  They gathered data on the parents, such as age, height, education level, gestation period, smoking record, etc.  They ultimately wanted to see if there was a coorelation between a mother smoking and the baby's health.  
+
+This analysis will answer a different question based on gestation using Nolan and Speed's data.  
+
+[Internet Link to DataSet Information](https://vincentarelbundock.github.io/Rdatasets/doc/mosaicData/Gestation.html)
+
+<a href="javascript:showhide('data')">Datatable of Gestation Study<span style="font-size:8pt;">&nbsp;(click to view)</span></a>
+
+<div id="data" style="display:none;">
+
+Click on the code to the right to reveal the datatables.  
+
+```{r}
+datatable(Gestation)
+```
+
+
+## Question
+
+**Is it possible to predict gestation period based off mother's age?**  
+
+* Age being the explanatory variable
+* Gestation being the response variable
+
+### Procedure
+
+Background for understanding the question.  
+
+* Gestation, the time a woman is pregnant with her child, can be calculated by the time of conception (usually unknown and approximated) or the time of the woman's last menstrual cycle (usually known).  The most accurate is since the time of the woman's last menstrual cycle, which on average is known as 280 days or 40 weeks. 
+
+* The test was calculated from gestation based off of the woman's last menstrual cycle the most accurate.  So a success is considered greater than 280 days(full term) and a failure is considered less than 280 days.  
+
+## Analysis {.tabset}
+
+To perform this test a logistic regression will be used.  
+
+$$
+  P(Y_i = 1|x_i) = \frac{e^{\beta_0+\beta_1 x_i}}{1+e^{\beta_0 + \beta_1 x_i}} = \pi_i
+$$
+ $i$ represents: 
+
+**$Y_i = 1$** represents a successful full gestation period. 
+
+**$Y_i=0$** represents at least one birth that did not make it to a full gestation period for a given pregnancy.
+
+**$x_i$** represents the age in years of woman at the time she gave birth to her child.  
+
+### Hypotheses
+
+The proper hypotheses for this data is
+
+$$
+  H_0: \beta_1 = 0 \\
+  H_a: \beta_1 \neq 0
+$$
+
+  $\beta_1\\$
+
+represents the slope, which is age.  
+
+The significance level is set at
+
+$$
+  \alpha = 0.05
+$$
+
+
+*The results of the Test*
+
+```{r, message=FALSE, warning=FALSE}
+ges <- glm(gestation > 280 ~ age, data=Gestation, family = binomial)
+pander(summary(ges))
+```
+
+* The $p-value$ is recorded as $0.02795$, which is sufficient to conclude age affects the probability of the gestation period of women.   
+
+### Graphic 
+
+```{r}
+plot(gestation > 280 ~ age, data = Gestation, pch = 21, cex=1.5, col="black", bg="gray", lwd=2, main = "Probability of Age & Gestation")
+b <- coef(ges); curve(exp(0.52814 -0.02198 * x)/(1+exp(0.52814 -0.02198 *x)), add=TRUE)
+
+```
+
+Unfortunately the graphic does not represent accurate results.  The line really only shows as age increases, gestation period will decrease.   
+
+### Goodness of Fit
+
+A test of good fit has to be performed to ensure the information we have gained from the study is best fitted for the study.
+
+Our hypotheses are declared as follows
+
+$H_0: \text{The test is an appropriate fit}$
+
+$H_a: \text{The test is not an appropriate fit}$
+
+Since there are many ties in the data, it is best to perform the test based of this equation: 
+
+$$
+  H_0: \pi_i = \frac{e^{\beta_0 + \beta_1 x_i}}{1+e^{\beta_0 + \beta_1 x_i}}
+$$
+$$
+  H_a: \pi_i \neq \frac{e^{\beta_0 + \beta_1 x_i}}{1+e^{\beta_0 + \beta_1 x_i}}
+$$
+
+This gives us the value of 
+```{r}
+pander(pchisq(1686.3, 1219,  lower.tail=FALSE))
+# Which means this is not the best test.  Null is everything is good
+```
+
+There is sufficient evidence to conclude the test is not an appropriate fit.  
+
+
+### Interpretation
+
+As proven in the hypotheses test, the logistic regression test is not the best fit.  A better test could be performed to more accurately measure a probability of predicting women's age versus gestation with this data.  
+
+## Overall Interpretation 
+
+Even though the test results allowed a prediction that said it is possible to predict gestation period based on age, overall the test did not pass the "Goodness of Fit" test, so it was not an appropriate fit.  Thus, there is no accurate conclusion using a logistic regression test.  Another test that will take into account the ties would be better for an accurate test.  
+
+## Apendix 
+
+Even though it's not known how accurate the test is, it would be cool to calculate the probability of a full gestation period depending on a woman's age using the women's ages and gestation periods in this data set.    
+For example, depending on the accuracy of this test, the approximate probability of having a child below the normal gestation period for a woman age 21 is 51.66% according to the women's ages in the dataset.  
+
+```{r}
+pander(predict(ges, data.frame(age= 21), type ='response'))
+```
+
+A woman age 40 is approximately 41.31% for having a child below normal gestation period. 
+
+```{r}
+pander(predict(ges, data.frame(age= 40), type ='response'))
+```
+
+The mean of women's gestation periods ages 15-45 are in the table below.  
+
+```{r}
+pander(mean(gestation ~ age, data=Gestation))
+```
+
+Note: There are probably less than a normal sample size $n>50$ in some of these age groups.  This information is presented as a rough estimate and not reliable.  

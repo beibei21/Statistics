@@ -1,0 +1,165 @@
+---
+title: "Full-Time"
+output: 
+  html_document: 
+    theme: simplex
+    code_folding: hide
+    toc: true 
+    toc_float: true
+---
+
+
+<script type="text/javascript">
+ function showhide(id) {
+    var e = document.getElementById(id);
+    e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+ }
+</script>
+
+
+```{r, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(mosaic)
+library(pander)
+library(DT)
+library(readr)
+library(RColorBrewer)
+
+Prj2Stat <- read.csv("~/Documents/Math 325 Notebook/Data/Prj2Stat.csv")
+
+prj2stat <- matrix(c(42,32,15,20,28,7,8,9,13,20,29,6), ncol = 3, byrow = T)
+colnames(prj2stat) <- c("Entry", "Mid", "Senior")
+rownames(prj2stat) <- c("Boston", "New York", "San Diego", "Seattle")
+```
+
+## Background & Question
+
+There are many cities in the United States that have a growing number of job opportunities.  Some cities may have more job opportunities than others.  The question I wanted to answer is are region and education level associated with biostatistics jobs?  In the cities I would like to live in, where are the most entry level jobs located, and what education level is required for these jobs?
+
+
+Click on the code to the link below to view the datatable. 
+
+<a href="javascript:showhide('data')">Datatable<span style="font-size:8pt;">&nbsp;(click to view)</span></a>
+
+<div id="data" style="display:none;">
+
+
+```{r}
+datatable(Prj2Stat)
+
+```
+
+<div style="padding-left:20%; padding-right:20%;">
+
+| City      | *Entry* | *Mid* | *Senior* |
+|-----------|---------|-------|----------|
+| Boston    | 42      | 32    | 15       |  
+| New York  | 20      | 28    |  7       |
+| San Diego |  8      |  9    | 13       |
+| Seattle   | 20      | 29    |  6       |
+
+</div>
+
+
+### Procedure 
+
+A sample was taken from indeed.com [Indeed.com](https://www.indeed.com) on July 3, 2017.  The search was run for "Biostatistics" under the "what" option and the search "usa" under the "where" option was found.  The search results were subsetted down to show only full-time job openings.  Four cities were selected:  
+
+* Boston, MA
+
+* New York, NY
+
+* San Diego, CA 
+
+* Seattle, WA
+
+Jobs were categorized by indeed.com under entry, mid, and senior level jobs.  
+
+## Analysis 
+
+Test statistic formula for the Chi-squared Test is given as
+
+$$
+  \chi^2 = \sum_{i=1}^m \frac{(O_i - E_i)^2}{E_i}
+$$
+
+* $m$ represents the sum ends with that number (row times column)
+
+* $O_i$ represents each of the $m$ observed counts 
+
+* $E_i$ represents the $m$ expected counts. 
+
+### Hypotheses
+
+$H_0$: City and Education Level are independent.
+
+$H_a$: City and Education Level are associated.
+
+The null hypothesis showing city and education level having no association with each other, thus independence.  The alternative showing city and education as associated with each other.  
+
+   The significance level is set at
+$$
+  \alpha = 0.05
+$$
+
+## Results 
+
+```{r, message=FALSE, warning=FALSE}
+chi.prj2stat <- chisq.test(prj2stat)
+pander(chi.prj2stat)
+```
+
+The $p-value < \alpha$, thus the null hypotheses is rejected. 
+
+From the results it is sufficient to conclude region and response are associated with each other.  
+
+### Validity
+
+The validity of the test is confirmed by showing all expected counts are greater than 5 OR all expected counts are greater than 1, and the average of the expected counts is at least 5. 
+
+For this data, the minimum expected count is `r round(min(chi.prj2stat$expected),2)`. Thus, the requirement is met and the Chi-Squared test can be performed accurately.  
+The test statistic is a Chi-Squared distribution with degrees of freedom denoted as **p = (r-1) x (c-1) = 6**
+
+
+## Pearson Residuals
+
+Magnitude is displayed as follows.
+
+```{r}
+pander(chi.prj2stat$residuals)
+```
+
+Interesting to note, San Diego had far more Senior level jobs than expected (Pearson Residual as 3.292) as well as far fewer entry level jobs than expected (Pearson Residual as -1.104).  Seattle and New York had fewer senior and entry level jobs than expected.  Boston had more than expected entry level job opportunities. 
+
+## Graphics {.tabset}
+
+### Graphic 1 
+
+```{r}
+barplot(prj2stat, beside=TRUE, legend.text=TRUE, args.legend = list(x = "topright", cex = 0.99, bty="n"), ylim =c(0,50),col=brewer.pal(4, "Spectral"), xlab= "Education Level", ylab= "Number of Individuals", main= "Education Level")
+```
+
+### Graphic 2
+
+```{r}
+barplot(t(prj2stat), beside=TRUE, legend.text=TRUE, args.legend = list(x = "topright", cex = 0.99, bty="n"), ylim =c(0,50),col=brewer.pal(4, "Spectral")[c(1,3,4)], xlab= "City", ylab= "Number of Individuals", main= "City")
+```
+
+## Interpretation 
+
+From Graphic 1, the city that has the most jobs is Boston, second and third being New York and Seattle.  It is also interpreted Boston has the greatest entry level jobs.  Seattle and San Diego are very closely related in the amount of entry, mid and senior jobs offered.  
+
+From Graphic 2, the city that has the most entry level jobs is Boston.  The city that had the most mid level job opportunities is New York and Seattle being tied.  The most senior level jobs are in Boston and San Diego.  
+
+
+### Further Thought 
+
+The city is associated with the pattern of education level.  So, if I needed an entry level job the highest probability would be in Boston.  The second and third options would be New York and Seattle.  
+
+Most of the cities have a fair amount of entry level positions as well as mid level.  Senior level is quite sparse, but maybe a reason for this is that to get a senior level job it does not have to be advertised on a website such as indeed.com.  Senior level jobs could be gained from working on up through a job with a specific company or through career networking, such as LinkdIn.  [LinkdIn.com](https://www.linkedin.com)
+
+
+
+
+

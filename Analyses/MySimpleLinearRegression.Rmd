@@ -1,0 +1,215 @@
+---
+title: "Movie Likes and Friends"
+output: 
+  html_document:
+    theme: united
+    code_folding: hide
+    toc: true 
+    toc_float: true
+---
+
+
+<!-- Directions
+
+* Write the Background and clearly state your question. Then collect data and perform the linear regression analysis in order to answer your question. Use the proper order of first, ask the question, then second, figure out the answer.
+
+
+
+-->
+<script type="text/javascript">
+ function showhide(id) {
+    var e = document.getElementById(id);
+    e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+ }
+</script>
+
+```{r, include = FALSE }
+library(mosaic)
+library(pander)
+library(readxl)
+library(DT)
+library(manipulate)
+library(ggplot2)
+library(plyr)
+
+StatsLine <- read_excel("~/Documents/Math 325 Notebook/Data/StatsLine.xlsx")
+
+
+```
+
+
+## Background
+
+What could be an easy way to have more friends?  Activities through college, work, dating and other events are great options, though, they may take time.  An easier way is joining a networking system where there are approximately more than 1.86 billion active users as of 2016.  [Facebook User Statistics](http://money.cnn.com/2017/02/01/technology/facebook-earnings/)
+
+This broad networking system called facebook connects people all across the world.  Joining facebook gives access to finding friends, but what could a user do to have more friends? 
+
+### Question 
+
+Is there a relationship between the amount of movies liked and the number of friends a user has on facebook?  
+
+## Procedure 
+
+In the Facebook Friend Study, a simple random sample of 30 out of 643 friends was taken from a college student's facebook friend list to use for the data collected on June 1st, 2017.  On the facebook friend list, every box beside the person was listed as a default friend, "Friends", not any other options, such as "Acquaintances" or "Close Friends".  To obtain a simple random sample the tab, "All Friends", was selected where the friends were in no apparent order.  
+
+On the friend list there were two columns.  Every 20th friend was chosen in both the first and second column.  The number of friends each user had was recorded as well as the number of movies they had "liked".  
+
+<a href="javascript:showhide('data')">Datatable of the Facebook Friend Study<span style="font-size:8pt;">&nbsp;(click to view)</span></a>
+
+<div id="data" style="display:none;">
+
+The datatable below shows the data produced from the Facebook Friend Study with the number of friends each user had and the corresponding number of movies each user had indicated by "liking".  
+
+Click on the code to the right to reveal datatable. 
+ 
+```{r}
+datatable(StatsLine)
+```
+
+
+</div>
+
+## Analysis 
+
+Since a simple linear regression test will be conducted to see if there is a relationship between the amount of friends a user has versus the amount of movie liked, a linear regression of the slope,  $\beta_1$. will be used in the hypotheses.  
+
+
+$$
+  H_0: \beta_1 = 0
+$$
+
+
+$$
+  H_a: \beta_1 \neq 0 
+$$
+
+The declared significance level is 
+
+$$
+  \alpha = 0.05
+$$
+
+### Requirements 
+
+To run a simple linear regression, requirements must be met.  
+
+<a href="javascript:showhide('require1')">Requirement Check "Residuals vs. Fitted Values Plot"<span style="font-size:8pt;">&nbsp;(click to view)</span></a>
+
+<div id="require1" style="display:none;">
+
+
+Linear Relation: the regression relation between Y
+ and X is linear.
+ 
+Constant Variance: the variance of the error terms is constant over all X values.
+
+```{r}
+sLine <- lm(Friends ~ Movies, data=StatsLine)
+
+plot(sLine, pch=19, col="royalblue3", which = 1:1)
+```
+
+Even though the plot is linear, which meets the first requirement, the plot also shows a distinct megaphone pattern in the data, thus there are unconstant variances.  Because the variances are unconstant, the requirement is not met. 
+
+</div>
+
+<a href="javascript:showhide('require2')">Requirement Check "QQ Plot of Residuals"<span style="font-size:8pt;">&nbsp;(click to view)</span></a>
+
+<div id="require2" style="display:none;">
+
+
+
+Normal Errors: the error terms are normally distributed with a mean of zero.
+
+```{r}
+plot(sLine, which=2:2, pch=19, col="royalblue3")
+```
+
+
+This plot further shows the requirement to perform a simple linear regression is not met due to the curvature of the QQ Plot data points as it deviates from the line from the top right of the graph.  
+
+</div>
+
+<a href="javascript:showhide('require3')">Requirement Check "Residuals vs. Order Plot"<span style="font-size:8pt;">&nbsp;(click to view)</span></a>
+
+<div id="require3" style="display:none;">
+
+
+
+Independent Errors: the error terms are independent.
+
+```{r}
+plot(sLine$residuals, main="Residuals vs Order", xlab="",
+     ylab="Residuals", pch=19, col="royalblue3")
+```
+
+At least this requirment was met.  There is no aparent pattern in the data, concluding the data is not dependent on the order of the data collected.  
+
+</div>
+
+<a href="javascript:showhide('require4')">Last Requirement Check<span style="font-size:8pt;">&nbsp;(click to view)</span></a>
+
+<div id="require4" style="display:none;">
+
+
+Fixed X: the X values can be considered fixed and measured without error.
+
+This requirement is assumed to be true based off of the person selecting the data.  It's assumed the data was from a reliable, constant source that was measured without error.  
+
+</div>
+
+## Graphical Summary
+
+If all the requirements were met, this is what the graph would display.  
+
+```{r}
+sLine <- lm(Friends ~ Movies, data=StatsLine)
+
+
+ggplot(data = StatsLine, aes(x=Movies, y=Friends)) + geom_point()   + stat_smooth(method=lm) + theme(legend.position="none") + labs(title="                                     Friends in Correlation with Movies") 
+
+
+```
+
+The equation of the line in the graph above is
+
+$$
+  \ Y= 656.8 - 4.217 X 
+$$
+Where the slope is -4.217 and the y-intercept is 656.8. 
+
+```{r}
+sLine <- lm(Friends ~ Movies, data=StatsLine)
+
+pander(summary(sLine))
+```
+
+
+The Slope is estimated as -4.217 with a significant  $p-value$ of 5.438e-05. 
+
+## Interpretation
+
+With a $p-value$ of 5.438e-05, there is sufficient evidence to conclude the slope, $\beta_1$, does not equal zero.  
+
+As shown in the summary graph above, the slope is -4.217, which indicates the slope is not zero.  
+
+If the requirements were met we could conclude there is a (negative) relationship between movies liked and number of friends a user has.  
+
+## Conclusion 
+
+The test ultimately failed the requirement of constant variances and a normality of the errors.  Thus, there is no conclusion for the original question.  Although, according to the graph, if the requirements were met, there could be a slight negative relationship between the amount of friends versus movies liked.
+
+To enhance this topic, further studies could be performed to see if there is no coorelation or a negative coorelation with a larger dataset and multiple user's friend lists.  
+
+### Appendix
+
+If the last 5 data points were assumed to be outliers, and thus taken out of the analysis, there might be a slope close to zero.  Unfortunately, manipulating the data increases the error of the results of the test.  Regardless, a larger sample size and more samples taken from several users would be most helpful in determining if there really is a relationship between the amount of movies liked and the amount of friends a user has. 
+
+
+When transforming the plot, using log scales for both x and y, there shows that there is not a coorelation because the slope is zero.  
+
+```{r, message=FALSE, warning=FALSE}
+ggplot(data = StatsLine, aes(x=Movies, y=Friends)) + geom_point()  + scale_x_log10() + scale_y_log10()  + stat_smooth(method=lm) + theme(legend.position="none") + labs(title="Friends in Correlation with Movies") 
+```
+
+

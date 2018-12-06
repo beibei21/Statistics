@@ -1,0 +1,212 @@
+---
+title: "Exploration of Deville Cadillacs"
+output: 
+  html_document:
+    theme: lumen 
+    code_folding: hide
+    toc: true
+    toc_float:
+       collapsed: true
+       smooth_scroll: true
+---
+
+<br>
+
+<script type="text/javascript">
+ function showhide(id) {
+    var e = document.getElementById(id);
+    e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+ }
+</script>
+
+```{r, include=FALSE}
+library(readr)
+CarPrices <- read_csv("~/Documents/Math 325 Notebook/Data/CarPrices.csv")
+
+
+library(mosaic)
+library(pander)
+library(ggplot2)
+library(DT)
+
+DCPrices <- subset(CarPrices, Model == "Deville")
+
+```
+
+
+## Background {.tabset}
+
+In the fast paced world of vehicles there are many stunning characteristics that can be observed.  A data set was taken displaying many features of vehicle brands.  Specifically, the point of interest for this analysis is Cadillacs.  30 observations from this data set contains many features, notably: price, milage, trim, and sound of the Deville Cadillacs.  
+
+Linked is the data set for the Deville Cadillacs.
+
+<a href="javascript:showhide('data')">Data set of Deville Cadillacs<span style="font-size:8pt;">&nbsp;(click to view)</span></a>
+
+<div id="data" style="display:none;">
+
+Click to the right to display data set. 
+
+```{r}
+datatable(DCPrices, options=list(lengthMenu = c(5,5,30)))
+```
+
+</div>
+
+### Exploration Question 
+
+In the graph below, the plot displays the Deville model.  It is of importance to note the gap in between the two lines.  There must be different trends in the Deville model.  What accounts for the two different trends?
+
+```{r, message=FALSE, warning=FALSE}
+##plot(Price ~ Mileage, data=DCPrices)
+
+DCPrices.lm <- lm(Price ~ Mileage, data=DCPrices)
+
+ggplot(data = DCPrices, aes(x=Mileage, y=Price)) + geom_point()  + aes(colour=Model) + theme(legend.position="right") + labs(title="Deville Model Price Per Mileage")  
+```
+
+### Baseline Requirements 
+
+Linear Relation: the regression relation between Y
+ and X is linear.
+ 
+Constant Variance: the variance of the error terms is constant over all X values.
+
+Normal Errors: the error terms are normally distributed with a mean of zero.
+
+Independent Errors: the error terms are independent.
+
+Fixed X: the X values can be considered fixed and measured without error. (Assumed to be measured without error)
+
+The "Residuals vs Fitted" plot, bottom left, shows a linear relationship (Linear Relation) and no pattern in the data (Constant Variances).  The "Normal Q-Q" plot, bottom middle, shows a bit of curvature at the end points as it deviates from the line.  This may be of concern. (Normal Errors)  The "Residuals vs Order" plot, bottom left, shows a slight possible pattern, but seems of little concern overall (Independent Order). 
+
+```{r}
+par(mfrow=c(1,3))
+plot(DCPrices.lm, which=1:2)
+plot(DCPrices.lm$residuals, main="Residuals vs Order", xlab="",
+     ylab="Residuals")
+```
+
+### Baseline Analysis 
+
+A simple linear regression was run comparing price and mileage.  This summary represents the graph above as the baseline for which a comparrison can be made.  The slope is -0.2461 and the y-intercept is 41106.  The p-value is insignificant, 0.0003626, indicates the slopes are not the same.  
+
+The significance level is 
+$$
+  \alpha = 0.05
+$$
+
+```{r}
+DCPrices.lm <- lm(Price ~ Mileage, data=DCPrices)
+pander(summary(DCPrices.lm))
+
+```
+
+## Sound {.tabset}
+
+A multiple linear regression test was run because the baseline was comparing price and mileage but now adding sound to the test.  
+
+### Analysis 
+
+The slope of mileage compared to sound is 0.1522 and the y-intercept is 42564.  The p-value varifies the slope is the same.
+
+The significance level is 
+$$
+  \alpha = 0.05
+$$
+
+```{r}
+DCPrices.lm <- lm(Price ~ Mileage*Sound, data=DCPrices)
+pander(summary(DCPrices.lm))
+
+```
+
+
+### Diagnostical Reports 
+Requirements for the graph include a few reports.  
+
+The "Residuals vs Fitted" plot, bottom left, shows a linear relationship (linear relation) and no pattern in the data (Constant Variances).  The "Normal Q-Q" plot, bottom middle, shows a bit of curvature at the end points, but slightly less than the baseline plot. (Normal Errors)  The "Residuals vs Order" plot, bottom left, does not show a distinct pattern. (Independent Order) 
+
+
+```{r}
+par(mfrow=c(1,3))
+plot(DCPrices.lm, which=1:2)
+plot(DCPrices.lm$residuals, main="Residuals vs Order", xlab="",
+     ylab="Residuals")
+```
+
+### Graphical Summary
+
+```{r}
+ggplot(data = DCPrices, aes(x=Mileage, y=Price)) + geom_point()  + aes(colour=Sound)  + stat_smooth(method=lm) + theme(legend.position="right") + labs(title="Focus of Trim & Price Per Mileage") 
+
+```
+
+
+```{r, include=FALSE}
+#plot(Price~Mileage, data=DCPrices, col=(Sound+1))
+#b<- DCPrices.lm$coefficients
+
+#abline(b[1], b[2])
+#abline(DCPrices.lm, col="red")
+#abline(b[1]+b[3], b[2]+ b[4], col="red")
+#plot(Price~Mileage, data=DCPrices, col=as.factor(DCPrices$Trim))
+
+
+
+```
+
+
+
+As proven in the analysis and graphical summary, sound is not the cause in the different trends of the Deville model.  The line of best fit travels through almost the middle of the two distinct trends, which infers sound does not account for the two different trends.  
+
+## Trim {.tabset}
+
+This analysis is based on comparing the price and mileage focusing on trim. 
+
+### Analysis
+
+The slope compared to the mileage of DTS and Sedan 4D is 0.1246 and the p-value, 0.01205, indicates the slopes are different. 
+
+```{r}
+DCPrices.lm <- lm(Price ~ Mileage+Trim, data=DCPrices)
+pander(summary(DCPrices.lm)) 
+```
+
+
+### Diagnostical Reports
+
+The "Residuals vs Fitted" plot, bottom left, shows a linear relationship (linear relation) and no pattern in the data (Constant Variances).  The "Normal Q-Q" plot, bottom middle, is normal. (Normal Errors)  The "Residuals vs Order" plot, bottom left, does not show a pattern. (Independent Order)  This graph is best at reaching all the requirements most accurately.  
+
+```{r}
+par(mfrow=c(1,3))
+plot(DCPrices.lm, which=1:2)
+plot(DCPrices.lm$residuals, main="Residuals vs Order", xlab="",
+     ylab="Residuals")
+```
+
+### Graphical Summary
+
+```{r}
+ggplot(data = DCPrices, aes(x=Mileage, y=Price)) + geom_point()  + aes(colour=Trim)  + stat_smooth(method=lm) + theme(legend.position="right") + labs(title="Focus of Trim & Price Per Mileage") 
+```
+
+## Interpretation
+
+It seems sound does not effect the distinction of the two lines, but the Trim type could affect the distinction.  The graph shows the two trim types, DHS Sedan 4D and the DTS Sedan 4D, as one trend type.  It would be valuable to run a test to see if the two different trim types were the same.  
+
+## Possible Exploration 
+
+As noted in the interpretation, a hypothesis test could be run to determine if there was a difference, and more importantly if DHS Sedan 4D and DTS Sedan 4D could be merged as the same trend line, in comparrison to the Sedan 4D.  
+
+The null and alternative hypothesis would be stated as 
+$$
+  H_0: \beta_0 = \beta_1 = \cdots = \beta_p = 0
+$$
+There is no difference in any of the trims for Deville. 
+$$
+  H_a: \beta_j \neq 0 \ \text{for at least one}\ j \in \{0,1,\ldots,p\}
+$$
+At least one of the trims is different for Deville.
+
+Further analysis according to this hypotheses test would help us to pinpoint the real difference between the two trends in the Deville Cadillacs.  
+

@@ -1,0 +1,80 @@
+---
+title: "Skills2"
+author: "Shania"
+date: "4/26/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this
+
+```{r}
+mean(Temp ~ Month, data=airquality)
+
+hist(airquality$Temp, xlab="Daily Temperature", main="LaGuardia Airport (May to September 1973)", col="slategray")
+
+plot(Temp ~ Month, data=airquality, xlab="Month", ylab="Temperature", main="LaGuardia Airport (May to September 1973)", pch=16, col="slategray")
+
+boxplot(Temp ~ Month, data=airquality, xlab="Month", ylab="Temperature", main="LaGuardia Airport (May to September 1973)", pch=16, col="slategray")
+
+stripchart(Temp ~ Month, data=airquality, ylab="Month", xlab="Temperature", main="LaGuardia Airport (May to September 1973)", pch=16, col="slategray", method="stack")
+
+plot(Temp ~ Day, data=airquality, xlab="Day of the Month", ylab="Temperature", main="LaGuardia Airport (May to September 1973)", pch=16, col="slategray")
+```
+
+## Including Plots
+
+
+```{r}
+or1<- subset(Orange, age ==484)
+or2<- subset(Orange, age ==1004)
+or3<- subset(Orange, age ==1372)
+
+median(or1$circumference)
+median(or2$circumference)
+median(or3$circumference)
+
+
+```
+
+```{r}
+
+
+
+```
+
+```{r}
+
+> transa<- subset(cyl1, cyl==4 & am==1)
+> mean(transa$mpg)
+[1] 28.075
+> tran<- subset(cyl3, cyl==8 & am==0)
+> mean(tran$mpg)
+[1] 15.05
+> tran<- subset(cyl3, cyl==8 & am==1)
+> mean(tran$mpg)
+[1] 15.4
+> tran<- subset(cyl13, cyl==8 & am=0)
+Error: unexpected '=' in "tran<- subset(cyl13, cyl==8 & am="
+> tra<-subset(cyl13, cyl==8 &am==0)
+Error in subset(cyl13, cyl == 8 & am == 0) : object 'cyl13' not found
+> tra<-subset(cyl3, cyl==8 &am==0)
+> mean(tra$qsec)
+[1] 17.1425
+> trm<-subset(cyl3, cyl==8 & am==1)
+> mean(trm$qsec)
+[1] 14.55
+> View(cyl3)
+> View(cyl2)
+> tra<- subset(cyl2, cyl==6 & am==0)
+> View(tra)
+> tra<- subset(cyl2, cyl==6 & am==1)
+```
+

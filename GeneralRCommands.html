@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>General R Commands</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Math 325 Notebook</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Table of Contents</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Describing Data
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GraphicalSummaries.html">Graphical Summaries</a>
+    </li>
+    <li>
+      <a href="NumericalSummaries.html">Numerical Summaries</a>
+    </li>
+    <li>
+      <a href="GeneralRCommands.html">General R Commands</a>
+    </li>
+    <li>
+      <a href="RMarkdownHints.html">General R Markdown Hints</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Making Inference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="MakingInference.html">Making Inference</a>
+    </li>
+    <li>
+      <a href="tTests.html">t Tests</a>
+    </li>
+    <li>
+      <a href="WilcoxonTests.html">Wilcoxon Tests</a>
+    </li>
+    <li>
+      <a href="ANOVA.html">ANOVA</a>
+    </li>
+    <li>
+      <a href="Kruskal.html">Kruskal-Wallis</a>
+    </li>
+    <li>
+      <a href="LinearRegression.html">Linear Regression</a>
+    </li>
+    <li>
+      <a href="LogisticRegression.html">Logistic Regression</a>
+    </li>
+    <li>
+      <a href="ChiSquaredTests.html">Chi-Squared Tests</a>
+    </li>
+    <li>
+      <a href="PermutationTests.html">Permutation Tests</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="ClassNotes.html">Class Notes</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Critiquing Guides
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Guide to Critiquing t Tests.html">T-Tests</a>
+    </li>
+    <li>
+      <a href="Guide to Critiquing Wilcoxon Tests.html">Wilcoxon Tests</a>
+    </li>
+    <li>
+      <a href="CritiquingANOVATests.html">ANOVA Tests</a>
+    </li>
+    <li>
+      <a href="Guide to Critiquing Kruskal Tests.html">Guide to Critiquing Kruskal Tests</a>
+    </li>
+    <li>
+      <a href="Critiquing Guide.html">Linear Regression</a>
+    </li>
+    <li>
+      <a href="Critiquing Guide Logistic.html">Logistic Regression</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Analyses/StudentHousingII.html">Student HousingII</a>
+    </li>
+    <li>
+      <a href="./Analyses/Movies.html">Movies</a>
+    </li>
+    <li>
+      <a href="./Analyses/IQTwins.html">IQ Twins</a>
+    </li>
+    <li>
+      <a href="./Analyses/RecallingWords.html">Recalling Words- ANOVA</a>
+    </li>
+    <li>
+      <a href="./Analyses/DayCare.html">DayCare- TWO-WAY ANOVA</a>
+    </li>
+    <li>
+      <a href="./Analyses/ReadingComprehension.html">Reading Comp-Kruskal Wallis</a>
+    </li>
+    <li>
+      <a href="./Analyses/MySimpleLinearRegression.html">SimpleLinearRegression</a>
+    </li>
+    <li>
+      <a href="./Analyses/CarPrices.html">CarPrices-Multiple Linear Regression</a>
+    </li>
+    <li>
+      <a href="./Analyses/Project1.html">Project1- Independent</a>
+    </li>
+    <li>
+      <a href="./Analyses/MyLogisticRegression.html">Logistic Regression</a>
+    </li>
+    <li>
+      <a href="./Analyses/Discrimination.html">Chi-Squared, Discrimination</a>
+    </li>
+    <li>
+      <a href="./Analyses/Explosives.html">Permutations, Explosives</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">General R Commands</h1>
+
+</div>
+
+
+<script type="text/javascript">
+ function showhide(id) {
+    var e = document.getElementById(id);
+    e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+ }
+</script>
+<hr />
+<p>Add custom notes to the <a href="#quickR">My Quick R Notes</a> section below.</p>
+<hr />
+<div id="data" class="section level3">
+<h3>data( )</h3>
+<div style="padding-left:15px;">
+<p><strong>Console</strong> Help Command: <code>?data</code></p>
+<p><code>data()</code></p>
+<ul>
+<li>This command lists the available datasets in R. Information about each dataset can then be viewed using the <code>?nameofthedataset</code> command.</li>
+</ul>
+<p><strong>Example Code</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Run these codes in your Console to see what they do.</span>
+
+<span class="kw">data</span>()
+?cars <span class="co">#Brings up the help file for the cars dataset.</span>
+?CO2 <span class="co">#Brings up the help file for the CO2 dataset.</span></code></pre></div>
+</div>
+<br />
+<hr />
+</div>
+<div id="head" class="section level3">
+<h3>head( )</h3>
+<div style="padding-left:15px;">
+<p><strong>Console</strong> Help Command: <code>?head</code></p>
+<p><code>head(object)</code></p>
+<p>There is a similar function called <code>tail(object)</code></p>
+<ul>
+<li><code>object</code> is typically the name of a <code>data.frame</code> object in R, i.e., a dataset.</li>
+</ul>
+<p><strong>Example Code</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Run these codes in your Console to see what they do.</span>
+
+<span class="kw">head</span>(cars) <span class="co">#Shows the first 6 rows by default.</span>
+<span class="kw">head</span>(cars,<span class="dv">11</span>) <span class="co">#Shows the first 11 rows.</span>
+<span class="kw">tail</span>(CO2) <span class="co">#Shows the last 6 rows by default.</span>
+<span class="kw">tail</span>(CO2, <span class="dv">10</span>) <span class="co">#Shows the last 10 rows.</span></code></pre></div>
+</div>
+<br />
+<hr />
+</div>
+<div id="view" class="section level3">
+<h3>View( )</h3>
+<div style="padding-left:15px;">
+<p><strong>Console</strong> Help Command: <code>?View</code></p>
+<p><code>View(object)</code></p>
+<ul>
+<li><code>object</code> is typically the name of a <code>data.frame</code> object in R, i.e., a dataset.</li>
+</ul>
+<p><strong>Example Code</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Run these codes in your Console to see what they do.</span>
+
+<span class="kw">View</span>(cars) <span class="co">#Shows the entire cars dataset</span>
+<span class="kw">View</span>(CO2) <span class="co">#Shows the entire CO2 dataset</span></code></pre></div>
+</div>
+<br />
+<hr />
+</div>
+<div id="dollar" class="section level3">
+<h3>$</h3>
+<div style="padding-left:15px;">
+<p><code>DataSetName$ColumnName</code></p>
+<ul>
+<li>The <code>$</code> operator allows you to access the individual columns of a dataset.</li>
+</ul>
+<p><strong>Example Code</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Run these codes in your Console to see what they do.</span>
+
+<span class="kw">View</span>(cars) <span class="co">#Shows the entire cars dataset</span>
+cars$speed <span class="co">#Access the speed column from the cars dataset</span>
+cars$dist <span class="co">#Access the dist column from the cars dataset</span></code></pre></div>
+</div>
+<br />
+<hr />
+</div>
+<div id="with" class="section level3">
+<h3>with( )</h3>
+<div style="padding-left:15px;">
+<p><strong>Console</strong> Help Command: <code>?with</code></p>
+<p><code>with(datasetName, commands)</code></p>
+<ul>
+<li>This function allows you to not have to use <code>$</code> to access the columns of a dataset. It is useful sometimes, but not always.</li>
+<li><code>datasetName</code> is the name of a dataset like <code>cars</code> or <code>CO2</code>.</li>
+<li><code>commands</code> are any R Commands that need to be performed using the variables within the specified dataset.</li>
+</ul>
+<p><strong>Example Code</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Run these codes in your Console to see what they do.</span>
+
+<span class="kw">with</span>(cars, <span class="kw">mean</span>(dist)) <span class="co">#same thing as: mean(cars$dist)</span>
+<span class="kw">with</span>(cars, <span class="kw">cor</span>(dist, speed)) <span class="co">#same as: cor(cars$dist, cars$speed)</span></code></pre></div>
+</div>
+<br />
+<hr />
+</div>
+<div id="subset" class="section level3">
+<h3>subset( )</h3>
+<div style="padding-left:15px;">
+<p><strong>Console</strong> Help Command: <code>?subset</code></p>
+<p><code>subset(NameOfDataset, condition)</code></p>
+<ul>
+<li><code>NameOfDataset</code> is the name of a dataset, like <code>cars</code> or <code>CO2</code>.</li>
+<li><code>condition</code> is some logical expression that uses any of the following logical connectors.</li>
+</ul>
+<div style="padding-left:30px;">
+<table>
+<thead>
+<tr class="header">
+<th><strong>Logical Expression</strong></th>
+<th><strong>Syntax</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Equals</td>
+<td><code>==</code></td>
+</tr>
+<tr class="even">
+<td>Not Equal</td>
+<td><code>!=</code></td>
+</tr>
+<tr class="odd">
+<td>Less Than</td>
+<td><code>&lt;</code></td>
+</tr>
+<tr class="even">
+<td>Less Then or Equal to</td>
+<td><code>&lt;=</code></td>
+</tr>
+<tr class="odd">
+<td>Greater Than</td>
+<td><code>&gt;</code></td>
+</tr>
+<tr class="even">
+<td>Greater Than or Equal to</td>
+<td><code>&gt;=</code></td>
+</tr>
+<tr class="odd">
+<td>AND</td>
+<td><code>&amp;</code></td>
+</tr>
+<tr class="even">
+<td>OR</td>
+<td><code>|</code></td>
+</tr>
+<tr class="odd">
+<td>IN</td>
+<td><code>%in%</code></td>
+</tr>
+<tr class="even">
+<td>NOT</td>
+<td><code>!</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Example Code</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Run these codes in your Console to see what they do.</span>
+
+<span class="kw">subset</span>(CO2, Type==<span class="st">&quot;Quebec&quot;</span>)
+<span class="kw">subset</span>(CO2, Type!=<span class="st">&quot;Quebec&quot;</span>)
+<span class="kw">subset</span>(CO2, conc &lt;<span class="st"> </span><span class="dv">175</span>)
+<span class="kw">subset</span>(CO2, conc &lt;=<span class="st"> </span><span class="dv">175</span>)
+<span class="kw">subset</span>(CO2, conc &gt;<span class="st"> </span><span class="dv">675</span>)
+<span class="kw">subset</span>(CO2, conc &gt;=<span class="st"> </span><span class="dv">675</span>)
+<span class="kw">subset</span>(CO2, Type==<span class="st">&quot;Quebec&quot;</span> &amp;<span class="st"> </span>conc &lt;=<span class="st"> </span><span class="dv">175</span>)
+<span class="kw">subset</span>(CO2, Plant==<span class="st">&quot;Qn1&quot;</span> |<span class="st"> </span>Plant==<span class="st">&quot;Mc2&quot;</span>)
+<span class="kw">subset</span>(CO2, Plant %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Qn1&quot;</span>,<span class="st">&quot;Qc3&quot;</span>,<span class="st">&quot;Mn2&quot;</span>,<span class="st">&quot;Mc3&quot;</span>))
+<span class="kw">subset</span>(CO2, Type !=<span class="st">&quot;Quebec&quot;</span>)</code></pre></div>
+</div>
+<br />
+<hr />
+</div>
+<div id="assignment" class="section level3">
+<h3>&lt;-</h3>
+<div style="padding-left:15px;">
+<p><strong>Console</strong> Help Command: <code>none</code></p>
+<p><code>NameYouCreate &lt;- some R commands</code></p>
+<ul>
+<li><code>&lt;-</code> (Less than symbol <code>&lt;</code> with a hyphen <code>-</code>) is called the assignment operator and lets you store the results of the <code>some R commands</code> into an object called <code>NameYouCreate</code>.</li>
+<li><code>NameYouCreate</code> is any name that begins with a letter, but can use numbers, periods, and underscores thereafter. The name should not contain spaces.</li>
+</ul>
+<p><strong>Example Code</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Run these codes in your Console to see what they do.</span>
+
+aveSpeed &lt;-<span class="st"> </span><span class="kw">mean</span>(cars$speed) <span class="co">#Saves the mean into the aveSpeed object</span>
+aveSpeed <span class="co">#prints the saved mean to the screen</span>
+
+fastCars &lt;-<span class="st"> </span><span class="kw">subset</span>(cars, speed &gt;<span class="st"> </span><span class="dv">20</span>) <span class="co">#Saves the subset into fastCars</span>
+<span class="kw">View</span>(cars) <span class="co">#Shows the entire cars dataset</span>
+<span class="kw">View</span>(fastCars) <span class="co">#Shows the entire fastCars dataset</span>
+
+fastCars$NewColumnFTperSEC &lt;-<span class="st"> </span>fastCars$speed *<span class="st"> </span><span class="dv">5280</span> /<span class="st"> </span><span class="dv">3600</span> <span class="co">#Add new column</span>
+<span class="kw">View</span>(fastCars) <span class="co">#See the newly expanded fastCars dataset</span></code></pre></div>
+</div>
+<br />
+<hr />
+</div>
+<div id="cvector" class="section level3">
+<h3>c( )</h3>
+<div style="padding-left:15px;">
+<p><strong>Console</strong> Help Command: <code>?c</code></p>
+<p><code>c( )</code></p>
+<ul>
+<li>The <code>c( )</code> function combines values into a vector or list.</li>
+</ul>
+<p><strong>Example Code</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Run these codes in your Console to see what they do.</span>
+<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>)
+<span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">5</span>)
+<span class="kw">c</span>(<span class="st">&quot;dog&quot;</span>,<span class="st">&quot;cat&quot;</span>,<span class="st">&quot;bird&quot;</span>)
+
+animals &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;dog&quot;</span>,<span class="st">&quot;cat&quot;</span>,<span class="st">&quot;bird&quot;</span>)
+animals
+
+counts &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">18</span>)
+counts</code></pre></div>
+</div>
+<br />
+<hr />
+</div>
+<div id="brackets" class="section level3">
+<h3>[ ]</h3>
+<div style="padding-left:15px;">
+<p><strong>Console</strong> Help Command: <code>none</code></p>
+<p><code>objectName[ elementNumber ]</code></p>
+<p><code>objectName[ Rows, Columns]</code></p>
+<ul>
+<li>If <code>objectName</code> is an object that contains a list of numbers then <code>[ elementNumber ]</code> will pull out the specified elements.</li>
+<li>If <code>objectName</code> is an object with rows and columns (like a dataset) then the specified <code>[ Rows , Columns]</code> can be accessed.</li>
+</ul>
+<p><strong>Example Code</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Run these codes in your Console to see what they do.</span>
+
+counts &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">18</span>)
+counts
+counts[<span class="dv">3</span>]   <span class="co">#third element</span>
+counts[<span class="dv">2</span>:<span class="dv">3</span>]  <span class="co">#second through third elements</span>
+counts[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)] <span class="co">#first and third elements</span>
+
+<span class="kw">View</span>(cars)
+cars[<span class="dv">2</span>:<span class="dv">3</span>, ] <span class="co">#second and third rows, all columns</span>
+cars[ ,<span class="dv">2</span>]   <span class="co">#all rows, second column</span>
+cars[<span class="dv">2</span>,<span class="dv">2</span>]   <span class="co">#second row, second column (single item)</span>
+cars[<span class="dv">2</span>:<span class="dv">3</span>,<span class="dv">2</span>] <span class="co">#second and third rows, second column</span></code></pre></div>
+</div>
+<br />
+<hr />
+<!--
+
+### ... {#}
+
+<div style="padding-left:15px;">
+**Console** Help Command: `?`
+
+`()`
+
+* 
+
+**Example Code**
+
+
+```r
+...
+```
+
+</div>
+<br />
+<hr />
+
+
+
+
+<br />
+<br />
+<br />
+
+
+-->
+<hr />
+</div>
+<div id="quickR" class="section level2">
+<h2>My Quick R Notes</h2>
+<p>Add any R commands you use and want to remember later into the following chunk.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="fl">1.55324</span>, <span class="dv">2</span>) <span class="co">#Rounds numbers to 2 decimal places</span>
+<span class="kw">class</span>(cars) <span class="co">#Shows the R &quot;class&quot; of cars</span>
+<span class="kw">class</span>(cars$speed) <span class="co">#Shows the R &quot;Class&quot; of cars$speed</span>
+<span class="kw">str</span>(cars) <span class="co">#Shows the R &quot;structure&quot; of an object</span></code></pre></div>
+<footer>
+</footer>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
